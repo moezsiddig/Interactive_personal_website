@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic page settings -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Abdel Moez Mohammed | Portfolio</title>
+
+  <!-- Font Awesome icons and main CSS file -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+  <!-- Header and navigation menu -->
+  <header>
+    <a href="#profile-photo" class="logo">
+      <span>Moez Siddig</span>
+    </a>
+
+    <nav class="navigation">
+      <a href="#home">Home</a>
+      <a href="#about-me">About me</a>
+      <a href="#services">Services</a>
+      <a href="#projects">Projects</a>
+      <a href="#request">
+        <i class="fas fa-file-signature"></i> Request a Project
+      </a>
+    </nav>
+    <button id="darkModeBtn">🌙 Dark Mode</button>
+  </header>
+
+  <!-- Hero section with profile photo, social icons, and main introduction -->
+  <section class="main" id="home">
+    <div class="overlay"></div>
+
+    <!-- Profile photo and social media links -->
+    <div class="hero-photo-area" id="profile-photo">
+      <div class="faded-photo">
+        <img src="images/Moez1.png" alt="Moez Siddig">
+      </div>
+
+      <div class="photo-social-icons">
+        <a href="https://www.linkedin.com/" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="https://facebook.com/" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://github.com/" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://x.com/MoezSiddig" target="_blank"><i class="fab fa-twitter"></i></a>
+      </div>
+    </div>
+
+    <!-- Main hero text and action buttons -->
+    <div class="main-content">
+      <h2>Hello, I'm Moez</h2>
+      <h1>Frontend Web<br>Developer</h1>
+      <h3>Creating responsive and user-friendly web experiences</h3>
+
+      <div class="hero-buttons">
+        <a href="#projects" class="main-btn">View Projects</a>
+
+        <a href="cv/Moez CV.pdf.pdf" class="third-btn" target="_blank">
+          Download CV
+        </a>
+
+        <a href="#footer" class="contact-btn">Contact Me</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Me section -->
+  <section class="about-me" id="about-me">
+    <h2 class="title">About Me</h2>
+
+    <div class="content">
+      <div class="about-me-card">
+        <p>
+          I am a Software Development student at Circuit Stream with a passion for
+          building modern, responsive, and user-friendly websites. I enjoy learning
+          new technologies, solving problems, and creating digital experiences that
+          combine functionality with great design.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services section -->
+  <section class="services" id="services">
+    <h2 class="title">Services</h2>
+
+    <div class="content">
+      <div class="card">
+        <div class="info">
+          <h3>💻 Coding</h3>
+          <p>Building responsive websites using HTML, CSS, and JavaScript with clean and modern design.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="info">
+          <h3>🎨 Design</h3>
+          <p>Creating simple and attractive user interfaces that make websites easy to use and visually appealing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects section -->
+  <!-- Projects section -->
+  <section class="projects" id="projects">
+    <h2 class="title">Projects</h2>
+
+    <div class="project-card">
+      <div class="project-image">
+        <img src="images/Screenshot4.png" alt="Portfolio Website Preview">
+        <img src="images/Screenshot5.png" alt="Request project form">
+      </div>
+
+      <div class="project-info">
+        <p class="project-category">HTML, CSS & JavaScript Project</p>
+
+        <h3>Personal Portfolio Website</h3>
+
+        <p>
+          A responsive portfolio website built with HTML, CSS, and JavaScript.
+          It includes a clean design, dark mode, and an interactive project request form.
+        </p>
+
+        <div class="project-features">
+          <span>Responsive Design</span>
+          <span>Dark Mode</span>
+          <span>Form Validation</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- Project Request Form -->
+  <section class="request" id="request">
+    <h2 class="title">Project Request</h2>
+
+    <form id="requestForm">
+
+      <input
+              type="text"
+              id="name"
+              placeholder="Your name"
+              required
+              aria-label="Your name">
+
+      <input
+              type="email"
+              id="email"
+              placeholder="Your email"
+              required
+              aria-label="Your email">
+
+      <select
+              id="projectType"
+              required
+              aria-label="Project type">
+
+        <option value="">Choose project type</option>
+        <option value="Portfolio Website">Portfolio Website</option>
+        <option value="Business Website">Business Website</option>
+        <option value="Landing Page">Landing Page</option>
+
+      </select>
+
+      <select
+              id="budget"
+              required
+              aria-label="Budget">
+
+        <option value="">Choose budget</option>
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+
+      </select>
+
+      <textarea
+              id="message"
+              placeholder="Tell me about your project"
+              required
+              aria-label="Project message"></textarea>
+
+      <button type="submit">Submit Request</button>
+
+    </form>
+
+    <p id="formResult"></p>
+
+  </section>
+
+  <!-- Footer and contact information -->
+<footer id="footer">
+
+    <div class="footer-container">
+        <div class="footer-left">
+            <h2>Contact Me</h2>
+
+            <p>
+                Email:
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=moezsiddig@gmail.com" target="_blank">
+                    moezsiddig@gmail.com
+                </a>
+            </p>
+
+            <p>Phone: +1 249-777-7900</p>
+        </div>
+    </div>
+
+    <p class="copyright">
+        Copyright © 2026 Moez Siddig
+    </p>
+
+</footer>
+  <!-- JavaScript File -->
+<script src="js/project.js"></script>
+</body>
+</html>
