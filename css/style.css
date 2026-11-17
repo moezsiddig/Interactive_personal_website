@@ -336,6 +336,21 @@ section {
     margin-top: 40px;
 }
 
+/* Small maple leaf on the hero buttons; it takes the button's text colour
+   and turns a little on hover, as if the wind moved it */
+.btn-leaf {
+    width: 1.05em;
+    height: 1.15em;
+    flex: none;
+    transition: transform 0.4s ease;
+}
+
+.main-btn:hover .btn-leaf,
+.third-btn:hover .btn-leaf,
+.contact-btn:hover .btn-leaf {
+    transform: rotate(-25deg) scale(1.15);
+}
+
 /* Scroll hint: a small yellow maple leaf drifting down and swaying */
 .scroll-down {
     position: absolute;
