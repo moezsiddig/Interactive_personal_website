@@ -599,9 +599,25 @@ section {
 
 /* ---------- Footer ---------- */
 footer {
+    position: relative;
+    overflow: hidden;
     background-color: var(--black);
     border-top: 3px solid var(--yellow);
     padding: 30px 6% 18px;
+}
+
+/* Network behind the footer, softer than the hero so the text stays clear */
+#footerNetwork {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.6;
+}
+
+.footer-container,
+.copyright {
+    position: relative;
+    z-index: 1;
 }
 
 .footer-container {
@@ -707,6 +723,30 @@ body.dark-mode .theme-btn:hover {
 
 body.dark-mode .title {
     color: var(--yellow);
+}
+
+/* Network behind the whole page: hidden in light mode, shown in dark mode */
+#pageNetwork {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;           /* behind all content */
+    pointer-events: none;
+    opacity: 0.55;
+}
+
+body.dark-mode #pageNetwork {
+    display: block;
+}
+
+/* Let the network show through the dark-mode sections.
+   Cards, form fields, the hero and the footer keep solid backgrounds. */
+body.dark-mode .about-me,
+body.dark-mode .services,
+body.dark-mode .projects,
+body.dark-mode .request {
+    background-color: transparent;
 }
 
 /* ---------- Tablet ---------- */

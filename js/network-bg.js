@@ -1,17 +1,19 @@
-// Animated network background for the hero section.
-// Yellow nodes drift slowly and connect with thin lines, like a neural
-// network / graph. It is drawn on a <canvas> behind the hero content.
-(function () {
-    const canvas = document.getElementById("networkBg");
+// Animated network background, used in the hero, in the footer, and
+// behind the whole page in dark mode. Yellow nodes drift slowly and
+// connect with thin lines, like a neural network / graph.
+function initNetwork(canvas, options) {
     if (!canvas || !canvas.getContext) return;
 
     const ctx = canvas.getContext("2d");
-    const hero = canvas.parentElement;
+    const fixed = options.fixed === true;  // true = covers the whole screen
+    const area = fixed ? document.documentElement : canvas.parentElement;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    const LINK_DISTANCE = 150;   // max distance for a line between two nodes
-    const MOUSE_DISTANCE = 190;  // max distance for a line to the cursor
+    const LINK_DISTANCE = 150;            // max distance for a line between two nodes
+    const MOUSE_DISTANCE = 190;           // max distance for a line to the cursor
     const YELLOW = "255, 215, 0";
+    const DENSITY = options.density;      // screen area per node (bigger = fewer nodes)
+    const MAX_NODES = options.maxNodes;   // never more nodes than this
 
     let width = 0;
     let height = 0;
@@ -21,8 +23,8 @@
     let frameId = null;
 
     function createNodes() {
-        // Number of nodes depends on the screen area, with a sensible cap
-        const count = Math.min(120, Math.floor((width * height) / 13000));
+        // Number of nodes depends on the area size, with a sensible cap
+        const count = Math.min(MAX_NODES, Math.floor((width * height) / DENSITY));
         nodes = [];
         for (let i = 0; i < count; i++) {
             nodes.push({
@@ -37,8 +39,8 @@
 
     function resize() {
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        width = hero.clientWidth;
-        height = hero.clientHeight;
+        width = fixed ? window.innerWidth : area.clientWidth;
+        height = fixed ? window.innerHeight : area.clientHeight;
         canvas.width = width * dpr;
         canvas.height = height * dpr;
         canvas.style.width = width + "px";
@@ -105,8 +107,15 @@
         frameId = requestAnimationFrame(step);
     }
 
+    // Should this network be running right now?
+    function isAllowed() {
+        if (reduceMotion) return false;
+        if (options.onlyInDarkMode) return document.body.classList.contains("dark-mode");
+        return true;
+    }
+
     function start() {
-        if (running || reduceMotion) return;
+        if (running || !isAllowed()) return;
         running = true;
         frameId = requestAnimationFrame(step);
     }
@@ -116,11 +125,11 @@
         if (frameId) cancelAnimationFrame(frameId);
     }
 
-    // Only animate while the hero is on screen and the tab is visible
-    if ("IntersectionObserver" in window) {
+    // Only animate while this area is on screen and the tab is visible
+    if (!fixed && "IntersectionObserver" in window) {
         new IntersectionObserver(function (entries) {
             entries[0].isIntersecting ? start() : stop();
-        }).observe(hero);
+        }).observe(area);
     } else {
         start();
     }
@@ -129,14 +138,21 @@
         document.hidden ? stop() : start();
     });
 
-    hero.addEventListener("mousemove", function (e) {
-        const rect = hero.getBoundingClientRect();
+    // Turn on/off when dark mode is switched (only for the dark-mode network)
+    if (options.onlyInDarkMode) {
+        new MutationObserver(function () {
+            isAllowed() ? start() : stop();
+        }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    }
+
+    area.addEventListener("mousemove", function (e) {
+        const rect = canvas.getBoundingClientRect();
         mouse.x = e.clientX - rect.left;
         mouse.y = e.clientY - rect.top;
         if (reduceMotion) draw();
     });
 
-    hero.addEventListener("mouseleave", function () {
+    area.addEventListener("mouseleave", function () {
         mouse.x = null;
         mouse.y = null;
         if (reduceMotion) draw();
@@ -149,4 +165,11 @@
     });
 
     resize();
-})();
+}
+
+// Start the networks:
+// 1) full network in the hero, 2) lighter one in the footer,
+// 3) behind the whole page, only while dark mode is on
+initNetwork(document.getElementById("networkBg"), { density: 13000, maxNodes: 120 });
+initNetwork(document.getElementById("footerNetwork"), { density: 9000, maxNodes: 45 });
+initNetwork(document.getElementById("pageNetwork"), { density: 18000, maxNodes: 70, fixed: true, onlyInDarkMode: true });
