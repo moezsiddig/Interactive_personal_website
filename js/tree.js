@@ -84,7 +84,7 @@
             y += el.offsetTop;
             el = el.offsetParent;
         }
-        return { x: x + leaf.offsetWidth * 0.485, y: y + leaf.offsetHeight * 0.982 };
+        return { x: x + leaf.offsetWidth * 0.537, y: y + leaf.offsetHeight * 0.99 };
     }
 
     // ----- Drawing -----
@@ -156,8 +156,8 @@
             const a = (tilt - 90) * Math.PI / 180;
             const u = { x: Math.cos(a), y: Math.sin(a) };
 
-            // Width of the stem in the leaf drawing (4.5 of 200 units)
-            const stemWidth = Math.max(2.4, 4.5 * leaf.offsetWidth / 200 * scale);
+            // Width of the stem in the leaf photo (4 of 420 pixels)
+            const stemWidth = Math.max(2.2, 4 * leaf.offsetWidth / 420 * scale);
 
             const reach = Math.abs(s.x - trunkX);
             const startY = s.y + reach * 0.5;
