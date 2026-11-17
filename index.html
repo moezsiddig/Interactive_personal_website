@@ -26,7 +26,7 @@
   <!-- Font Awesome icons and main CSS file -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
   <!-- ?v= changes with each release so browsers never mix old cached files with the new page -->
-  <link rel="stylesheet" href="css/style.css?v=2026-11-17q"/>
+  <link rel="stylesheet" href="css/style.css?v=2026-11-17r"/>
 </head>
 <body>
   <!-- Apply the saved dark mode before the page is drawn (avoids a light flash) -->
@@ -190,82 +190,239 @@
   <!-- Process section: what I offer, step by step through the web development life cycle -->
   <section class="process" id="process">
     <h2 class="title">My Process</h2>
-    <p class="section-intro">From idea to launch: I take care of the full web development life cycle.</p>
+    <p class="section-intro">Like a maple leaf, every project has a life cycle: from a small bud to its brightest colours, and on to the next season. I take care of every stage.</p>
 
-    <!-- A tree: a trunk in the middle and one maple leaf per step on branches
-         that alternate left and right. --leaf is the autumn colour of each leaf,
-         --ink the text colour that reads best on it. -->
+    <!-- The app life cycle as the life cycle of a maple leaf: bud, young leaf,
+         mature leaf, turning colour, peak colour, and finally a falling leaf
+         that feeds the next season. Leaves are generated SVG drawings
+         (veins, shading and a light texture). -->
     <ol class="process-tree">
-      <li class="branch" style="--leaf: #8e1b1b; --ink: #ffffff;">
+      <li class="branch" style="--ink: #1f3510; --stage: #86b84a; --scale: 0.8;">
         <div class="leaf">
-          <i class="fab fa-canadian-maple-leaf leaf-shape" aria-hidden="true"></i>
+          <svg class="leaf-svg" viewBox="0 0 200 220" aria-hidden="true">
+            <defs>
+              <radialGradient id="lf1-fill" cx="50%" cy="45%" r="62%">
+                <stop offset="0%" stop-color="#d7ec9a"/>
+                <stop offset="100%" stop-color="#86b84a"/>
+              </radialGradient>
+              <linearGradient id="lf1-sheen" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.28"/>
+                <stop offset="55%" stop-color="#ffffff" stop-opacity="0"/>
+              </linearGradient>
+              <filter id="lf1-tex" x="0" y="0" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="4" result="noise"/>
+                <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.22 0" result="grain"/>
+                <feComposite in="grain" in2="SourceGraphic" operator="in" result="grainIn"/>
+                <feBlend in="SourceGraphic" in2="grainIn" mode="multiply"/>
+              </filter>
+              <clipPath id="lf1-clip"><path d="M 100.0 150.0 L 111.8 152.2 L 127.4 162.9 L 128.0 151.3 L 139.0 147.0 L 151.4 151.9 L 156.7 139.4 L 172.7 140.0 L 166.6 123.5 L 179.5 118.5 L 163.5 112.4 L 149.9 106.4 L 146.1 99.6 L 159.0 96.2 L 167.5 99.9 L 171.8 87.1 L 191.1 72.4 L 179.0 64.5 L 186.9 50.3 L 172.6 55.6 L 168.1 41.7 L 154.4 53.1 L 140.3 67.6 L 129.9 72.7 L 123.1 64.6 L 128.5 53.1 L 137.4 43.1 L 130.3 37.9 L 136.5 22.7 L 116.6 26.4 L 100.0 3.0 L 81.0 27.4 L 65.8 24.4 L 70.2 37.0 L 62.3 45.0 L 72.0 50.9 L 78.2 66.2 L 72.5 72.9 L 58.6 68.9 L 44.2 54.3 L 31.7 41.3 L 28.3 52.6 L 13.9 50.5 L 20.1 63.2 L 7.7 73.6 L 29.1 86.5 L 30.1 99.7 L 39.4 98.2 L 55.5 102.0 L 48.1 107.3 L 35.8 111.7 L 20.8 117.5 L 33.0 125.7 L 26.2 138.8 L 43.0 139.0 L 47.7 149.6 L 58.8 146.2 L 73.5 151.8 L 72.7 162.5 L 88.9 151.3 Z"/></clipPath>
+            </defs>
+            <path d="M100 150 Q 101 185 97 216" stroke="#86b84a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <path d="M 100.0 150.0 L 111.8 152.2 L 127.4 162.9 L 128.0 151.3 L 139.0 147.0 L 151.4 151.9 L 156.7 139.4 L 172.7 140.0 L 166.6 123.5 L 179.5 118.5 L 163.5 112.4 L 149.9 106.4 L 146.1 99.6 L 159.0 96.2 L 167.5 99.9 L 171.8 87.1 L 191.1 72.4 L 179.0 64.5 L 186.9 50.3 L 172.6 55.6 L 168.1 41.7 L 154.4 53.1 L 140.3 67.6 L 129.9 72.7 L 123.1 64.6 L 128.5 53.1 L 137.4 43.1 L 130.3 37.9 L 136.5 22.7 L 116.6 26.4 L 100.0 3.0 L 81.0 27.4 L 65.8 24.4 L 70.2 37.0 L 62.3 45.0 L 72.0 50.9 L 78.2 66.2 L 72.5 72.9 L 58.6 68.9 L 44.2 54.3 L 31.7 41.3 L 28.3 52.6 L 13.9 50.5 L 20.1 63.2 L 7.7 73.6 L 29.1 86.5 L 30.1 99.7 L 39.4 98.2 L 55.5 102.0 L 48.1 107.3 L 35.8 111.7 L 20.8 117.5 L 33.0 125.7 L 26.2 138.8 L 43.0 139.0 L 47.7 149.6 L 58.8 146.2 L 73.5 151.8 L 72.7 162.5 L 88.9 151.3 Z" fill="url(#lf1-fill)" filter="url(#lf1-tex)" stroke="#86b84a" stroke-width="1.2" stroke-linejoin="round"/>
+            <g clip-path="url(#lf1-clip)">
+              
+              <path d="M 100.0 99.6 Q 117.7 90.4 131.7 76.2 M 100.0 99.6 Q 82.3 90.4 68.3 76.2 M 100.0 70.8 Q 117.1 65.2 131.7 54.6 M 100.0 70.8 Q 82.9 65.2 68.3 54.6 M 100.0 42.0 Q 116.6 40.0 131.7 33.0 M 100.0 42.0 Q 83.4 40.0 68.3 33.0 M 131.2 122.7 Q 146.4 128.7 162.8 129.6 M 131.2 122.7 Q 127.2 106.8 128.5 90.4 M 148.9 107.1 Q 161.7 114.7 176.1 117.9 M 148.9 107.1 Q 143.1 93.5 141.8 78.7 M 166.8 91.5 Q 176.9 100.7 189.5 106.2 M 166.8 91.5 Q 159.0 80.2 155.2 67.0 M 68.8 122.7 Q 72.8 106.8 71.5 90.4 M 68.8 122.7 Q 53.6 128.7 37.2 129.6 M 51.0 107.1 Q 56.9 93.5 58.2 78.7 M 51.0 107.1 Q 38.3 114.7 23.9 117.9 M 33.2 91.5 Q 41.0 80.2 44.8 67.0 M 33.2 91.5 Q 23.1 100.7 10.5 106.2 M 125.2 145.8 Q 131.3 153.9 139.5 159.7 M 125.2 145.8 Q 128.3 136.2 134.3 128.0 M 139.6 143.4 Q 143.8 151.5 150.3 157.9 M 139.6 143.4 Q 141.0 134.4 145.1 126.2 M 154.0 141.0 Q 156.4 149.1 161.1 156.1 M 154.0 141.0 Q 153.6 132.6 155.9 124.4 M 74.8 145.8 Q 71.7 136.2 65.7 128.0 M 74.8 145.8 Q 68.7 153.9 60.5 159.7 M 60.4 143.4 Q 59.0 134.4 54.9 126.2 M 60.4 143.4 Q 56.2 151.5 49.7 157.9 M 46.0 141.0 Q 46.4 132.6 44.1 124.4 M 46.0 141.0 Q 43.6 149.1 38.9 156.1 M 108.4 153.8 Q 108.6 157.5 109.9 160.9 M 108.4 153.8 Q 111.3 151.6 114.7 150.4 M 113.2 156.1 Q 112.8 159.3 113.5 162.6 M 113.2 156.1 Q 115.4 153.6 118.3 152.0 M 118.0 158.2 Q 117.1 161.2 117.1 164.2 M 118.0 158.2 Q 119.6 155.6 121.9 153.7 M 91.6 153.8 Q 88.7 151.6 85.3 150.4 M 91.6 153.8 Q 91.4 157.5 90.1 160.9 M 86.8 156.1 Q 84.6 153.6 81.7 152.0 M 86.8 156.1 Q 87.2 159.3 86.5 162.6 M 82.0 158.2 Q 80.4 155.6 78.1 153.7 M 82.0 158.2 Q 82.9 161.2 82.9 164.2" stroke="rgba(255,255,255,0.65)" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+              <path d="M 100.0 150.0 Q 105.8 78.0 100.0 6.0 M 100.0 150.0 Q 147.6 114.6 189.0 72.0 M 100.0 150.0 Q 52.4 114.6 11.0 72.0 M 100.0 150.0 Q 136.5 146.9 172.0 138.0 M 100.0 150.0 Q 63.5 146.9 28.0 138.0 M 100.0 150.0 Q 111.6 156.5 124.0 161.0 M 100.0 150.0 Q 88.4 156.5 76.0 161.0" stroke="rgba(255,255,255,0.65)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+              <path d="M 100.0 150.0 L 111.8 152.2 L 127.4 162.9 L 128.0 151.3 L 139.0 147.0 L 151.4 151.9 L 156.7 139.4 L 172.7 140.0 L 166.6 123.5 L 179.5 118.5 L 163.5 112.4 L 149.9 106.4 L 146.1 99.6 L 159.0 96.2 L 167.5 99.9 L 171.8 87.1 L 191.1 72.4 L 179.0 64.5 L 186.9 50.3 L 172.6 55.6 L 168.1 41.7 L 154.4 53.1 L 140.3 67.6 L 129.9 72.7 L 123.1 64.6 L 128.5 53.1 L 137.4 43.1 L 130.3 37.9 L 136.5 22.7 L 116.6 26.4 L 100.0 3.0 L 81.0 27.4 L 65.8 24.4 L 70.2 37.0 L 62.3 45.0 L 72.0 50.9 L 78.2 66.2 L 72.5 72.9 L 58.6 68.9 L 44.2 54.3 L 31.7 41.3 L 28.3 52.6 L 13.9 50.5 L 20.1 63.2 L 7.7 73.6 L 29.1 86.5 L 30.1 99.7 L 39.4 98.2 L 55.5 102.0 L 48.1 107.3 L 35.8 111.7 L 20.8 117.5 L 33.0 125.7 L 26.2 138.8 L 43.0 139.0 L 47.7 149.6 L 58.8 146.2 L 73.5 151.8 L 72.7 162.5 L 88.9 151.3 Z" fill="url(#lf1-sheen)"/>
+            </g>
+          </svg>
           <div class="leaf-content">
             <span class="leaf-number">01</span>
             <i class="fas fa-clipboard-list"></i>
             <h3>Plan</h3>
           </div>
         </div>
-        <p class="leaf-text">Understand your goals, users, and features, then agree on the scope and timeline.</p>
+        <p class="leaf-text"><span class="leaf-stage">Bud</span>Understand your goals, users, and features, then agree on the scope and timeline.</p>
       </li>
 
-      <li class="branch" style="--leaf: #d32f2f; --ink: #ffffff;">
+      <li class="branch" style="--ink: #14280a; --stage: #5f9a2e; --scale: 0.92;">
         <div class="leaf">
-          <i class="fab fa-canadian-maple-leaf leaf-shape" aria-hidden="true"></i>
+          <svg class="leaf-svg" viewBox="0 0 200 220" aria-hidden="true">
+            <defs>
+              <radialGradient id="lf2-fill" cx="50%" cy="45%" r="62%">
+                <stop offset="0%" stop-color="#b5dc6e"/>
+                <stop offset="100%" stop-color="#5f9a2e"/>
+              </radialGradient>
+              <linearGradient id="lf2-sheen" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.28"/>
+                <stop offset="55%" stop-color="#ffffff" stop-opacity="0"/>
+              </linearGradient>
+              <filter id="lf2-tex" x="0" y="0" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="5" result="noise"/>
+                <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.22 0" result="grain"/>
+                <feComposite in="grain" in2="SourceGraphic" operator="in" result="grainIn"/>
+                <feBlend in="SourceGraphic" in2="grainIn" mode="multiply"/>
+              </filter>
+              <clipPath id="lf2-clip"><path d="M 100.0 150.0 L 111.9 152.5 L 126.5 161.9 L 126.4 150.6 L 139.3 148.0 L 151.6 151.3 L 158.2 140.5 L 172.9 138.8 L 164.9 126.3 L 176.6 118.0 L 161.6 112.6 L 150.5 107.7 L 147.1 99.5 L 158.6 98.3 L 169.0 98.7 L 173.6 87.4 L 189.8 71.8 L 177.8 63.4 L 187.4 49.9 L 171.6 52.6 L 165.9 42.0 L 154.7 53.7 L 141.3 68.9 L 128.6 71.5 L 122.7 66.5 L 128.5 52.5 L 138.5 43.6 L 129.6 38.6 L 133.8 22.2 L 117.6 26.0 L 100.0 3.0 L 81.3 27.2 L 66.3 21.9 L 70.2 39.4 L 60.9 44.4 L 72.1 52.1 L 79.1 65.4 L 70.4 73.9 L 59.0 67.5 L 46.5 55.6 L 31.5 41.4 L 28.2 52.4 L 13.9 50.5 L 19.4 63.3 L 9.8 73.3 L 27.6 85.0 L 29.9 101.4 L 39.9 98.5 L 53.9 102.5 L 48.1 107.3 L 35.6 111.9 L 21.5 117.4 L 32.5 124.3 L 25.0 139.6 L 40.7 140.2 L 48.6 151.9 L 59.1 146.8 L 71.8 151.1 L 72.5 164.0 L 89.0 152.0 Z"/></clipPath>
+            </defs>
+            <path d="M100 150 Q 101 185 97 216" stroke="#5f9a2e" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <path d="M 100.0 150.0 L 111.9 152.5 L 126.5 161.9 L 126.4 150.6 L 139.3 148.0 L 151.6 151.3 L 158.2 140.5 L 172.9 138.8 L 164.9 126.3 L 176.6 118.0 L 161.6 112.6 L 150.5 107.7 L 147.1 99.5 L 158.6 98.3 L 169.0 98.7 L 173.6 87.4 L 189.8 71.8 L 177.8 63.4 L 187.4 49.9 L 171.6 52.6 L 165.9 42.0 L 154.7 53.7 L 141.3 68.9 L 128.6 71.5 L 122.7 66.5 L 128.5 52.5 L 138.5 43.6 L 129.6 38.6 L 133.8 22.2 L 117.6 26.0 L 100.0 3.0 L 81.3 27.2 L 66.3 21.9 L 70.2 39.4 L 60.9 44.4 L 72.1 52.1 L 79.1 65.4 L 70.4 73.9 L 59.0 67.5 L 46.5 55.6 L 31.5 41.4 L 28.2 52.4 L 13.9 50.5 L 19.4 63.3 L 9.8 73.3 L 27.6 85.0 L 29.9 101.4 L 39.9 98.5 L 53.9 102.5 L 48.1 107.3 L 35.6 111.9 L 21.5 117.4 L 32.5 124.3 L 25.0 139.6 L 40.7 140.2 L 48.6 151.9 L 59.1 146.8 L 71.8 151.1 L 72.5 164.0 L 89.0 152.0 Z" fill="url(#lf2-fill)" filter="url(#lf2-tex)" stroke="#5f9a2e" stroke-width="1.2" stroke-linejoin="round"/>
+            <g clip-path="url(#lf2-clip)">
+              
+              <path d="M 100.0 99.6 Q 117.7 90.4 131.7 76.2 M 100.0 99.6 Q 82.3 90.4 68.3 76.2 M 100.0 70.8 Q 117.1 65.2 131.7 54.6 M 100.0 70.8 Q 82.9 65.2 68.3 54.6 M 100.0 42.0 Q 116.6 40.0 131.7 33.0 M 100.0 42.0 Q 83.4 40.0 68.3 33.0 M 131.2 122.7 Q 146.4 128.7 162.8 129.6 M 131.2 122.7 Q 127.2 106.8 128.5 90.4 M 148.9 107.1 Q 161.7 114.7 176.1 117.9 M 148.9 107.1 Q 143.1 93.5 141.8 78.7 M 166.8 91.5 Q 176.9 100.7 189.5 106.2 M 166.8 91.5 Q 159.0 80.2 155.2 67.0 M 68.8 122.7 Q 72.8 106.8 71.5 90.4 M 68.8 122.7 Q 53.6 128.7 37.2 129.6 M 51.0 107.1 Q 56.9 93.5 58.2 78.7 M 51.0 107.1 Q 38.3 114.7 23.9 117.9 M 33.2 91.5 Q 41.0 80.2 44.8 67.0 M 33.2 91.5 Q 23.1 100.7 10.5 106.2 M 125.2 145.8 Q 131.3 153.9 139.5 159.7 M 125.2 145.8 Q 128.3 136.2 134.3 128.0 M 139.6 143.4 Q 143.8 151.5 150.3 157.9 M 139.6 143.4 Q 141.0 134.4 145.1 126.2 M 154.0 141.0 Q 156.4 149.1 161.1 156.1 M 154.0 141.0 Q 153.6 132.6 155.9 124.4 M 74.8 145.8 Q 71.7 136.2 65.7 128.0 M 74.8 145.8 Q 68.7 153.9 60.5 159.7 M 60.4 143.4 Q 59.0 134.4 54.9 126.2 M 60.4 143.4 Q 56.2 151.5 49.7 157.9 M 46.0 141.0 Q 46.4 132.6 44.1 124.4 M 46.0 141.0 Q 43.6 149.1 38.9 156.1 M 108.4 153.8 Q 108.6 157.5 109.9 160.9 M 108.4 153.8 Q 111.3 151.6 114.7 150.4 M 113.2 156.1 Q 112.8 159.3 113.5 162.6 M 113.2 156.1 Q 115.4 153.6 118.3 152.0 M 118.0 158.2 Q 117.1 161.2 117.1 164.2 M 118.0 158.2 Q 119.6 155.6 121.9 153.7 M 91.6 153.8 Q 88.7 151.6 85.3 150.4 M 91.6 153.8 Q 91.4 157.5 90.1 160.9 M 86.8 156.1 Q 84.6 153.6 81.7 152.0 M 86.8 156.1 Q 87.2 159.3 86.5 162.6 M 82.0 158.2 Q 80.4 155.6 78.1 153.7 M 82.0 158.2 Q 82.9 161.2 82.9 164.2" stroke="rgba(255,255,255,0.55)" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+              <path d="M 100.0 150.0 Q 105.8 78.0 100.0 6.0 M 100.0 150.0 Q 147.6 114.6 189.0 72.0 M 100.0 150.0 Q 52.4 114.6 11.0 72.0 M 100.0 150.0 Q 136.5 146.9 172.0 138.0 M 100.0 150.0 Q 63.5 146.9 28.0 138.0 M 100.0 150.0 Q 111.6 156.5 124.0 161.0 M 100.0 150.0 Q 88.4 156.5 76.0 161.0" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+              <path d="M 100.0 150.0 L 111.9 152.5 L 126.5 161.9 L 126.4 150.6 L 139.3 148.0 L 151.6 151.3 L 158.2 140.5 L 172.9 138.8 L 164.9 126.3 L 176.6 118.0 L 161.6 112.6 L 150.5 107.7 L 147.1 99.5 L 158.6 98.3 L 169.0 98.7 L 173.6 87.4 L 189.8 71.8 L 177.8 63.4 L 187.4 49.9 L 171.6 52.6 L 165.9 42.0 L 154.7 53.7 L 141.3 68.9 L 128.6 71.5 L 122.7 66.5 L 128.5 52.5 L 138.5 43.6 L 129.6 38.6 L 133.8 22.2 L 117.6 26.0 L 100.0 3.0 L 81.3 27.2 L 66.3 21.9 L 70.2 39.4 L 60.9 44.4 L 72.1 52.1 L 79.1 65.4 L 70.4 73.9 L 59.0 67.5 L 46.5 55.6 L 31.5 41.4 L 28.2 52.4 L 13.9 50.5 L 19.4 63.3 L 9.8 73.3 L 27.6 85.0 L 29.9 101.4 L 39.9 98.5 L 53.9 102.5 L 48.1 107.3 L 35.6 111.9 L 21.5 117.4 L 32.5 124.3 L 25.0 139.6 L 40.7 140.2 L 48.6 151.9 L 59.1 146.8 L 71.8 151.1 L 72.5 164.0 L 89.0 152.0 Z" fill="url(#lf2-sheen)"/>
+            </g>
+          </svg>
           <div class="leaf-content">
             <span class="leaf-number">02</span>
             <i class="fas fa-pencil-ruler"></i>
             <h3>Design</h3>
           </div>
         </div>
-        <p class="leaf-text">Sketch the layout and create a clean, responsive interface that is easy to use.</p>
+        <p class="leaf-text"><span class="leaf-stage">Young leaf</span>Sketch the layout and create a clean, responsive interface that is easy to use.</p>
       </li>
 
-      <li class="branch" style="--leaf: #e65100; --ink: #ffffff;">
+      <li class="branch" style="--ink: #ffffff; --stage: #1b5e20; --scale: 1.0;">
         <div class="leaf">
-          <i class="fab fa-canadian-maple-leaf leaf-shape" aria-hidden="true"></i>
+          <svg class="leaf-svg" viewBox="0 0 200 220" aria-hidden="true">
+            <defs>
+              <radialGradient id="lf3-fill" cx="50%" cy="45%" r="62%">
+                <stop offset="0%" stop-color="#4caf50"/>
+                <stop offset="100%" stop-color="#1b5e20"/>
+              </radialGradient>
+              <linearGradient id="lf3-sheen" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.28"/>
+                <stop offset="55%" stop-color="#ffffff" stop-opacity="0"/>
+              </linearGradient>
+              <filter id="lf3-tex" x="0" y="0" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="6" result="noise"/>
+                <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.22 0" result="grain"/>
+                <feComposite in="grain" in2="SourceGraphic" operator="in" result="grainIn"/>
+                <feBlend in="SourceGraphic" in2="grainIn" mode="multiply"/>
+              </filter>
+              <clipPath id="lf3-clip"><path d="M 100.0 150.0 L 111.2 152.6 L 126.6 164.1 L 127.0 150.1 L 138.9 146.1 L 151.7 149.8 L 158.1 139.1 L 173.3 138.8 L 167.1 125.3 L 176.4 116.3 L 161.9 113.2 L 152.0 109.0 L 147.0 101.8 L 161.4 97.9 L 168.2 101.1 L 172.0 86.8 L 191.2 71.8 L 178.6 63.8 L 186.4 49.8 L 172.0 55.0 L 168.6 41.6 L 155.2 54.8 L 139.8 69.6 L 128.8 72.0 L 121.0 65.1 L 126.2 51.9 L 139.3 43.7 L 127.8 38.0 L 134.2 22.2 L 117.0 25.6 L 100.0 3.0 L 82.0 27.5 L 63.4 22.5 L 70.6 39.1 L 59.6 43.9 L 72.3 52.3 L 76.8 64.4 L 69.4 74.6 L 58.5 67.7 L 43.5 53.8 L 33.2 41.1 L 27.6 54.5 L 11.8 50.1 L 19.9 64.6 L 8.5 71.3 L 27.5 86.7 L 31.3 100.3 L 39.1 97.4 L 54.3 101.7 L 47.8 109.5 L 36.6 112.7 L 21.0 118.1 L 35.2 126.0 L 25.7 140.2 L 42.4 138.9 L 50.0 152.1 L 58.5 145.9 L 72.7 152.4 L 75.5 162.6 L 86.6 152.5 Z"/></clipPath>
+            </defs>
+            <path d="M100 150 Q 101 185 97 216" stroke="#1b5e20" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <path d="M 100.0 150.0 L 111.2 152.6 L 126.6 164.1 L 127.0 150.1 L 138.9 146.1 L 151.7 149.8 L 158.1 139.1 L 173.3 138.8 L 167.1 125.3 L 176.4 116.3 L 161.9 113.2 L 152.0 109.0 L 147.0 101.8 L 161.4 97.9 L 168.2 101.1 L 172.0 86.8 L 191.2 71.8 L 178.6 63.8 L 186.4 49.8 L 172.0 55.0 L 168.6 41.6 L 155.2 54.8 L 139.8 69.6 L 128.8 72.0 L 121.0 65.1 L 126.2 51.9 L 139.3 43.7 L 127.8 38.0 L 134.2 22.2 L 117.0 25.6 L 100.0 3.0 L 82.0 27.5 L 63.4 22.5 L 70.6 39.1 L 59.6 43.9 L 72.3 52.3 L 76.8 64.4 L 69.4 74.6 L 58.5 67.7 L 43.5 53.8 L 33.2 41.1 L 27.6 54.5 L 11.8 50.1 L 19.9 64.6 L 8.5 71.3 L 27.5 86.7 L 31.3 100.3 L 39.1 97.4 L 54.3 101.7 L 47.8 109.5 L 36.6 112.7 L 21.0 118.1 L 35.2 126.0 L 25.7 140.2 L 42.4 138.9 L 50.0 152.1 L 58.5 145.9 L 72.7 152.4 L 75.5 162.6 L 86.6 152.5 Z" fill="url(#lf3-fill)" filter="url(#lf3-tex)" stroke="#1b5e20" stroke-width="1.2" stroke-linejoin="round"/>
+            <g clip-path="url(#lf3-clip)">
+              
+              <path d="M 100.0 99.6 Q 117.7 90.4 131.7 76.2 M 100.0 99.6 Q 82.3 90.4 68.3 76.2 M 100.0 70.8 Q 117.1 65.2 131.7 54.6 M 100.0 70.8 Q 82.9 65.2 68.3 54.6 M 100.0 42.0 Q 116.6 40.0 131.7 33.0 M 100.0 42.0 Q 83.4 40.0 68.3 33.0 M 131.2 122.7 Q 146.4 128.7 162.8 129.6 M 131.2 122.7 Q 127.2 106.8 128.5 90.4 M 148.9 107.1 Q 161.7 114.7 176.1 117.9 M 148.9 107.1 Q 143.1 93.5 141.8 78.7 M 166.8 91.5 Q 176.9 100.7 189.5 106.2 M 166.8 91.5 Q 159.0 80.2 155.2 67.0 M 68.8 122.7 Q 72.8 106.8 71.5 90.4 M 68.8 122.7 Q 53.6 128.7 37.2 129.6 M 51.0 107.1 Q 56.9 93.5 58.2 78.7 M 51.0 107.1 Q 38.3 114.7 23.9 117.9 M 33.2 91.5 Q 41.0 80.2 44.8 67.0 M 33.2 91.5 Q 23.1 100.7 10.5 106.2 M 125.2 145.8 Q 131.3 153.9 139.5 159.7 M 125.2 145.8 Q 128.3 136.2 134.3 128.0 M 139.6 143.4 Q 143.8 151.5 150.3 157.9 M 139.6 143.4 Q 141.0 134.4 145.1 126.2 M 154.0 141.0 Q 156.4 149.1 161.1 156.1 M 154.0 141.0 Q 153.6 132.6 155.9 124.4 M 74.8 145.8 Q 71.7 136.2 65.7 128.0 M 74.8 145.8 Q 68.7 153.9 60.5 159.7 M 60.4 143.4 Q 59.0 134.4 54.9 126.2 M 60.4 143.4 Q 56.2 151.5 49.7 157.9 M 46.0 141.0 Q 46.4 132.6 44.1 124.4 M 46.0 141.0 Q 43.6 149.1 38.9 156.1 M 108.4 153.8 Q 108.6 157.5 109.9 160.9 M 108.4 153.8 Q 111.3 151.6 114.7 150.4 M 113.2 156.1 Q 112.8 159.3 113.5 162.6 M 113.2 156.1 Q 115.4 153.6 118.3 152.0 M 118.0 158.2 Q 117.1 161.2 117.1 164.2 M 118.0 158.2 Q 119.6 155.6 121.9 153.7 M 91.6 153.8 Q 88.7 151.6 85.3 150.4 M 91.6 153.8 Q 91.4 157.5 90.1 160.9 M 86.8 156.1 Q 84.6 153.6 81.7 152.0 M 86.8 156.1 Q 87.2 159.3 86.5 162.6 M 82.0 158.2 Q 80.4 155.6 78.1 153.7 M 82.0 158.2 Q 82.9 161.2 82.9 164.2" stroke="rgba(200,255,200,0.40)" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+              <path d="M 100.0 150.0 Q 105.8 78.0 100.0 6.0 M 100.0 150.0 Q 147.6 114.6 189.0 72.0 M 100.0 150.0 Q 52.4 114.6 11.0 72.0 M 100.0 150.0 Q 136.5 146.9 172.0 138.0 M 100.0 150.0 Q 63.5 146.9 28.0 138.0 M 100.0 150.0 Q 111.6 156.5 124.0 161.0 M 100.0 150.0 Q 88.4 156.5 76.0 161.0" stroke="rgba(200,255,200,0.40)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+              <path d="M 100.0 150.0 L 111.2 152.6 L 126.6 164.1 L 127.0 150.1 L 138.9 146.1 L 151.7 149.8 L 158.1 139.1 L 173.3 138.8 L 167.1 125.3 L 176.4 116.3 L 161.9 113.2 L 152.0 109.0 L 147.0 101.8 L 161.4 97.9 L 168.2 101.1 L 172.0 86.8 L 191.2 71.8 L 178.6 63.8 L 186.4 49.8 L 172.0 55.0 L 168.6 41.6 L 155.2 54.8 L 139.8 69.6 L 128.8 72.0 L 121.0 65.1 L 126.2 51.9 L 139.3 43.7 L 127.8 38.0 L 134.2 22.2 L 117.0 25.6 L 100.0 3.0 L 82.0 27.5 L 63.4 22.5 L 70.6 39.1 L 59.6 43.9 L 72.3 52.3 L 76.8 64.4 L 69.4 74.6 L 58.5 67.7 L 43.5 53.8 L 33.2 41.1 L 27.6 54.5 L 11.8 50.1 L 19.9 64.6 L 8.5 71.3 L 27.5 86.7 L 31.3 100.3 L 39.1 97.4 L 54.3 101.7 L 47.8 109.5 L 36.6 112.7 L 21.0 118.1 L 35.2 126.0 L 25.7 140.2 L 42.4 138.9 L 50.0 152.1 L 58.5 145.9 L 72.7 152.4 L 75.5 162.6 L 86.6 152.5 Z" fill="url(#lf3-sheen)"/>
+            </g>
+          </svg>
           <div class="leaf-content">
             <span class="leaf-number">03</span>
             <i class="fas fa-code"></i>
             <h3>Develop</h3>
           </div>
         </div>
-        <p class="leaf-text">Build the front end with HTML, CSS, JavaScript, and React, and the back end with Node.js, Express.js, and MongoDB.</p>
+        <p class="leaf-text"><span class="leaf-stage">Mature leaf</span>Build the front end with HTML, CSS, JavaScript, and React, and the back end with Node.js, Express.js, and MongoDB.</p>
       </li>
 
-      <li class="branch" style="--leaf: #f9a825; --ink: #1d1d1f;">
+      <li class="branch" style="--ink: #2a2400; --stage: #f2a516; --scale: 1.0;">
         <div class="leaf">
-          <i class="fab fa-canadian-maple-leaf leaf-shape" aria-hidden="true"></i>
+          <svg class="leaf-svg" viewBox="0 0 200 220" aria-hidden="true">
+            <defs>
+              <radialGradient id="lf4-fill" cx="50%" cy="45%" r="62%">
+                <stop offset="0%" stop-color="#e6ee6a"/>
+                <stop offset="100%" stop-color="#f2a516"/>
+              </radialGradient>
+              <linearGradient id="lf4-sheen" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.28"/>
+                <stop offset="55%" stop-color="#ffffff" stop-opacity="0"/>
+              </linearGradient>
+              <filter id="lf4-tex" x="0" y="0" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="7" result="noise"/>
+                <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.22 0" result="grain"/>
+                <feComposite in="grain" in2="SourceGraphic" operator="in" result="grainIn"/>
+                <feBlend in="SourceGraphic" in2="grainIn" mode="multiply"/>
+              </filter>
+              <clipPath id="lf4-clip"><path d="M 100.0 150.0 L 110.7 152.6 L 126.5 164.4 L 127.3 150.2 L 140.7 147.5 L 150.4 151.6 L 157.7 140.9 L 172.8 138.1 L 167.3 124.5 L 177.2 118.0 L 163.4 110.9 L 151.2 108.5 L 144.9 101.5 L 158.8 96.5 L 167.7 99.1 L 173.5 85.7 L 192.6 71.8 L 179.3 65.2 L 187.6 49.8 L 171.3 54.4 L 166.0 39.7 L 156.2 54.0 L 140.0 68.8 L 128.1 74.0 L 122.0 63.7 L 128.0 50.7 L 138.3 42.5 L 129.8 36.8 L 135.1 21.7 L 117.9 26.6 L 100.0 3.0 L 83.5 26.1 L 64.6 22.6 L 71.0 39.1 L 62.4 44.8 L 73.2 52.3 L 78.8 64.6 L 72.3 72.3 L 58.2 69.3 L 46.2 53.2 L 32.0 40.1 L 27.5 52.9 L 12.5 50.2 L 20.3 65.4 L 10.5 72.3 L 26.5 85.4 L 30.2 99.6 L 40.4 96.9 L 53.4 100.0 L 50.4 107.2 L 36.5 112.2 L 23.4 116.8 L 32.5 125.7 L 26.7 139.2 L 40.6 138.9 L 50.2 152.4 L 59.9 146.2 L 72.3 149.7 L 74.0 162.8 L 88.1 151.9 Z"/></clipPath>
+            </defs>
+            <path d="M100 150 Q 101 185 97 216" stroke="#f2a516" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <path d="M 100.0 150.0 L 110.7 152.6 L 126.5 164.4 L 127.3 150.2 L 140.7 147.5 L 150.4 151.6 L 157.7 140.9 L 172.8 138.1 L 167.3 124.5 L 177.2 118.0 L 163.4 110.9 L 151.2 108.5 L 144.9 101.5 L 158.8 96.5 L 167.7 99.1 L 173.5 85.7 L 192.6 71.8 L 179.3 65.2 L 187.6 49.8 L 171.3 54.4 L 166.0 39.7 L 156.2 54.0 L 140.0 68.8 L 128.1 74.0 L 122.0 63.7 L 128.0 50.7 L 138.3 42.5 L 129.8 36.8 L 135.1 21.7 L 117.9 26.6 L 100.0 3.0 L 83.5 26.1 L 64.6 22.6 L 71.0 39.1 L 62.4 44.8 L 73.2 52.3 L 78.8 64.6 L 72.3 72.3 L 58.2 69.3 L 46.2 53.2 L 32.0 40.1 L 27.5 52.9 L 12.5 50.2 L 20.3 65.4 L 10.5 72.3 L 26.5 85.4 L 30.2 99.6 L 40.4 96.9 L 53.4 100.0 L 50.4 107.2 L 36.5 112.2 L 23.4 116.8 L 32.5 125.7 L 26.7 139.2 L 40.6 138.9 L 50.2 152.4 L 59.9 146.2 L 72.3 149.7 L 74.0 162.8 L 88.1 151.9 Z" fill="url(#lf4-fill)" filter="url(#lf4-tex)" stroke="#f2a516" stroke-width="1.2" stroke-linejoin="round"/>
+            <g clip-path="url(#lf4-clip)">
+              
+              <path d="M 100.0 99.6 Q 117.7 90.4 131.7 76.2 M 100.0 99.6 Q 82.3 90.4 68.3 76.2 M 100.0 70.8 Q 117.1 65.2 131.7 54.6 M 100.0 70.8 Q 82.9 65.2 68.3 54.6 M 100.0 42.0 Q 116.6 40.0 131.7 33.0 M 100.0 42.0 Q 83.4 40.0 68.3 33.0 M 131.2 122.7 Q 146.4 128.7 162.8 129.6 M 131.2 122.7 Q 127.2 106.8 128.5 90.4 M 148.9 107.1 Q 161.7 114.7 176.1 117.9 M 148.9 107.1 Q 143.1 93.5 141.8 78.7 M 166.8 91.5 Q 176.9 100.7 189.5 106.2 M 166.8 91.5 Q 159.0 80.2 155.2 67.0 M 68.8 122.7 Q 72.8 106.8 71.5 90.4 M 68.8 122.7 Q 53.6 128.7 37.2 129.6 M 51.0 107.1 Q 56.9 93.5 58.2 78.7 M 51.0 107.1 Q 38.3 114.7 23.9 117.9 M 33.2 91.5 Q 41.0 80.2 44.8 67.0 M 33.2 91.5 Q 23.1 100.7 10.5 106.2 M 125.2 145.8 Q 131.3 153.9 139.5 159.7 M 125.2 145.8 Q 128.3 136.2 134.3 128.0 M 139.6 143.4 Q 143.8 151.5 150.3 157.9 M 139.6 143.4 Q 141.0 134.4 145.1 126.2 M 154.0 141.0 Q 156.4 149.1 161.1 156.1 M 154.0 141.0 Q 153.6 132.6 155.9 124.4 M 74.8 145.8 Q 71.7 136.2 65.7 128.0 M 74.8 145.8 Q 68.7 153.9 60.5 159.7 M 60.4 143.4 Q 59.0 134.4 54.9 126.2 M 60.4 143.4 Q 56.2 151.5 49.7 157.9 M 46.0 141.0 Q 46.4 132.6 44.1 124.4 M 46.0 141.0 Q 43.6 149.1 38.9 156.1 M 108.4 153.8 Q 108.6 157.5 109.9 160.9 M 108.4 153.8 Q 111.3 151.6 114.7 150.4 M 113.2 156.1 Q 112.8 159.3 113.5 162.6 M 113.2 156.1 Q 115.4 153.6 118.3 152.0 M 118.0 158.2 Q 117.1 161.2 117.1 164.2 M 118.0 158.2 Q 119.6 155.6 121.9 153.7 M 91.6 153.8 Q 88.7 151.6 85.3 150.4 M 91.6 153.8 Q 91.4 157.5 90.1 160.9 M 86.8 156.1 Q 84.6 153.6 81.7 152.0 M 86.8 156.1 Q 87.2 159.3 86.5 162.6 M 82.0 158.2 Q 80.4 155.6 78.1 153.7 M 82.0 158.2 Q 82.9 161.2 82.9 164.2" stroke="rgba(120,150,40,0.55)" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+              <path d="M 100.0 150.0 Q 105.8 78.0 100.0 6.0 M 100.0 150.0 Q 147.6 114.6 189.0 72.0 M 100.0 150.0 Q 52.4 114.6 11.0 72.0 M 100.0 150.0 Q 136.5 146.9 172.0 138.0 M 100.0 150.0 Q 63.5 146.9 28.0 138.0 M 100.0 150.0 Q 111.6 156.5 124.0 161.0 M 100.0 150.0 Q 88.4 156.5 76.0 161.0" stroke="rgba(120,150,40,0.55)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+              <path d="M 100.0 150.0 L 110.7 152.6 L 126.5 164.4 L 127.3 150.2 L 140.7 147.5 L 150.4 151.6 L 157.7 140.9 L 172.8 138.1 L 167.3 124.5 L 177.2 118.0 L 163.4 110.9 L 151.2 108.5 L 144.9 101.5 L 158.8 96.5 L 167.7 99.1 L 173.5 85.7 L 192.6 71.8 L 179.3 65.2 L 187.6 49.8 L 171.3 54.4 L 166.0 39.7 L 156.2 54.0 L 140.0 68.8 L 128.1 74.0 L 122.0 63.7 L 128.0 50.7 L 138.3 42.5 L 129.8 36.8 L 135.1 21.7 L 117.9 26.6 L 100.0 3.0 L 83.5 26.1 L 64.6 22.6 L 71.0 39.1 L 62.4 44.8 L 73.2 52.3 L 78.8 64.6 L 72.3 72.3 L 58.2 69.3 L 46.2 53.2 L 32.0 40.1 L 27.5 52.9 L 12.5 50.2 L 20.3 65.4 L 10.5 72.3 L 26.5 85.4 L 30.2 99.6 L 40.4 96.9 L 53.4 100.0 L 50.4 107.2 L 36.5 112.2 L 23.4 116.8 L 32.5 125.7 L 26.7 139.2 L 40.6 138.9 L 50.2 152.4 L 59.9 146.2 L 72.3 149.7 L 74.0 162.8 L 88.1 151.9 Z" fill="url(#lf4-sheen)"/>
+            </g>
+          </svg>
           <div class="leaf-content">
             <span class="leaf-number">04</span>
             <i class="fas fa-bug"></i>
             <h3>Test</h3>
           </div>
         </div>
-        <p class="leaf-text">Check every page, form, and screen size, and fix bugs before anyone else finds them.</p>
+        <p class="leaf-text"><span class="leaf-stage">Turning</span>Check every page, form, and screen size, and fix bugs before anyone else finds them.</p>
       </li>
 
-      <li class="branch" style="--leaf: #9e9d24; --ink: #ffffff;">
+      <li class="branch" style="--ink: #ffffff; --stage: #b71c1c; --scale: 1.0;">
         <div class="leaf">
-          <i class="fab fa-canadian-maple-leaf leaf-shape" aria-hidden="true"></i>
+          <svg class="leaf-svg" viewBox="0 0 200 220" aria-hidden="true">
+            <defs>
+              <radialGradient id="lf5-fill" cx="50%" cy="45%" r="62%">
+                <stop offset="0%" stop-color="#ff8a50"/>
+                <stop offset="100%" stop-color="#b71c1c"/>
+              </radialGradient>
+              <linearGradient id="lf5-sheen" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.28"/>
+                <stop offset="55%" stop-color="#ffffff" stop-opacity="0"/>
+              </linearGradient>
+              <filter id="lf5-tex" x="0" y="0" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="8" result="noise"/>
+                <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.22 0" result="grain"/>
+                <feComposite in="grain" in2="SourceGraphic" operator="in" result="grainIn"/>
+                <feBlend in="SourceGraphic" in2="grainIn" mode="multiply"/>
+              </filter>
+              <clipPath id="lf5-clip"><path d="M 100.0 150.0 L 113.5 150.4 L 126.8 161.9 L 129.6 149.5 L 141.2 147.6 L 152.1 152.6 L 157.2 139.5 L 174.7 138.3 L 165.2 124.1 L 179.1 118.2 L 164.0 111.1 L 152.4 108.0 L 145.1 100.9 L 159.7 95.7 L 169.2 99.6 L 172.2 87.4 L 191.5 71.7 L 180.2 65.6 L 187.0 52.4 L 169.5 52.8 L 166.0 42.4 L 155.6 54.7 L 140.3 69.0 L 130.2 71.7 L 120.8 63.6 L 126.9 53.1 L 139.2 43.7 L 129.0 37.0 L 136.4 22.5 L 117.2 25.4 L 100.0 3.0 L 82.6 25.4 L 64.5 24.3 L 70.2 39.6 L 61.1 42.9 L 72.5 51.6 L 76.4 65.5 L 72.3 74.3 L 60.0 70.0 L 45.3 53.4 L 33.4 41.7 L 28.6 53.5 L 12.5 51.5 L 19.7 62.4 L 9.6 71.2 L 28.9 86.3 L 31.2 99.9 L 38.6 98.1 L 55.5 99.5 L 49.0 107.9 L 38.4 110.9 L 20.5 118.3 L 34.8 124.3 L 27.1 140.4 L 42.0 139.6 L 48.9 149.8 L 61.3 147.9 L 71.8 149.6 L 75.3 162.5 L 89.0 151.4 Z"/></clipPath>
+            </defs>
+            <path d="M100 150 Q 101 185 97 216" stroke="#b71c1c" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <path d="M 100.0 150.0 L 113.5 150.4 L 126.8 161.9 L 129.6 149.5 L 141.2 147.6 L 152.1 152.6 L 157.2 139.5 L 174.7 138.3 L 165.2 124.1 L 179.1 118.2 L 164.0 111.1 L 152.4 108.0 L 145.1 100.9 L 159.7 95.7 L 169.2 99.6 L 172.2 87.4 L 191.5 71.7 L 180.2 65.6 L 187.0 52.4 L 169.5 52.8 L 166.0 42.4 L 155.6 54.7 L 140.3 69.0 L 130.2 71.7 L 120.8 63.6 L 126.9 53.1 L 139.2 43.7 L 129.0 37.0 L 136.4 22.5 L 117.2 25.4 L 100.0 3.0 L 82.6 25.4 L 64.5 24.3 L 70.2 39.6 L 61.1 42.9 L 72.5 51.6 L 76.4 65.5 L 72.3 74.3 L 60.0 70.0 L 45.3 53.4 L 33.4 41.7 L 28.6 53.5 L 12.5 51.5 L 19.7 62.4 L 9.6 71.2 L 28.9 86.3 L 31.2 99.9 L 38.6 98.1 L 55.5 99.5 L 49.0 107.9 L 38.4 110.9 L 20.5 118.3 L 34.8 124.3 L 27.1 140.4 L 42.0 139.6 L 48.9 149.8 L 61.3 147.9 L 71.8 149.6 L 75.3 162.5 L 89.0 151.4 Z" fill="url(#lf5-fill)" filter="url(#lf5-tex)" stroke="#b71c1c" stroke-width="1.2" stroke-linejoin="round"/>
+            <g clip-path="url(#lf5-clip)">
+              
+              <path d="M 100.0 99.6 Q 117.7 90.4 131.7 76.2 M 100.0 99.6 Q 82.3 90.4 68.3 76.2 M 100.0 70.8 Q 117.1 65.2 131.7 54.6 M 100.0 70.8 Q 82.9 65.2 68.3 54.6 M 100.0 42.0 Q 116.6 40.0 131.7 33.0 M 100.0 42.0 Q 83.4 40.0 68.3 33.0 M 131.2 122.7 Q 146.4 128.7 162.8 129.6 M 131.2 122.7 Q 127.2 106.8 128.5 90.4 M 148.9 107.1 Q 161.7 114.7 176.1 117.9 M 148.9 107.1 Q 143.1 93.5 141.8 78.7 M 166.8 91.5 Q 176.9 100.7 189.5 106.2 M 166.8 91.5 Q 159.0 80.2 155.2 67.0 M 68.8 122.7 Q 72.8 106.8 71.5 90.4 M 68.8 122.7 Q 53.6 128.7 37.2 129.6 M 51.0 107.1 Q 56.9 93.5 58.2 78.7 M 51.0 107.1 Q 38.3 114.7 23.9 117.9 M 33.2 91.5 Q 41.0 80.2 44.8 67.0 M 33.2 91.5 Q 23.1 100.7 10.5 106.2 M 125.2 145.8 Q 131.3 153.9 139.5 159.7 M 125.2 145.8 Q 128.3 136.2 134.3 128.0 M 139.6 143.4 Q 143.8 151.5 150.3 157.9 M 139.6 143.4 Q 141.0 134.4 145.1 126.2 M 154.0 141.0 Q 156.4 149.1 161.1 156.1 M 154.0 141.0 Q 153.6 132.6 155.9 124.4 M 74.8 145.8 Q 71.7 136.2 65.7 128.0 M 74.8 145.8 Q 68.7 153.9 60.5 159.7 M 60.4 143.4 Q 59.0 134.4 54.9 126.2 M 60.4 143.4 Q 56.2 151.5 49.7 157.9 M 46.0 141.0 Q 46.4 132.6 44.1 124.4 M 46.0 141.0 Q 43.6 149.1 38.9 156.1 M 108.4 153.8 Q 108.6 157.5 109.9 160.9 M 108.4 153.8 Q 111.3 151.6 114.7 150.4 M 113.2 156.1 Q 112.8 159.3 113.5 162.6 M 113.2 156.1 Q 115.4 153.6 118.3 152.0 M 118.0 158.2 Q 117.1 161.2 117.1 164.2 M 118.0 158.2 Q 119.6 155.6 121.9 153.7 M 91.6 153.8 Q 88.7 151.6 85.3 150.4 M 91.6 153.8 Q 91.4 157.5 90.1 160.9 M 86.8 156.1 Q 84.6 153.6 81.7 152.0 M 86.8 156.1 Q 87.2 159.3 86.5 162.6 M 82.0 158.2 Q 80.4 155.6 78.1 153.7 M 82.0 158.2 Q 82.9 161.2 82.9 164.2" stroke="rgba(255,215,170,0.45)" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+              <path d="M 100.0 150.0 Q 105.8 78.0 100.0 6.0 M 100.0 150.0 Q 147.6 114.6 189.0 72.0 M 100.0 150.0 Q 52.4 114.6 11.0 72.0 M 100.0 150.0 Q 136.5 146.9 172.0 138.0 M 100.0 150.0 Q 63.5 146.9 28.0 138.0 M 100.0 150.0 Q 111.6 156.5 124.0 161.0 M 100.0 150.0 Q 88.4 156.5 76.0 161.0" stroke="rgba(255,215,170,0.45)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+              <path d="M 100.0 150.0 L 113.5 150.4 L 126.8 161.9 L 129.6 149.5 L 141.2 147.6 L 152.1 152.6 L 157.2 139.5 L 174.7 138.3 L 165.2 124.1 L 179.1 118.2 L 164.0 111.1 L 152.4 108.0 L 145.1 100.9 L 159.7 95.7 L 169.2 99.6 L 172.2 87.4 L 191.5 71.7 L 180.2 65.6 L 187.0 52.4 L 169.5 52.8 L 166.0 42.4 L 155.6 54.7 L 140.3 69.0 L 130.2 71.7 L 120.8 63.6 L 126.9 53.1 L 139.2 43.7 L 129.0 37.0 L 136.4 22.5 L 117.2 25.4 L 100.0 3.0 L 82.6 25.4 L 64.5 24.3 L 70.2 39.6 L 61.1 42.9 L 72.5 51.6 L 76.4 65.5 L 72.3 74.3 L 60.0 70.0 L 45.3 53.4 L 33.4 41.7 L 28.6 53.5 L 12.5 51.5 L 19.7 62.4 L 9.6 71.2 L 28.9 86.3 L 31.2 99.9 L 38.6 98.1 L 55.5 99.5 L 49.0 107.9 L 38.4 110.9 L 20.5 118.3 L 34.8 124.3 L 27.1 140.4 L 42.0 139.6 L 48.9 149.8 L 61.3 147.9 L 71.8 149.6 L 75.3 162.5 L 89.0 151.4 Z" fill="url(#lf5-sheen)"/>
+            </g>
+          </svg>
           <div class="leaf-content">
             <span class="leaf-number">05</span>
             <i class="fas fa-rocket"></i>
             <h3>Deploy</h3>
           </div>
         </div>
-        <p class="leaf-text">Publish it online with GitHub Pages or Render, or on AWS: S3 for static sites, EC2 for servers.</p>
+        <p class="leaf-text"><span class="leaf-stage">Peak colour</span>Publish it online with GitHub Pages or Render, or on AWS: S3 for static sites, EC2 for servers.</p>
       </li>
 
-      <li class="branch" style="--leaf: #795548; --ink: #ffffff;">
+      <li class="branch fallen" style="--ink: #ffffff; --stage: #6b3d1a; --scale: 0.95;">
         <div class="leaf">
-          <i class="fab fa-canadian-maple-leaf leaf-shape" aria-hidden="true"></i>
+          <svg class="leaf-svg" viewBox="0 0 200 220" aria-hidden="true">
+            <defs>
+              <radialGradient id="lf6-fill" cx="50%" cy="45%" r="62%">
+                <stop offset="0%" stop-color="#d39a52"/>
+                <stop offset="100%" stop-color="#6b3d1a"/>
+              </radialGradient>
+              <linearGradient id="lf6-sheen" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.28"/>
+                <stop offset="55%" stop-color="#ffffff" stop-opacity="0"/>
+              </linearGradient>
+              <filter id="lf6-tex" x="0" y="0" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="9" result="noise"/>
+                <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.22 0" result="grain"/>
+                <feComposite in="grain" in2="SourceGraphic" operator="in" result="grainIn"/>
+                <feBlend in="SourceGraphic" in2="grainIn" mode="multiply"/>
+              </filter>
+              <clipPath id="lf6-clip"><path d="M 100.0 150.0 L 111.6 151.9 L 125.7 162.8 L 127.7 151.5 L 139.2 147.4 L 149.4 150.4 L 157.5 138.9 L 174.8 138.4 L 166.9 126.5 L 177.2 118.3 L 164.0 112.5 L 149.5 107.9 L 146.4 100.3 L 159.1 96.4 L 168.2 100.9 L 171.5 85.8 L 191.5 73.4 L 178.3 62.5 L 188.5 52.1 L 171.9 54.1 L 166.2 39.9 L 154.4 53.9 L 139.6 69.6 L 129.7 71.4 L 123.1 65.0 L 128.3 51.9 L 139.9 43.9 L 129.4 38.0 L 133.5 21.9 L 117.1 25.7 L 100.0 3.0 L 83.2 25.1 L 65.5 24.0 L 70.1 37.0 L 62.2 43.8 L 72.2 53.2 L 77.8 66.1 L 69.7 71.8 L 58.1 68.7 L 45.0 52.7 L 33.5 42.4 L 27.5 53.0 L 12.9 49.5 L 20.9 64.7 L 8.6 70.5 L 26.7 84.9 L 31.1 101.3 L 39.0 95.4 L 54.4 100.2 L 49.8 106.9 L 37.6 113.4 L 23.3 115.8 L 32.4 125.4 L 24.7 137.8 L 41.1 138.7 L 49.5 152.0 L 61.4 147.9 L 71.4 151.0 L 74.5 162.7 L 87.6 152.1 Z"/></clipPath>
+            </defs>
+            <path d="M100 150 Q 101 185 97 216" stroke="#6b3d1a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <path d="M 100.0 150.0 L 111.6 151.9 L 125.7 162.8 L 127.7 151.5 L 139.2 147.4 L 149.4 150.4 L 157.5 138.9 L 174.8 138.4 L 166.9 126.5 L 177.2 118.3 L 164.0 112.5 L 149.5 107.9 L 146.4 100.3 L 159.1 96.4 L 168.2 100.9 L 171.5 85.8 L 191.5 73.4 L 178.3 62.5 L 188.5 52.1 L 171.9 54.1 L 166.2 39.9 L 154.4 53.9 L 139.6 69.6 L 129.7 71.4 L 123.1 65.0 L 128.3 51.9 L 139.9 43.9 L 129.4 38.0 L 133.5 21.9 L 117.1 25.7 L 100.0 3.0 L 83.2 25.1 L 65.5 24.0 L 70.1 37.0 L 62.2 43.8 L 72.2 53.2 L 77.8 66.1 L 69.7 71.8 L 58.1 68.7 L 45.0 52.7 L 33.5 42.4 L 27.5 53.0 L 12.9 49.5 L 20.9 64.7 L 8.6 70.5 L 26.7 84.9 L 31.1 101.3 L 39.0 95.4 L 54.4 100.2 L 49.8 106.9 L 37.6 113.4 L 23.3 115.8 L 32.4 125.4 L 24.7 137.8 L 41.1 138.7 L 49.5 152.0 L 61.4 147.9 L 71.4 151.0 L 74.5 162.7 L 87.6 152.1 Z" fill="url(#lf6-fill)" filter="url(#lf6-tex)" stroke="#6b3d1a" stroke-width="1.2" stroke-linejoin="round"/>
+            <g clip-path="url(#lf6-clip)">
+              <ellipse cx="92" cy="58" rx="2.5" ry="2.1" fill="#4a2810" opacity="0.35"/><ellipse cx="121" cy="63" rx="3.1" ry="3.2" fill="#4a2810" opacity="0.35"/><ellipse cx="103" cy="124" rx="3.5" ry="2.6" fill="#4a2810" opacity="0.35"/><ellipse cx="109" cy="60" rx="4.7" ry="2.4" fill="#4a2810" opacity="0.35"/><ellipse cx="91" cy="101" rx="2.5" ry="3.2" fill="#4a2810" opacity="0.35"/><ellipse cx="128" cy="70" rx="4.8" ry="2.8" fill="#4a2810" opacity="0.35"/><ellipse cx="122" cy="82" rx="3.2" ry="2.2" fill="#4a2810" opacity="0.35"/>
+              <path d="M 100.0 99.6 Q 117.7 90.4 131.7 76.2 M 100.0 99.6 Q 82.3 90.4 68.3 76.2 M 100.0 70.8 Q 117.1 65.2 131.7 54.6 M 100.0 70.8 Q 82.9 65.2 68.3 54.6 M 100.0 42.0 Q 116.6 40.0 131.7 33.0 M 100.0 42.0 Q 83.4 40.0 68.3 33.0 M 131.2 122.7 Q 146.4 128.7 162.8 129.6 M 131.2 122.7 Q 127.2 106.8 128.5 90.4 M 148.9 107.1 Q 161.7 114.7 176.1 117.9 M 148.9 107.1 Q 143.1 93.5 141.8 78.7 M 166.8 91.5 Q 176.9 100.7 189.5 106.2 M 166.8 91.5 Q 159.0 80.2 155.2 67.0 M 68.8 122.7 Q 72.8 106.8 71.5 90.4 M 68.8 122.7 Q 53.6 128.7 37.2 129.6 M 51.0 107.1 Q 56.9 93.5 58.2 78.7 M 51.0 107.1 Q 38.3 114.7 23.9 117.9 M 33.2 91.5 Q 41.0 80.2 44.8 67.0 M 33.2 91.5 Q 23.1 100.7 10.5 106.2 M 125.2 145.8 Q 131.3 153.9 139.5 159.7 M 125.2 145.8 Q 128.3 136.2 134.3 128.0 M 139.6 143.4 Q 143.8 151.5 150.3 157.9 M 139.6 143.4 Q 141.0 134.4 145.1 126.2 M 154.0 141.0 Q 156.4 149.1 161.1 156.1 M 154.0 141.0 Q 153.6 132.6 155.9 124.4 M 74.8 145.8 Q 71.7 136.2 65.7 128.0 M 74.8 145.8 Q 68.7 153.9 60.5 159.7 M 60.4 143.4 Q 59.0 134.4 54.9 126.2 M 60.4 143.4 Q 56.2 151.5 49.7 157.9 M 46.0 141.0 Q 46.4 132.6 44.1 124.4 M 46.0 141.0 Q 43.6 149.1 38.9 156.1 M 108.4 153.8 Q 108.6 157.5 109.9 160.9 M 108.4 153.8 Q 111.3 151.6 114.7 150.4 M 113.2 156.1 Q 112.8 159.3 113.5 162.6 M 113.2 156.1 Q 115.4 153.6 118.3 152.0 M 118.0 158.2 Q 117.1 161.2 117.1 164.2 M 118.0 158.2 Q 119.6 155.6 121.9 153.7 M 91.6 153.8 Q 88.7 151.6 85.3 150.4 M 91.6 153.8 Q 91.4 157.5 90.1 160.9 M 86.8 156.1 Q 84.6 153.6 81.7 152.0 M 86.8 156.1 Q 87.2 159.3 86.5 162.6 M 82.0 158.2 Q 80.4 155.6 78.1 153.7 M 82.0 158.2 Q 82.9 161.2 82.9 164.2" stroke="rgba(255,230,190,0.35)" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+              <path d="M 100.0 150.0 Q 105.8 78.0 100.0 6.0 M 100.0 150.0 Q 147.6 114.6 189.0 72.0 M 100.0 150.0 Q 52.4 114.6 11.0 72.0 M 100.0 150.0 Q 136.5 146.9 172.0 138.0 M 100.0 150.0 Q 63.5 146.9 28.0 138.0 M 100.0 150.0 Q 111.6 156.5 124.0 161.0 M 100.0 150.0 Q 88.4 156.5 76.0 161.0" stroke="rgba(255,230,190,0.35)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+              <path d="M 100.0 150.0 L 111.6 151.9 L 125.7 162.8 L 127.7 151.5 L 139.2 147.4 L 149.4 150.4 L 157.5 138.9 L 174.8 138.4 L 166.9 126.5 L 177.2 118.3 L 164.0 112.5 L 149.5 107.9 L 146.4 100.3 L 159.1 96.4 L 168.2 100.9 L 171.5 85.8 L 191.5 73.4 L 178.3 62.5 L 188.5 52.1 L 171.9 54.1 L 166.2 39.9 L 154.4 53.9 L 139.6 69.6 L 129.7 71.4 L 123.1 65.0 L 128.3 51.9 L 139.9 43.9 L 129.4 38.0 L 133.5 21.9 L 117.1 25.7 L 100.0 3.0 L 83.2 25.1 L 65.5 24.0 L 70.1 37.0 L 62.2 43.8 L 72.2 53.2 L 77.8 66.1 L 69.7 71.8 L 58.1 68.7 L 45.0 52.7 L 33.5 42.4 L 27.5 53.0 L 12.9 49.5 L 20.9 64.7 L 8.6 70.5 L 26.7 84.9 L 31.1 101.3 L 39.0 95.4 L 54.4 100.2 L 49.8 106.9 L 37.6 113.4 L 23.3 115.8 L 32.4 125.4 L 24.7 137.8 L 41.1 138.7 L 49.5 152.0 L 61.4 147.9 L 71.4 151.0 L 74.5 162.7 L 87.6 152.1 Z" fill="url(#lf6-sheen)"/>
+            </g>
+          </svg>
           <div class="leaf-content">
             <span class="leaf-number">06</span>
             <i class="fas fa-sync-alt"></i>
             <h3>Maintain</h3>
           </div>
         </div>
-        <p class="leaf-text">Keep it updated, secure, and improving after launch.</p>
+        <p class="leaf-text"><span class="leaf-stage">Falling leaf</span>Keep it updated, secure, and improving after launch, ready for the next season.</p>
       </li>
     </ol>
   </section>
@@ -439,7 +596,7 @@
   </footer>
 
   <!-- JavaScript Files -->
-  <script src="js/spider-web.js?v=2026-11-17q"></script>
-  <script src="js/project.js?v=2026-11-17q"></script>
+  <script src="js/spider-web.js?v=2026-11-17r"></script>
+  <script src="js/project.js?v=2026-11-17r"></script>
 </body>
 </html>

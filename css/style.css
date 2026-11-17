@@ -608,21 +608,18 @@ section {
     transform: rotate(-14deg);
 }
 
-/* The leaf */
+/* The leaf: a drawn SVG maple leaf (veins, shading, texture) with the step on top */
 .leaf {
     position: relative;
     flex: 0 0 var(--leaf-size);
     width: var(--leaf-size);
-    height: var(--leaf-size);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transform-origin: 100% 60%;
+    height: calc(var(--leaf-size) * 1.1);
+    transform-origin: 100% 45%;
     animation: leaf-sway 6s ease-in-out infinite;
 }
 
 .branch:nth-child(even) .leaf {
-    transform-origin: 0% 60%;
+    transform-origin: 0% 45%;
 }
 
 .branch:nth-child(2) .leaf { animation-delay: -1s; }
@@ -636,15 +633,14 @@ section {
     50% { transform: rotate(3deg); }
 }
 
-.leaf-shape {
+/* The drawing; --scale makes the bud and young leaf smaller than the grown ones */
+.leaf-svg {
     position: absolute;
     inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--leaf-size);
-    color: var(--leaf);
-    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.28));
+    width: 100%;
+    height: 100%;
+    transform: scale(var(--scale, 1));
+    filter: drop-shadow(0 6px 9px rgba(0, 0, 0, 0.28));
     transition: filter 0.3s ease, transform 0.3s ease;
 }
 
@@ -652,18 +648,44 @@ section {
     animation-play-state: paused;
 }
 
-.branch:hover .leaf-shape {
-    transform: scale(1.06);
-    filter: brightness(1.12) drop-shadow(0 8px 14px rgba(0, 0, 0, 0.35));
+.branch:hover .leaf-svg {
+    transform: scale(calc(var(--scale, 1) * 1.06));
+    filter: brightness(1.08) drop-shadow(0 8px 14px rgba(0, 0, 0, 0.35));
 }
 
-/* Text inside the leaf */
+/* The falling leaf (Maintain): no branch, it drifts down toward the ground */
+.branch.fallen::before {
+    display: none;
+}
+
+.branch.fallen .leaf {
+    transform-origin: 50% 40%;
+    animation: leaf-fall 7s ease-in-out infinite;
+}
+
+@keyframes leaf-fall {
+    0%, 100% { transform: translate(0, -6px) rotate(16deg); }
+    50% { transform: translate(14px, 10px) rotate(32deg); }
+}
+
+/* Step written on the leaf; the colour comes from --ink so it always
+   contrasts with that leaf (dark on light green and yellow, white on the rest) */
 .leaf-content {
-    position: relative;
-    margin-top: -14px;          /* the leaf's middle sits a little above its stem */
+    position: absolute;
+    top: 41%;                   /* centre of the leaf blade (the stem is below) */
+    left: 50%;
+    transform: translate(-50%, -50%);
     text-align: center;
     color: var(--ink);
     line-height: 1.15;
+    white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+/* Dark text gets a soft light glow instead of a dark shadow */
+.branch[style*="--ink: #1"] .leaf-content,
+.branch[style*="--ink: #2"] .leaf-content {
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.45);
 }
 
 .leaf-number {
@@ -697,6 +719,21 @@ section {
 
 .branch:nth-child(even) .leaf-text {
     text-align: left;
+}
+
+/* The stage of the leaf's life above each explanation (Bud, Young leaf...) */
+.leaf-stage {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.78em;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--stage);
+}
+
+body.dark-mode .leaf-stage {
+    color: color-mix(in srgb, var(--stage) 55%, #ffffff);
 }
 
 /* ---------- Projects ---------- */
