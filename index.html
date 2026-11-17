@@ -26,7 +26,7 @@
   <!-- Font Awesome icons and main CSS file -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
   <!-- ?v= changes with each release so browsers never mix old cached files with the new page -->
-  <link rel="stylesheet" href="css/style.css?v=2026-11-17w"/>
+  <link rel="stylesheet" href="css/style.css?v=2026-11-17x"/>
 </head>
 <body>
   <!-- Apply the saved dark mode before the page is drawn (avoids a light flash) -->
@@ -134,52 +134,76 @@
     </div>
   </section>
 
-  <!-- Skills section -->
+  <!-- Skills section: one tile per skill with its real logo; each opens the official site.
+       Logos: Devicon (MIT) via jsDelivr, Simple Icons (CC0), Font Awesome. -->
   <section class="skills" id="skills">
     <h2 class="title">Skills</h2>
 
     <div class="skills-grid">
       <div class="skill-group">
         <h3><i class="fas fa-laptop-code"></i> Front End</h3>
-        <!-- Each skill opens its official website or documentation in a new tab -->
-        <ul>
-          <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank" rel="noopener" title="HTML on MDN"><i class="fab fa-html5"></i> HTML5</a></li>
-          <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank" rel="noopener" title="CSS on MDN"><i class="fab fa-css3-alt"></i> CSS3</a></li>
-          <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noopener" title="JavaScript on MDN"><i class="fab fa-js-square"></i> JavaScript</a></li>
-          <li><a href="https://react.dev/" target="_blank" rel="noopener" title="React official site"><i class="fab fa-react"></i> React</a></li>
-          <li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout/Responsive_Design" target="_blank" rel="noopener" title="Responsive design on MDN"><i class="fas fa-mobile-alt"></i> Responsive Design</a></li>
-          <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API" target="_blank" rel="noopener" title="Canvas API on MDN"><i class="fas fa-paint-brush"></i> Canvas Animation</a></li>
+        <ul class="skill-tiles">
+          <li><a class="skill" href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank" rel="noopener" title="HTML5 official site">
+            <span class="skill-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/html5/html5-original.svg" alt="" width="34" height="34" loading="lazy"></span><span class="skill-name">HTML5</span></a></li>
+          <li><a class="skill" href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank" rel="noopener" title="CSS3 official site">
+            <span class="skill-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/css3/css3-original.svg" alt="" width="34" height="34" loading="lazy"></span><span class="skill-name">CSS3</span></a></li>
+          <li><a class="skill" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noopener" title="JavaScript official site">
+            <span class="skill-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/javascript/javascript-original.svg" alt="" width="34" height="34" loading="lazy"></span><span class="skill-name">JavaScript</span></a></li>
+          <li><a class="skill" href="https://react.dev/" target="_blank" rel="noopener" title="React official site">
+            <span class="skill-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/react/react-original.svg" alt="" width="34" height="34" loading="lazy"></span><span class="skill-name">React</span></a></li>
+          <li><a class="skill" href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout/Responsive_Design" target="_blank" rel="noopener" title="Responsive official site">
+            <span class="skill-logo"><i class="fas fa-mobile-screen-button" style="color: #7c4dff"></i></span><span class="skill-name">Responsive</span></a></li>
+          <li><a class="skill" href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API" target="_blank" rel="noopener" title="Canvas official site">
+            <span class="skill-logo"><i class="fas fa-paintbrush" style="color: #e44d26"></i></span><span class="skill-name">Canvas</span></a></li>
         </ul>
       </div>
 
       <div class="skill-group">
         <h3><i class="fas fa-server"></i> Back End</h3>
-        <ul>
-          <li><a href="https://nodejs.org/" target="_blank" rel="noopener" title="Node.js official site"><i class="fab fa-node-js"></i> Node.js</a></li>
-          <li><a href="https://expressjs.com/" target="_blank" rel="noopener" title="Express.js official site"><i class="fas fa-route"></i> Express.js</a></li>
-          <li><a href="https://www.mongodb.com/" target="_blank" rel="noopener" title="MongoDB official site"><i class="fas fa-database"></i> MongoDB</a></li>
-          <li><a href="https://mongoosejs.com/" target="_blank" rel="noopener" title="Mongoose official site"><i class="fas fa-cubes"></i> Mongoose</a></li>
-          <li><a href="https://ejs.co/" target="_blank" rel="noopener" title="EJS official site"><i class="fas fa-file-code"></i> EJS Templates</a></li>
-          <li><a href="https://www.passportjs.org/" target="_blank" rel="noopener" title="Passport.js official site"><i class="fas fa-user-lock"></i> Passport.js Auth</a></li>
+        <ul class="skill-tiles">
+          <li><a class="skill" href="https://nodejs.org/" target="_blank" rel="noopener" title="Node.js official site">
+            <span class="skill-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/nodejs/nodejs-original.svg" alt="" width="34" height="34" loading="lazy"></span><span class="skill-name">Node.js</span></a></li>
+          <li><a class="skill" href="https://expressjs.com/" target="_blank" rel="noopener" title="Express.js official site">
+            <span class="skill-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/express/express-original.svg" alt="" width="34" height="34" loading="lazy"></span><span class="skill-name">Express.js</span></a></li>
+          <li><a class="skill" href="https://www.mongodb.com/" target="_blank" rel="noopener" title="MongoDB official site">
+            <span class="skill-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/mongodb/mongodb-original.svg" alt="" width="34" height="34" loading="lazy"></span><span class="skill-name">MongoDB</span></a></li>
+          <li><a class="skill" href="https://mongoosejs.com/" target="_blank" rel="noopener" title="Mongoose official site">
+            <span class="skill-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/mongoose/mongoose-original.svg" alt="" width="34" height="34" loading="lazy"></span><span class="skill-name">Mongoose</span></a></li>
+          <li><a class="skill" href="https://ejs.co/" target="_blank" rel="noopener" title="EJS official site">
+            <span class="skill-logo"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#B4CA65" d="m8.291 5.696-1.258-1.58 1.668-1.55 1.258 1.58-1.668 1.55zm2.34 2.048.205-1.55-5.412-.03-.204 1.55 3.945.022L7.8 17.852l-.839.77-.405-.004c.385.403.803.81 1.236 1.214l1.378-1.265 1.458-10.823h.004zm-6.757 7.254s2.925-.468 3.54.38c0 0-1.756-2.925-4.184-2.925 0-.074-.098-1.353 5.146-2.609l.206-1.53c-8.346 1.108-14.287 4.322.265 13.12 0 0-5.675-4.71-4.973-6.436zM13 6.223 11.216 7.86l-.526 4.037 1.316 1.638 5.675.058.556.702-.38 2.633-.713.685-.018.017h2.193l.556-4.037-1.345-1.638-5.646-.058-.556-.702.351-2.633.731-.702 5.032.058.556.673-.176 1.229h1.55l.264-1.902-1.317-1.667-6.318-.03zm2.882 11.908.545-.523-4.305-.035-.965-1.17-1.258 1.17 1.346 1.667 6.318.03 1.22-1.139h-2.901zM13.13 8.965a103.16 103.16 0 0 1 4.624-.554l-4.145-.048-.457.44-.022.162zm8.026-1.156-.025.179-.018.132c.92-.07 1.87-.139 2.887-.2 0 0-1.113-.067-2.844-.11zM1.914 18.392l1.404 1.784 2.66.02c-1.292-.875-2.393-1.708-3.296-2.499l-.768.695z"/></svg></span><span class="skill-name">EJS</span></a></li>
+          <li><a class="skill" href="https://www.passportjs.org/" target="_blank" rel="noopener" title="Passport.js official site">
+            <span class="skill-logo"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#34E27A" d="M11.875 0A9.6 9.6 0 0 0 2.4 9.475h4.8A4.81 4.81 0 0 1 11.875 4.8zm.25 0v4.8A4.81 4.81 0 0 1 16.8 9.475h4.8A9.6 9.6 0 0 0 12.125 0zM2.4 9.725V24H12v-4.8H7.2V9.724zm9.6 9.474a9.599 9.599 0 0 0 9.6-9.474h-4.8A4.807 4.807 0 0 1 12 14.4z"/></svg></span><span class="skill-name">Passport.js</span></a></li>
         </ul>
       </div>
 
       <div class="skill-group">
-        <h3><i class="fas fa-tools"></i> Tools</h3>
-        <ul>
-          <li><a href="https://code.visualstudio.com/" target="_blank" rel="noopener" title="Visual Studio Code"><i class="fas fa-code"></i> VS Code</a></li>
-          <li><a href="https://www.jetbrains.com/webstorm/" target="_blank" rel="noopener" title="WebStorm by JetBrains"><i class="fas fa-laptop-code"></i> WebStorm</a></li>
-          <li><a href="https://git-scm.com/" target="_blank" rel="noopener" title="Git official site"><i class="fab fa-git-alt"></i> Git</a></li>
-          <li><a href="https://github.com/" target="_blank" rel="noopener" title="GitHub"><i class="fab fa-github"></i> GitHub</a></li>
-          <li><a href="https://pages.github.com/" target="_blank" rel="noopener" title="GitHub Pages"><i class="fas fa-globe"></i> GitHub Pages</a></li>
-          <li><a href="https://www.mongodb.com/atlas" target="_blank" rel="noopener" title="MongoDB Atlas"><i class="fas fa-cloud"></i> MongoDB Atlas</a></li>
-          <li><a href="https://www.postman.com/" target="_blank" rel="noopener" title="Postman official site"><i class="fas fa-plug"></i> Postman</a></li>
-          <li><a href="https://learn.microsoft.com/powershell/" target="_blank" rel="noopener" title="PowerShell documentation"><i class="fas fa-terminal"></i> PowerShell</a></li>
-          <li><a href="https://docs.npmjs.com/" target="_blank" rel="noopener" title="npm documentation"><i class="fab fa-npm"></i> npm</a></li>
-          <li><a href="https://render.com/" target="_blank" rel="noopener" title="Render official site"><i class="fas fa-cloud-upload-alt"></i> Render</a></li>
-          <li><a href="https://aws.amazon.com/" target="_blank" rel="noopener" title="Amazon Web Services"><i class="fab fa-aws"></i> AWS (EC2, S3)</a></li>
+        <h3><i class="fas fa-screwdriver-wrench"></i> Tools</h3>
+        <ul class="skill-tiles">
+          <li><a class="skill" href="https://code.visualstudio.com/" target="_blank" rel="noopener" title="VS Code official site">
+            <span class="skill-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/vscode/vscode-original.svg" alt="" width="34" height="34" loading="lazy"></span><span class="skill-name">VS Code</span></a></li>
+          <li><a class="skill" href="https://www.jetbrains.com/webstorm/" target="_blank" rel="noopener" title="WebStorm official site">
+            <span class="skill-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/webstorm/webstorm-original.svg" alt="" width="34" height="34" loading="lazy"></span><span class="skill-name">WebStorm</span></a></li>
+          <li><a class="skill" href="https://git-scm.com/" target="_blank" rel="noopener" title="Git official site">
+            <span class="skill-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/git/git-original.svg" alt="" width="34" height="34" loading="lazy"></span><span class="skill-name">Git</span></a></li>
+          <li><a class="skill" href="https://github.com/" target="_blank" rel="noopener" title="GitHub official site">
+            <span class="skill-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/github/github-original.svg" alt="" width="34" height="34" loading="lazy"></span><span class="skill-name">GitHub</span></a></li>
+          <li><a class="skill" href="https://pages.github.com/" target="_blank" rel="noopener" title="GitHub Pages official site">
+            <span class="skill-logo"><i class="fas fa-globe" style="color: #24292f"></i></span><span class="skill-name">GitHub Pages</span></a></li>
+          <li><a class="skill" href="https://www.postman.com/" target="_blank" rel="noopener" title="Postman official site">
+            <span class="skill-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/postman/postman-original.svg" alt="" width="34" height="34" loading="lazy"></span><span class="skill-name">Postman</span></a></li>
+          <li><a class="skill" href="https://learn.microsoft.com/powershell/" target="_blank" rel="noopener" title="PowerShell official site">
+            <span class="skill-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/powershell/powershell-original.svg" alt="" width="34" height="34" loading="lazy"></span><span class="skill-name">PowerShell</span></a></li>
+          <li><a class="skill" href="https://docs.npmjs.com/" target="_blank" rel="noopener" title="npm official site">
+            <span class="skill-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/npm/npm-original-wordmark.svg" alt="" width="34" height="34" loading="lazy"></span><span class="skill-name">npm</span></a></li>
+          <li><a class="skill" href="https://render.com/" target="_blank" rel="noopener" title="Render official site">
+            <span class="skill-logo"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#000000" d="M18.263.007c-3.121-.147-5.744 2.109-6.192 5.082-.018.138-.045.272-.067.405-.696 3.703-3.936 6.507-7.827 6.507-1.388 0-2.691-.356-3.825-.979a.2024.2024 0 0 0-.302.178V24H12v-8.999c0-1.656 1.338-3 2.987-3h2.988c3.382 0 6.103-2.817 5.97-6.244-.12-3.084-2.61-5.603-5.682-5.75"/></svg></span><span class="skill-name">Render</span></a></li>
+          <li><a class="skill" href="https://aws.amazon.com/" target="_blank" rel="noopener" title="AWS (EC2, S3) official site">
+            <span class="skill-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="" width="34" height="34" loading="lazy"></span><span class="skill-name">AWS (EC2, S3)</span></a></li>
+          <li><a class="skill" href="https://www.mongodb.com/atlas" target="_blank" rel="noopener" title="MongoDB Atlas official site">
+            <span class="skill-logo"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/mongodb/mongodb-original.svg" alt="" width="34" height="34" loading="lazy"></span><span class="skill-name">MongoDB Atlas</span></a></li>
         </ul>
       </div>
+
     </div>
 
     <p class="languages">
@@ -447,7 +471,7 @@
   </footer>
 
   <!-- JavaScript Files -->
-  <script src="js/spider-web.js?v=2026-11-17w"></script>
-  <script src="js/project.js?v=2026-11-17w"></script>
+  <script src="js/spider-web.js?v=2026-11-17x"></script>
+  <script src="js/project.js?v=2026-11-17x"></script>
 </body>
 </html>

@@ -425,25 +425,27 @@ section {
 }
 
 /* ---------- Skills ---------- */
+/* Three groups (Front End, Back End, Tools), each a card of logo tiles */
 .skills-grid {
-    max-width: 1050px;
+    max-width: 1150px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: 1fr 1fr 1.35fr;   /* Tools has the most tiles */
     gap: 22px;
+    align-items: stretch;                    /* cards share the same height */
 }
 
 .skill-group {
     background: var(--surface);
     border-radius: 18px;
     border-top: 4px solid var(--yellow);
-    padding: 24px 26px;
+    padding: 22px 20px 24px;
     box-shadow: var(--shadow);
 }
 
 .skill-group h3 {
-    font-size: 1.15em;
-    margin-bottom: 14px;
+    font-size: 1.1em;
+    margin-bottom: 16px;
     color: var(--text);
 }
 
@@ -452,55 +454,99 @@ section {
     margin-right: 8px;
 }
 
-.skill-group ul {
+/* The tiles fill the card in as many columns as fit */
+.skill-tiles {
     list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(86px, 1fr));
+    gap: 12px;
 }
 
-/* Each skill is a link to its official site, styled as a chip */
-.skill-group li a {
-    display: inline-flex;
+/* One tile: logo on a white badge, name underneath */
+.skill {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 8px;
-    padding: 7px 13px;
-    border-radius: 20px;
-    background: var(--surface-alt);
+    padding: 12px 6px 10px;
+    border-radius: 14px;
     border: 1px solid var(--border);
+    background: var(--surface-alt);
     color: var(--text);
-    font-size: 0.9em;
-    font-weight: 600;
     text-decoration: none;
-    transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+    text-align: center;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.skill-group li a i {
-    color: var(--accent);
-    font-size: 1.1em;
+/* White badge behind every logo, so dark and light logos both show in dark mode */
+.skill-logo {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-/* Small arrow appears on hover to show it opens a site */
-.skill-group li a::after {
-    content: "\2197";
-    font-size: 0.8em;
-    color: var(--yellow-dark);
-    opacity: 0;
-    margin-left: -4px;
-    transition: opacity 0.2s ease, margin-left 0.2s ease;
+.skill-logo img,
+.skill-logo svg {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
 }
 
-.skill-group li a:hover,
-.skill-group li a:focus-visible {
+.skill-logo i {
+    font-size: 1.6rem;
+}
+
+.skill-name {
+    font-size: 0.78em;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.skill:hover,
+.skill:focus-visible {
+    transform: translateY(-4px);
     border-color: var(--yellow);
-    background-color: rgba(255, 215, 0, 0.15);
-    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(255, 215, 0, 0.25);
 }
 
-.skill-group li a:hover::after,
-.skill-group li a:focus-visible::after {
-    opacity: 1;
-    margin-left: 0;
+.skill:hover .skill-logo {
+    transform: scale(1.06);
+}
+
+.skill-logo {
+    transition: transform 0.2s ease;
+}
+
+/* Tablets: the three cards stack; phones: smaller tiles */
+@media (max-width: 1000px) {
+    .skills-grid {
+        grid-template-columns: 1fr;
+        max-width: 640px;
+    }
+}
+
+@media (max-width: 480px) {
+    .skill-tiles {
+        grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+        gap: 10px;
+    }
+
+    .skill-logo {
+        width: 46px;
+        height: 46px;
+    }
+
+    .skill-logo img,
+    .skill-logo svg {
+        width: 30px;
+        height: 30px;
+    }
 }
 
 .languages {
