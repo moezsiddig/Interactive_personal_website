@@ -7,13 +7,44 @@ const budget = document.getElementById("budget");
 const message = document.getElementById("message");
 const formResult = document.getElementById("formResult");
 
-// Where project requests are sent
-const CONTACT_EMAIL = "moezsiddig@gmail.com";
+const honeypot = document.getElementById("website");    // hidden trap field for spam bots
+const sendButton = requestForm.querySelector("button[type='submit']");
 
-// Build a "mailto:" link with the request as a ready-made email to Moez.
-// encodeURIComponent makes the typed text safe to put inside a link.
+// Where project requests are sent.
+// FormSubmit (free, no account) forwards the form to this inbox.
+const CONTACT_EMAIL = "moezsiddig@gmail.com";
+const FORM_ENDPOINT = "https://formsubmit.co/ajax/" + CONTACT_EMAIL;
+
+function requestSubject() {
+    return "Project request: " + projectType.value + " (" + userName.value.trim() + ")";
+}
+
+// Send the request straight to Moez's inbox. Resolves true when it arrived.
+function sendRequest() {
+    return fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+            name: userName.value.trim(),
+            email: userEmail.value.trim(),
+            project_type: projectType.value,
+            budget: budget.value,
+            message: message.value.trim(),
+            _subject: requestSubject(),
+            _replyto: userEmail.value.trim(),   // pressing Reply answers the visitor
+            _template: "table",
+            _honey: honeypot ? honeypot.value : ""
+        })
+    })
+        .then(function (response) { return response.json(); })
+        .then(function (data) { return data.success === true || data.success === "true"; })
+        .catch(function () { return false; });
+}
+
+// Backup plan: a "mailto:" link that opens the visitor's own email app
+// with the request ready to send. encodeURIComponent makes the text safe in a link.
 function buildRequestEmail() {
-    const subject = "Project request: " + projectType.value + " (" + userName.value.trim() + ")";
+    const subject = requestSubject();
     const body = [
         "Hello Moez,",
         "",
@@ -58,14 +89,22 @@ requestForm.addEventListener("submit", function (event) {
         return;
     }
 
-    // Send the request: open the visitor's email app with the ready-made message
-    window.location.href = buildRequestEmail();
+    // Send it, and stop double clicks while it is on its way
+    sendButton.disabled = true;
+    showResult("Sending your request...", false);
 
-    // Tell the visitor what happens next (textContent: shown as plain text)
-    showResult("Your email app is opening with your request. Just press Send! " +
-        "If nothing opens, email me at " + CONTACT_EMAIL + ".", false);
-
-    requestForm.reset();
+    sendRequest().then(function (sent) {
+        sendButton.disabled = false;
+        if (sent) {
+            showResult("Thank you! Your request was sent. I will reply to you by email soon.", false);
+            requestForm.reset();
+        } else {
+            // The service did not answer: open the visitor's email app instead
+            window.location.href = buildRequestEmail();
+            showResult("Your email app is opening with your request. Just press Send! " +
+                "If nothing opens, email me at " + CONTACT_EMAIL + ".", false);
+        }
+    });
 });
 
 // Dark Mode Button (the choice is remembered for the next visit)

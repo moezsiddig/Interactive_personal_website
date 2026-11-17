@@ -667,6 +667,20 @@ section {
     margin-right: 6px;
 }
 
+#requestForm button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+/* Spam trap field: kept off screen so only bots fill it */
+.honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
 #requestForm input,
 #requestForm select,
 #requestForm textarea {
