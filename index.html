@@ -21,12 +21,12 @@
   <meta name="twitter:card" content="summary_large_image" />
 
   <!-- Browser tab icon -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0b0b'/%3E%3Ctext x='32' y='44' font-family='Arial' font-weight='800' font-size='34' text-anchor='middle' fill='%23FFD700'%3EM%3C/text%3E%3C/svg%3E" />
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
 
   <!-- Font Awesome icons and main CSS file -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
   <!-- ?v= changes with each release so browsers never mix old cached files with the new page -->
-  <link rel="stylesheet" href="css/style.css?v=2026-11-17y"/>
+  <link rel="stylesheet" href="css/style.css?v=2026-11-17z"/>
 </head>
 <body>
   <!-- Apply the saved dark mode before the page is drawn (avoids a light flash) -->
@@ -112,8 +112,12 @@
       </div>
     </div>
 
+    <!-- A small maple leaf drifting down invites the visitor to scroll -->
     <a href="#about-me" class="scroll-down" aria-label="Scroll to About Me">
-      <i class="fas fa-chevron-down"></i>
+      <svg viewBox="0 0 200 220" aria-hidden="true">
+        <path d="M100 150 L112 152 L126 163 L128 151 L140 147 L151 151 L158 140 L174 139 L166 125 L178 117 L163 112 L151 108 L146 101 L160 97 L169 100 L172 86 L191 72 L179 64 L187 51 L171 54 L167 41 L155 54 L141 69 L129 73 L122 65 L127 52 L139 44 L129 38 L135 23 L118 26 L100 3 L82 26 L65 23 L71 38 L61 44 L73 52 L78 65 L71 73 L59 69 L45 54 L33 41 L29 54 L13 51 L21 64 L9 72 L28 86 L31 100 L40 97 L54 101 L49 108 L37 112 L22 117 L34 125 L26 139 L42 140 L49 151 L60 147 L72 151 L74 163 L88 152Z"/>
+        <path class="leaf-stem" d="M100 150 Q101 185 97 214"/>
+      </svg>
     </a>
   </section>
 
@@ -475,7 +479,7 @@
   </footer>
 
   <!-- JavaScript Files -->
-  <script src="js/spider-web.js?v=2026-11-17y"></script>
-  <script src="js/project.js?v=2026-11-17y"></script>
+  <script src="js/spider-web.js?v=2026-11-17z"></script>
+  <script src="js/project.js?v=2026-11-17z"></script>
 </body>
 </html>

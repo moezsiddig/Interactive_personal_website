@@ -166,14 +166,14 @@ section {
     margin-bottom: 40px;
 }
 
+/* Under each section title: a short line with a small maple leaf in the middle */
 .title::after {
     content: "";
     display: block;
-    width: 70px;
-    height: 4px;
-    background-color: var(--yellow);
+    width: 140px;
+    height: 26px;
     margin: 10px auto 0;
-    border-radius: 10px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 26'%3E%3Cpath d='M4 13 H50 M90 13 H136' stroke='%23FFD700' stroke-width='4' stroke-linecap='round'/%3E%3Cg transform='translate%2857 0%29 scale%280.118%29'%3E%3Cpath d='M100 150 L112 152 L126 163 L128 151 L140 147 L151 151 L158 140 L174 139 L166 125 L178 117 L163 112 L151 108 L146 101 L160 97 L169 100 L172 86 L191 72 L179 64 L187 51 L171 54 L167 41 L155 54 L141 69 L129 73 L122 65 L127 52 L139 44 L129 38 L135 23 L118 26 L100 3 L82 26 L65 23 L71 38 L61 44 L73 52 L78 65 L71 73 L59 69 L45 54 L33 41 L29 54 L13 51 L21 64 L9 72 L28 86 L31 100 L40 97 L54 101 L49 108 L37 112 L22 117 L34 125 L26 139 L42 140 L49 151 L60 147 L72 151 L74 163 L88 152Z' fill='%23FFD700'/%3E%3Cpath d='M100 150 Q101 185 97 214' stroke='%23FFD700' stroke-width='14' fill='none' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E") no-repeat center / contain;
 }
 
 .content {
@@ -336,21 +336,46 @@ section {
     margin-top: 40px;
 }
 
+/* Scroll hint: a small yellow maple leaf drifting down and swaying */
 .scroll-down {
     position: absolute;
-    bottom: 26px;
+    bottom: 22px;
     left: 50%;
-    transform: translateX(-50%);
     z-index: 2;
-    color: var(--yellow);
-    font-size: 1.3rem;
-    animation: bounce 2s infinite;
+    width: 30px;
+    height: 33px;
+    margin-left: -15px;
+    animation: leaf-drift 3s ease-in-out infinite;
 }
 
-@keyframes bounce {
-    0%, 100% { transform: translate(-50%, 0); }
-    50% { transform: translate(-50%, 8px); }
+.scroll-down svg {
+    width: 100%;
+    height: 100%;
+    fill: var(--yellow);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
 }
+
+.scroll-down .leaf-stem {
+    fill: none;
+    stroke: var(--yellow);
+    stroke-width: 12;
+    stroke-linecap: round;
+}
+
+.scroll-down:hover svg {
+    fill: #ffffff;
+}
+
+.scroll-down:hover .leaf-stem {
+    stroke: #ffffff;
+}
+
+@keyframes leaf-drift {
+    0%   { transform: translate(0, -6px) rotate(-14deg); opacity: 0.6; }
+    50%  { transform: translate(6px, 4px) rotate(10deg); opacity: 1; }
+    100% { transform: translate(0, -6px) rotate(-14deg); opacity: 0.6; }
+}
+
 
 /* ---------- Buttons ---------- */
 .main-btn,
