@@ -26,7 +26,7 @@
   <!-- Font Awesome icons and main CSS file -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <!-- ?v= changes with each release so browsers never mix old cached files with the new page -->
-  <link rel="stylesheet" href="css/style.css?v=2026-11-17g"/>
+  <link rel="stylesheet" href="css/style.css?v=2026-11-17h"/>
 </head>
 <body>
   <!-- Apply the saved dark mode before the page is drawn (avoids a light flash) -->
@@ -55,7 +55,7 @@
       <a href="#home">Home</a>
       <a href="#about-me">About me</a>
       <a href="#skills">Skills</a>
-      <a href="#services">Services</a>
+      <a href="#process">Process</a>
       <a href="#projects">Projects</a>
       <a href="#request" class="nav-cta">
         <i class="fas fa-file-signature"></i> Request a Project
@@ -182,27 +182,54 @@
     </p>
   </section>
 
-  <!-- Services section -->
-  <section class="services" id="services">
-    <h2 class="title">Services</h2>
+  <!-- Process section: what I offer, step by step through the web development life cycle -->
+  <section class="process" id="process">
+    <h2 class="title">My Process</h2>
+    <p class="section-intro">From idea to launch: I take care of the full web development life cycle.</p>
 
-    <div class="content">
-      <div class="card">
-        <div class="info">
-          <div class="card-icon"><i class="fas fa-code"></i></div>
-          <h3>Coding</h3>
-          <p>Building full-stack web applications — responsive front ends with HTML, CSS, and JavaScript, and back ends with Node.js, Express, and MongoDB.</p>
-        </div>
-      </div>
+    <ol class="process-grid">
+      <li class="step">
+        <span class="step-number">01</span>
+        <div class="step-icon"><i class="fas fa-clipboard-list"></i></div>
+        <h3>Plan</h3>
+        <p>Understand your goals, users, and features, then agree on the scope and timeline.</p>
+      </li>
 
-      <div class="card">
-        <div class="info">
-          <div class="card-icon"><i class="fas fa-palette"></i></div>
-          <h3>Design</h3>
-          <p>Creating simple and attractive user interfaces that make websites easy to use and visually appealing.</p>
-        </div>
-      </div>
-    </div>
+      <li class="step">
+        <span class="step-number">02</span>
+        <div class="step-icon"><i class="fas fa-pencil-ruler"></i></div>
+        <h3>Design</h3>
+        <p>Sketch the layout and create a clean, responsive interface that is easy to use.</p>
+      </li>
+
+      <li class="step">
+        <span class="step-number">03</span>
+        <div class="step-icon"><i class="fas fa-code"></i></div>
+        <h3>Develop</h3>
+        <p>Build the front end with HTML, CSS, JavaScript, and React, and the back end with Node.js, Express.js, and MongoDB.</p>
+      </li>
+
+      <li class="step">
+        <span class="step-number">04</span>
+        <div class="step-icon"><i class="fas fa-bug"></i></div>
+        <h3>Test</h3>
+        <p>Check every page, form, and screen size, and fix bugs before anyone else finds them.</p>
+      </li>
+
+      <li class="step">
+        <span class="step-number">05</span>
+        <div class="step-icon"><i class="fas fa-rocket"></i></div>
+        <h3>Deploy</h3>
+        <p>Publish the site online with GitHub Pages or Render, ready for real visitors.</p>
+      </li>
+
+      <li class="step">
+        <span class="step-number">06</span>
+        <div class="step-icon"><i class="fas fa-sync-alt"></i></div>
+        <h3>Maintain</h3>
+        <p>Keep it updated, secure, and improving after launch.</p>
+      </li>
+    </ol>
   </section>
 
   <!-- Projects section -->
@@ -378,7 +405,7 @@
   </footer>
 
   <!-- JavaScript Files -->
-  <script src="js/spider-web.js?v=2026-11-17g"></script>
-  <script src="js/project.js?v=2026-11-17g"></script>
+  <script src="js/spider-web.js?v=2026-11-17h"></script>
+  <script src="js/project.js?v=2026-11-17h"></script>
 </body>
 </html>
