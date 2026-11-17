@@ -336,19 +336,63 @@ section {
     margin-top: 40px;
 }
 
-/* Small maple leaf on the hero buttons; it takes the button's text colour
-   and turns a little on hover, as if the wind moved it */
-.btn-leaf {
-    width: 1.05em;
-    height: 1.15em;
-    flex: none;
-    transition: transform 0.4s ease;
+/* Hero buttons as three maple leaves (green, yellow, red). The text sits on
+   the middle of the leaf blade; --ink is the colour that reads well on it. */
+.leaf-buttons {
+    gap: 6px;
+    align-items: center;
+    margin-top: 26px;
 }
 
-.main-btn:hover .btn-leaf,
-.third-btn:hover .btn-leaf,
-.contact-btn:hover .btn-leaf {
-    transform: rotate(-25deg) scale(1.15);
+.leaf-btn {
+    position: relative;
+    width: 128px;
+    height: 126px;                   /* leaf photo is 420 x 412 */
+    display: block;
+    text-decoration: none;
+    transform: rotate(-6deg);
+    transition: transform 0.35s ease;
+}
+
+.leaf-btn:nth-child(2) { transform: rotate(4deg); }
+.leaf-btn:nth-child(3) { transform: rotate(-3deg); }
+
+.leaf-btn img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45));
+    transition: filter 0.35s ease;
+}
+
+.leaf-btn span {
+    position: absolute;
+    top: 41%;
+    left: 53.7%;
+    transform: translate(-50%, -50%);
+    color: var(--ink);
+    font-weight: 800;
+    font-size: 0.86rem;
+    line-height: 1.15;
+    text-align: center;
+    white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.leaf-btn[style*="--ink: #2"] span {
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+/* Hover / keyboard focus: the leaf lifts, grows and turns, like a breeze */
+.leaf-btn:hover,
+.leaf-btn:focus-visible {
+    transform: translateY(-6px) rotate(10deg) scale(1.08);
+}
+
+.leaf-btn:hover img,
+.leaf-btn:focus-visible img {
+    filter: brightness(1.1) drop-shadow(0 10px 16px rgba(255, 215, 0, 0.35));
 }
 
 /* Scroll hint: a small yellow maple leaf drifting down and swaying */
@@ -1254,13 +1298,18 @@ body.dark-mode .request {
         font-size: 1rem;
     }
 
-    .hero-buttons {
-        flex-direction: column;
-        align-items: center;
+    /* The three leaves stay side by side, just a little smaller */
+    .leaf-buttons {
+        gap: 2px;
     }
 
-    .hero-buttons a {
-        width: 220px;
+    .leaf-btn {
+        width: 104px;
+        height: 102px;
+    }
+
+    .leaf-btn span {
+        font-size: 0.74rem;
     }
 
     .profile-photo {
