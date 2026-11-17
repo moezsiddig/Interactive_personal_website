@@ -198,13 +198,23 @@ section {
     overflow: hidden;
 }
 
-/* The animated network is drawn on this canvas */
-#networkBg {
+/* The spider web is drawn on #spiderWeb (behind the dark overlay) and the
+   spider on #spiderBug (above the overlay, below the text) */
+#spiderWeb,
+#spiderBug {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
+    pointer-events: none;
+}
+
+#spiderWeb {
     z-index: 0;
+}
+
+#spiderBug {
+    z-index: 1;
 }
 
 /* Dark shade behind the text so the network never makes it hard to read */

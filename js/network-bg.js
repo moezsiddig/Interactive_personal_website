@@ -167,9 +167,8 @@ function initNetwork(canvas, options) {
     resize();
 }
 
-// Start the networks:
-// 1) full network in the hero, 2) lighter one in the footer,
-// 3) behind the whole page, only while dark mode is on
-initNetwork(document.getElementById("networkBg"), { density: 13000, maxNodes: 120 });
+// Start the networks (the hero uses the spider web instead, see spider-web.js):
+// 1) a light network in the footer,
+// 2) behind the whole page, only while dark mode is on
 initNetwork(document.getElementById("footerNetwork"), { density: 9000, maxNodes: 45 });
 initNetwork(document.getElementById("pageNetwork"), { density: 18000, maxNodes: 70, fixed: true, onlyInDarkMode: true });
