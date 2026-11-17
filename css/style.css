@@ -673,8 +673,8 @@ section {
 
 /* A gentle sway around the stem, like a breeze */
 @keyframes leaf-sway {
-    0%, 100% { transform: rotate(calc(var(--tilt) - 4deg)); }
-    50% { transform: rotate(calc(var(--tilt) + 4deg)); }
+    0%, 100% { transform: rotate(calc(var(--tilt) - 2.5deg)); }
+    50% { transform: rotate(calc(var(--tilt) + 2.5deg)); }
 }
 
 /* The drawing; --scale makes the bud and young leaf smaller, growing from the same stem point */

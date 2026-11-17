@@ -142,22 +142,46 @@
             out += path(d, { fill: "none", stroke: "rgba(30,15,5,0.45)", "stroke-width": "1.3", "stroke-linecap": "round" });
         }
 
-        // Branches: from the trunk, curving up to each leaf's stem
+        // Branches: from the trunk, curving up and flowing into each leaf's stem.
+        // The end of each branch points the same way as the leaf's stem and is
+        // as thin as the stem, so the stem looks like the branch continuing.
         stems.forEach(function (s, i) {
-            const dir = s.x < trunkX ? -1 : 1;
+            const leaf = leaves[i];
+            const branch = leaf.parentNode;
+            const style = getComputedStyle(branch);
+            const tilt = parseFloat(style.getPropertyValue("--tilt")) || 0;
+            const scale = parseFloat(style.getPropertyValue("--scale")) || 1;
+
+            // Direction of the leaf's stem, from its end up toward the blade
+            const a = (tilt - 90) * Math.PI / 180;
+            const u = { x: Math.cos(a), y: Math.sin(a) };
+
+            // Width of the stem in the leaf drawing (4.5 of 200 units)
+            const stemWidth = Math.max(2.4, 4.5 * leaf.offsetWidth / 200 * scale);
+
             const reach = Math.abs(s.x - trunkX);
-            const startY = s.y + reach * 0.45;
+            const startY = s.y + reach * 0.5;
             const f = (groundY - startY) / (groundY - topY);
             const startX = trunkX + sway * Math.sin(f * Math.PI) * 0.8;
             const start = { x: startX, y: startY };
-            const ctrl = { x: startX + dir * reach * 0.55, y: startY - reach * 0.05 };
+            // Control point behind the stem, along its direction: the curve
+            // arrives at the stem already pointing the same way
+            const ctrl = { x: s.x - u.x * reach * 0.5, y: s.y - u.y * reach * 0.5 };
+            // End a little inside the stem so there is no gap
+            const end = { x: s.x + u.x * 5, y: s.y + u.y * 5 };
             const thick = narrow ? 7 : 11;
-            out += path(limb(start, ctrl, { x: s.x + dir * 2, y: s.y + 1 }, thick, 3),
+            out += path(limb(start, ctrl, end, thick, stemWidth),
                 { fill: "#5e391b", filter: "url(#barkGrain)" });
 
-            // A small twig on every other branch
+            // Small swelling (node) where the stem joins the twig
+            out += '<ellipse cx="' + s.x.toFixed(1) + '" cy="' + s.y.toFixed(1) + '" rx="' +
+                (stemWidth * 0.95).toFixed(1) + '" ry="' + (stemWidth * 0.75).toFixed(1) +
+                '" fill="#4a2c14" transform="rotate(' + tilt + ' ' + s.x.toFixed(1) + ' ' + s.y.toFixed(1) + ')"/>';
+
+            // A small side twig on every other branch
             if (i % 2 === 0) {
-                const mid = quad(start, ctrl, s, 0.55);
+                const dir = s.x < trunkX ? -1 : 1;
+                const mid = quad(start, ctrl, end, 0.45);
                 out += path(limb(mid, { x: mid.x + dir * 10, y: mid.y - 12 },
                     { x: mid.x + dir * 16, y: mid.y - (narrow ? 16 : 26) }, 3.2, 0.8),
                     { fill: "#5e391b" });
