@@ -337,7 +337,7 @@ function initSpiderWeb(webCanvas, bugCanvas, options) {
         drawWeb();
         if (hasSpider) {
             bug.clearRect(0, 0, width, height);
-            drawSpider(bug, spider.x, spider.y, spider.angle, spider.legPhase, spider.moving, width < 860 ? 0.85 : 1);
+            drawSpider(bug, spider.x, spider.y, spider.angle, spider.legPhase, spider.moving, width < 860 ? 0.6 : 0.75);
         }
     }
 
@@ -558,17 +558,32 @@ function initSpiderWeb(webCanvas, bugCanvas, options) {
     resize();
 }
 
-// ===== A spider that roams the page margins =====
-// It appears when the hero is scrolled out of view: it lowers itself on a
+// ===== A spider that visits the page margins once =====
+// The first time the hero is scrolled out of view, it lowers itself on a
 // silk thread from the top of the screen, wanders slowly along the left and
-// right margins, swings when the page scrolls, and runs away from the mouse.
+// right margins (swinging when the page scrolls, running from the mouse),
+// then after about 12 seconds climbs back up and does not come back during
+// this visit, so it never distracts from reading the page.
 function initRoamingSpider(canvas, hero) {
     if (!canvas || !canvas.getContext || !hero) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
+    // Already visited in this browser tab? Then stay away.
+    try {
+        if (sessionStorage.getItem("spiderVisited")) return;
+    } catch (e) {
+        // Storage blocked: the visit simply happens once per page load
+    }
+
     const ctx = canvas.getContext("2d");
     const CRAWL = 1.6;          // normal speed (pixels per frame)
     const FLEE = 5;             // speed when running away from the mouse
+    const CLIMB = 3;            // speed when leaving
+    const VISIT_FRAMES = 12 * 60;   // about 12 seconds on screen
+
+    let visitFrames = 0;        // frames spent on screen so far
+    let leaving = false;        // climbing back up
+    let finished = false;       // gone for this visit
 
     let width = 0;
     let height = 0;
@@ -618,11 +633,23 @@ function initRoamingSpider(canvas, hero) {
 
     function step() {
         // Fade in when the hero is gone, fade out when it comes back
-        s.alpha += ((heroVisible ? 0 : 1) - s.alpha) * 0.08;
+        s.alpha += ((heroVisible || finished ? 0 : 1) - s.alpha) * 0.08;
 
-        // Run away if the mouse comes close
-        let speed = CRAWL;
-        if (mouse.x !== null) {
+        // Time to go: climb straight up the thread and leave
+        if (!heroVisible && !leaving) visitFrames++;
+        if (visitFrames > VISIT_FRAMES && !leaving) {
+            leaving = true;
+            s.tx = s.x;
+            s.ty = -60;
+        }
+        if (leaving && s.y < -50) {
+            finished = true;
+            try { sessionStorage.setItem("spiderVisited", "1"); } catch (e) { /* ignore */ }
+        }
+
+        // Run away if the mouse comes close (not while leaving)
+        let speed = leaving ? CLIMB : CRAWL;
+        if (!leaving && mouse.x !== null) {
             const d = Math.hypot(s.x - mouse.x, s.y - mouse.y);
             if (d < 120) {
                 speed = FLEE;
@@ -643,7 +670,7 @@ function initRoamingSpider(canvas, hero) {
         } else if (s.pause > 0) {
             s.pause--;
             s.moving = false;
-        } else {
+        } else if (!leaving) {
             s.pause = 60 + Math.random() * 180;     // rest 1-4 seconds, then move on
             pickTarget();
         }
@@ -677,7 +704,7 @@ function initRoamingSpider(canvas, hero) {
         }
 
         // Keep animating while it is visible or still fading out
-        if (!heroVisible || s.alpha > 0.02) {
+        if ((!heroVisible && !finished) || s.alpha > 0.02) {
             frameId = requestAnimationFrame(step);
         } else {
             running = false;
@@ -685,7 +712,7 @@ function initRoamingSpider(canvas, hero) {
     }
 
     function start() {
-        if (running || document.hidden) return;
+        if (running || finished || document.hidden) return;
         running = true;
         frameId = requestAnimationFrame(step);
     }
@@ -693,7 +720,7 @@ function initRoamingSpider(canvas, hero) {
     new IntersectionObserver(function (entries) {
         const wasVisible = heroVisible;
         heroVisible = entries[0].isIntersecting;
-        if (wasVisible && !heroVisible && s.alpha < 0.05) enter();
+        if (wasVisible && !heroVisible && s.alpha < 0.05 && !leaving) enter();
         start();
     }, { threshold: 0.15 }).observe(hero);
 

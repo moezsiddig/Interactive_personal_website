@@ -7,6 +7,29 @@ const budget = document.getElementById("budget");
 const message = document.getElementById("message");
 const formResult = document.getElementById("formResult");
 
+// Where project requests are sent
+const CONTACT_EMAIL = "moezsiddig@gmail.com";
+
+// Build a "mailto:" link with the request as a ready-made email to Moez.
+// encodeURIComponent makes the typed text safe to put inside a link.
+function buildRequestEmail() {
+    const subject = "Project request: " + projectType.value + " (" + userName.value.trim() + ")";
+    const body = [
+        "Hello Moez,",
+        "",
+        message.value.trim(),
+        "",
+        "Name: " + userName.value.trim(),
+        "Email: " + userEmail.value.trim(),
+        "Project type: " + projectType.value,
+        "Budget: " + budget.value
+    ].join("\n");
+
+    return "mailto:" + CONTACT_EMAIL +
+        "?subject=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent(body);
+}
+
 // Show a message under the form
 function showResult(text, isError) {
     formResult.textContent = text;
@@ -35,27 +58,12 @@ requestForm.addEventListener("submit", function (event) {
         return;
     }
 
-    // Build the summary with textContent (never innerHTML) so that
-    // anything the user types is shown as plain text, not run as code.
-    formResult.textContent = "";
-    formResult.className = "form-success";
+    // Send the request: open the visitor's email app with the ready-made message
+    window.location.href = buildRequestEmail();
 
-    const heading = document.createElement("strong");
-    heading.textContent = "Request Submitted Successfully!";
-    formResult.appendChild(heading);
-
-    const lines = [
-        "Name: " + userName.value.trim(),
-        "Email: " + userEmail.value.trim(),
-        "Project: " + projectType.value,
-        "Budget: " + budget.value,
-        "Message: " + message.value.trim()
-    ];
-
-    lines.forEach(function (line) {
-        formResult.appendChild(document.createElement("br"));
-        formResult.appendChild(document.createTextNode(line));
-    });
+    // Tell the visitor what happens next (textContent: shown as plain text)
+    showResult("Your email app is opening with your request. Just press Send! " +
+        "If nothing opens, email me at " + CONTACT_EMAIL + ".", false);
 
     requestForm.reset();
 });

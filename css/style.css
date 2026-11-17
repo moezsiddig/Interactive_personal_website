@@ -424,6 +424,71 @@ section {
     color: var(--muted);
 }
 
+/* ---------- Skills ---------- */
+.skills-grid {
+    max-width: 1050px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 22px;
+}
+
+.skill-group {
+    background: var(--surface);
+    border-radius: 18px;
+    border-top: 4px solid var(--yellow);
+    padding: 24px 26px;
+    box-shadow: var(--shadow);
+}
+
+.skill-group h3 {
+    font-size: 1.15em;
+    margin-bottom: 14px;
+    color: var(--text);
+}
+
+.skill-group h3 i {
+    color: var(--yellow-dark);
+    margin-right: 8px;
+}
+
+.skill-group ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.skill-group li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 13px;
+    border-radius: 20px;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 0.9em;
+    font-weight: 600;
+}
+
+.skill-group li i {
+    color: var(--accent);
+    font-size: 1.1em;
+}
+
+.languages {
+    text-align: center;
+    margin-top: 28px;
+    font-size: 1.05em;
+    color: var(--muted);
+}
+
+.languages i {
+    color: var(--yellow-dark);
+    margin-right: 6px;
+}
+
 /* ---------- Services ---------- */
 .card {
     width: 320px;
@@ -561,6 +626,17 @@ section {
     display: flex;
     flex-direction: column;
     gap: 15px;
+}
+
+.request-intro {
+    max-width: 600px;
+    margin: -15px auto 25px;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+#requestForm button i {
+    margin-right: 6px;
 }
 
 #requestForm input,
@@ -776,6 +852,7 @@ body.dark-mode .page-web {
 /* Let the webs show through the dark-mode sections.
    Cards, form fields, the hero and the footer keep solid backgrounds. */
 body.dark-mode .about-me,
+body.dark-mode .skills,
 body.dark-mode .services,
 body.dark-mode .projects,
 body.dark-mode .request {

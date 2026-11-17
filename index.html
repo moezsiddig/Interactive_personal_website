@@ -15,7 +15,10 @@
   <meta property="og:title" content="Moez Siddig | Full-Stack Web Developer" />
   <meta property="og:description" content="Responsive front ends and secure, database-driven back ends. See my projects." />
   <meta property="og:url" content="https://moezsiddig.github.io/Interactive_personal_website/" />
-  <meta property="og:image" content="https://moezsiddig.github.io/Interactive_personal_website/images/moez-profile.jpg" />
+  <meta property="og:image" content="https://moezsiddig.github.io/Interactive_personal_website/images/og-preview.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
 
   <!-- Browser tab icon -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0b0b'/%3E%3Ctext x='32' y='44' font-family='Arial' font-weight='800' font-size='34' text-anchor='middle' fill='%23FFD700'%3EM%3C/text%3E%3C/svg%3E" />
@@ -23,7 +26,7 @@
   <!-- Font Awesome icons and main CSS file -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <!-- ?v= changes with each release so browsers never mix old cached files with the new page -->
-  <link rel="stylesheet" href="css/style.css?v=2026-11-17e"/>
+  <link rel="stylesheet" href="css/style.css?v=2026-11-17g"/>
 </head>
 <body>
   <!-- Apply the saved dark mode before the page is drawn (avoids a light flash) -->
@@ -51,6 +54,7 @@
     <nav class="navigation" id="mainNav">
       <a href="#home">Home</a>
       <a href="#about-me">About me</a>
+      <a href="#skills">Skills</a>
       <a href="#services">Services</a>
       <a href="#projects">Projects</a>
       <a href="#request" class="nav-cta">
@@ -99,7 +103,7 @@
         <div class="hero-buttons">
           <a href="#projects" class="main-btn">View Projects</a>
 
-          <a href="cv/Moez CV.pdf.pdf" class="third-btn" target="_blank" rel="noopener">
+          <a href="cv/Moez-Siddig-CV.pdf" class="third-btn" target="_blank" rel="noopener" download>
             <i class="fas fa-download"></i> Download CV
           </a>
 
@@ -128,6 +132,50 @@
         </p>
       </div>
     </div>
+  </section>
+
+  <!-- Skills section -->
+  <section class="skills" id="skills">
+    <h2 class="title">Skills</h2>
+
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h3><i class="fas fa-laptop-code"></i> Front End</h3>
+        <ul>
+          <li><i class="fab fa-html5"></i> HTML5</li>
+          <li><i class="fab fa-css3-alt"></i> CSS3</li>
+          <li><i class="fab fa-js-square"></i> JavaScript</li>
+          <li><i class="fas fa-mobile-alt"></i> Responsive Design</li>
+          <li><i class="fas fa-paint-brush"></i> Canvas Animation</li>
+        </ul>
+      </div>
+
+      <div class="skill-group">
+        <h3><i class="fas fa-server"></i> Back End</h3>
+        <ul>
+          <li><i class="fab fa-node-js"></i> Node.js</li>
+          <li><i class="fas fa-route"></i> Express</li>
+          <li><i class="fas fa-database"></i> MongoDB &amp; Mongoose</li>
+          <li><i class="fas fa-file-code"></i> EJS Templates</li>
+          <li><i class="fas fa-user-lock"></i> Passport.js Auth</li>
+        </ul>
+      </div>
+
+      <div class="skill-group">
+        <h3><i class="fas fa-tools"></i> Tools</h3>
+        <ul>
+          <li><i class="fab fa-git-alt"></i> Git</li>
+          <li><i class="fab fa-github"></i> GitHub &amp; Pages</li>
+          <li><i class="fab fa-npm"></i> npm</li>
+          <li><i class="fas fa-plug"></i> Postman</li>
+          <li><i class="fas fa-cloud-upload-alt"></i> Render Deployment</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="languages">
+      <i class="fas fa-language"></i> Bilingual: <strong>Arabic</strong> &amp; <strong>English</strong>
+    </p>
   </section>
 
   <!-- Services section -->
@@ -159,8 +207,8 @@
 
     <div class="project-card">
       <div class="project-image">
-        <img src="images/portfolio-1.jpg" alt="Portfolio website home page" loading="lazy">
-        <img src="images/portfolio-2.jpg" alt="Project request form" loading="lazy">
+        <img src="images/portfolio-1.jpg" alt="Portfolio home page with the animated spider web" loading="lazy">
+        <img src="images/portfolio-2.jpg" alt="Skills section in dark mode with corner spider webs" loading="lazy">
       </div>
 
       <div class="project-info">
@@ -169,14 +217,24 @@
         <h3>Personal Portfolio Website</h3>
 
         <p>
-          A responsive portfolio website built with HTML, CSS, and JavaScript.
-          It includes a clean design, dark mode, and an interactive project request form.
+          This website. A responsive portfolio built with plain HTML, CSS, and JavaScript:
+          a spider that spins its web on the HTML canvas, threads that ripple under the mouse,
+          a remembered dark mode, and a validated project request form.
         </p>
 
         <div class="project-features">
-          <span>Responsive Design</span>
+          <span>Canvas Animation</span>
           <span>Dark Mode</span>
-          <span>Form Validation</span>
+          <span>Responsive Design</span>
+        </div>
+
+        <div class="project-links">
+          <a href="https://moezsiddig.github.io/Interactive_personal_website/" target="_blank" rel="noopener" class="main-btn">
+            <i class="fas fa-external-link-alt"></i> Live Demo
+          </a>
+          <a href="https://github.com/moezsiddig/Interactive_personal_website" target="_blank" rel="noopener" class="second-btn">
+            <i class="fab fa-github"></i> View Code
+          </a>
         </div>
       </div>
     </div>
@@ -253,6 +311,10 @@
   <!-- Project Request Form -->
   <section class="request" id="request">
     <h2 class="title">Project Request</h2>
+    <p class="request-intro">
+      Have a project or a job opportunity? Fill in the form and your email app will open
+      with the message ready to send to me.
+    </p>
 
     <form id="requestForm" novalidate>
       <input type="text" id="name" placeholder="Your name" required aria-label="Your name">
@@ -264,6 +326,8 @@
         <option value="Portfolio Website">Portfolio Website</option>
         <option value="Business Website">Business Website</option>
         <option value="Landing Page">Landing Page</option>
+        <option value="Web Application">Web Application</option>
+        <option value="Job Opportunity">Job Opportunity</option>
       </select>
 
       <select id="budget" required aria-label="Budget">
@@ -271,11 +335,12 @@
         <option value="Low">Low</option>
         <option value="Medium">Medium</option>
         <option value="High">High</option>
+        <option value="Not applicable">Not applicable (job offer)</option>
       </select>
 
       <textarea id="message" placeholder="Tell me about your project" required aria-label="Project message"></textarea>
 
-      <button type="submit">Submit Request</button>
+      <button type="submit"><i class="fas fa-paper-plane"></i> Send Request</button>
     </form>
 
     <p id="formResult" role="status" aria-live="polite"></p>
@@ -309,7 +374,7 @@
   </footer>
 
   <!-- JavaScript Files -->
-  <script src="js/spider-web.js?v=2026-11-17e"></script>
-  <script src="js/project.js?v=2026-11-17e"></script>
+  <script src="js/spider-web.js?v=2026-11-17g"></script>
+  <script src="js/project.js?v=2026-11-17g"></script>
 </body>
 </html>
