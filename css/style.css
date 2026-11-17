@@ -339,7 +339,7 @@ section {
 /* Hero buttons as three maple leaves (green, yellow, red). The text sits on
    the middle of the leaf blade; --ink is the colour that reads well on it. */
 .leaf-buttons {
-    gap: 6px;
+    gap: 34px;
     align-items: center;
     margin-top: 26px;
 }
@@ -1300,7 +1300,7 @@ body.dark-mode .request {
 
     /* The three leaves stay side by side, just a little smaller */
     .leaf-buttons {
-        gap: 2px;
+        gap: 12px;
     }
 
     .leaf-btn {
