@@ -459,7 +459,8 @@ section {
     gap: 10px;
 }
 
-.skill-group li {
+/* Each skill is a link to its official site, styled as a chip */
+.skill-group li a {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -470,11 +471,36 @@ section {
     color: var(--text);
     font-size: 0.9em;
     font-weight: 600;
+    text-decoration: none;
+    transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
 }
 
-.skill-group li i {
+.skill-group li a i {
     color: var(--accent);
     font-size: 1.1em;
+}
+
+/* Small arrow appears on hover to show it opens a site */
+.skill-group li a::after {
+    content: "\2197";
+    font-size: 0.8em;
+    color: var(--yellow-dark);
+    opacity: 0;
+    margin-left: -4px;
+    transition: opacity 0.2s ease, margin-left 0.2s ease;
+}
+
+.skill-group li a:hover,
+.skill-group li a:focus-visible {
+    border-color: var(--yellow);
+    background-color: rgba(255, 215, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.skill-group li a:hover::after,
+.skill-group li a:focus-visible::after {
+    opacity: 1;
+    margin-left: 0;
 }
 
 .languages {
