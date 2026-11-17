@@ -26,7 +26,7 @@
   <!-- Font Awesome icons and main CSS file -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
   <!-- ?v= changes with each release so browsers never mix old cached files with the new page -->
-  <link rel="stylesheet" href="css/style.css?v=2026-11-17x"/>
+  <link rel="stylesheet" href="css/style.css?v=2026-11-17y"/>
 </head>
 <body>
   <!-- Apply the saved dark mode before the page is drawn (avoids a light flash) -->
@@ -461,17 +461,21 @@
     <p class="copyright">
       Copyright © <span id="year">2026</span> Moez Siddig
     </p>
-    <!-- Required credit for the leaf photo (CC BY 4.0) -->
-    <p class="credit">
-      Maple leaf photo by Robert Flogaus-Faust,
-      <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>,
-      via <a href="https://commons.wikimedia.org/wiki/File:Acer_platanoides_2_RF.jpg" target="_blank" rel="noopener">Wikimedia Commons</a>
-      (cut out and recoloured)
-    </p>
+    <!-- Required credit for the leaf photo (CC BY 4.0). <details> keeps it
+         folded away until "Photo credits" is clicked; no JavaScript needed. -->
+    <details class="credit">
+      <summary>Photo credits</summary>
+      <p>
+        Maple leaf photo by Robert Flogaus-Faust,
+        <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>,
+        via <a href="https://commons.wikimedia.org/wiki/File:Acer_platanoides_2_RF.jpg" target="_blank" rel="noopener">Wikimedia Commons</a>
+        (cut out and recoloured)
+      </p>
+    </details>
   </footer>
 
   <!-- JavaScript Files -->
-  <script src="js/spider-web.js?v=2026-11-17x"></script>
-  <script src="js/project.js?v=2026-11-17x"></script>
+  <script src="js/spider-web.js?v=2026-11-17y"></script>
+  <script src="js/project.js?v=2026-11-17y"></script>
 </body>
 </html>

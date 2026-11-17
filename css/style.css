@@ -1000,6 +1000,29 @@ footer {
     color: #b5b5b5;
 }
 
+/* "Photo credits" is a small clickable word; the credit shows when opened */
+.credit summary {
+    display: inline-block;
+    cursor: pointer;
+    list-style: none;          /* hide the default triangle */
+    color: #8a8a8a;
+    text-decoration: underline dotted;
+    transition: color 0.2s ease;
+}
+
+.credit summary::-webkit-details-marker {
+    display: none;
+}
+
+.credit summary:hover,
+.credit[open] summary {
+    color: var(--yellow);
+}
+
+.credit p {
+    margin-top: 4px;
+}
+
 /* ---------- Dark mode ---------- */
 body.dark-mode {
     --bg: #111111;
