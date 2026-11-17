@@ -26,7 +26,7 @@
   <!-- Font Awesome icons and main CSS file -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
   <!-- ?v= changes with each release so browsers never mix old cached files with the new page -->
-  <link rel="stylesheet" href="css/style.css?v=2026-11-17p"/>
+  <link rel="stylesheet" href="css/style.css?v=2026-11-17q"/>
 </head>
 <body>
   <!-- Apply the saved dark mode before the page is drawn (avoids a light flash) -->
@@ -192,47 +192,80 @@
     <h2 class="title">My Process</h2>
     <p class="section-intro">From idea to launch: I take care of the full web development life cycle.</p>
 
-    <ol class="process-grid">
-      <li class="step">
-        <span class="step-number">01</span>
-        <div class="step-icon"><i class="fas fa-clipboard-list"></i></div>
-        <h3>Plan</h3>
-        <p>Understand your goals, users, and features, then agree on the scope and timeline.</p>
+    <!-- A tree: a trunk in the middle and one maple leaf per step on branches
+         that alternate left and right. --leaf is the autumn colour of each leaf,
+         --ink the text colour that reads best on it. -->
+    <ol class="process-tree">
+      <li class="branch" style="--leaf: #8e1b1b; --ink: #ffffff;">
+        <div class="leaf">
+          <i class="fab fa-canadian-maple-leaf leaf-shape" aria-hidden="true"></i>
+          <div class="leaf-content">
+            <span class="leaf-number">01</span>
+            <i class="fas fa-clipboard-list"></i>
+            <h3>Plan</h3>
+          </div>
+        </div>
+        <p class="leaf-text">Understand your goals, users, and features, then agree on the scope and timeline.</p>
       </li>
 
-      <li class="step">
-        <span class="step-number">02</span>
-        <div class="step-icon"><i class="fas fa-pencil-ruler"></i></div>
-        <h3>Design</h3>
-        <p>Sketch the layout and create a clean, responsive interface that is easy to use.</p>
+      <li class="branch" style="--leaf: #d32f2f; --ink: #ffffff;">
+        <div class="leaf">
+          <i class="fab fa-canadian-maple-leaf leaf-shape" aria-hidden="true"></i>
+          <div class="leaf-content">
+            <span class="leaf-number">02</span>
+            <i class="fas fa-pencil-ruler"></i>
+            <h3>Design</h3>
+          </div>
+        </div>
+        <p class="leaf-text">Sketch the layout and create a clean, responsive interface that is easy to use.</p>
       </li>
 
-      <li class="step">
-        <span class="step-number">03</span>
-        <div class="step-icon"><i class="fas fa-code"></i></div>
-        <h3>Develop</h3>
-        <p>Build the front end with HTML, CSS, JavaScript, and React, and the back end with Node.js, Express.js, and MongoDB.</p>
+      <li class="branch" style="--leaf: #e65100; --ink: #ffffff;">
+        <div class="leaf">
+          <i class="fab fa-canadian-maple-leaf leaf-shape" aria-hidden="true"></i>
+          <div class="leaf-content">
+            <span class="leaf-number">03</span>
+            <i class="fas fa-code"></i>
+            <h3>Develop</h3>
+          </div>
+        </div>
+        <p class="leaf-text">Build the front end with HTML, CSS, JavaScript, and React, and the back end with Node.js, Express.js, and MongoDB.</p>
       </li>
 
-      <li class="step">
-        <span class="step-number">04</span>
-        <div class="step-icon"><i class="fas fa-bug"></i></div>
-        <h3>Test</h3>
-        <p>Check every page, form, and screen size, and fix bugs before anyone else finds them.</p>
+      <li class="branch" style="--leaf: #f9a825; --ink: #1d1d1f;">
+        <div class="leaf">
+          <i class="fab fa-canadian-maple-leaf leaf-shape" aria-hidden="true"></i>
+          <div class="leaf-content">
+            <span class="leaf-number">04</span>
+            <i class="fas fa-bug"></i>
+            <h3>Test</h3>
+          </div>
+        </div>
+        <p class="leaf-text">Check every page, form, and screen size, and fix bugs before anyone else finds them.</p>
       </li>
 
-      <li class="step">
-        <span class="step-number">05</span>
-        <div class="step-icon"><i class="fas fa-rocket"></i></div>
-        <h3>Deploy</h3>
-        <p>Publish it online with GitHub Pages or Render, or on AWS: S3 for static sites, EC2 for servers.</p>
+      <li class="branch" style="--leaf: #9e9d24; --ink: #ffffff;">
+        <div class="leaf">
+          <i class="fab fa-canadian-maple-leaf leaf-shape" aria-hidden="true"></i>
+          <div class="leaf-content">
+            <span class="leaf-number">05</span>
+            <i class="fas fa-rocket"></i>
+            <h3>Deploy</h3>
+          </div>
+        </div>
+        <p class="leaf-text">Publish it online with GitHub Pages or Render, or on AWS: S3 for static sites, EC2 for servers.</p>
       </li>
 
-      <li class="step">
-        <span class="step-number">06</span>
-        <div class="step-icon"><i class="fas fa-sync-alt"></i></div>
-        <h3>Maintain</h3>
-        <p>Keep it updated, secure, and improving after launch.</p>
+      <li class="branch" style="--leaf: #795548; --ink: #ffffff;">
+        <div class="leaf">
+          <i class="fab fa-canadian-maple-leaf leaf-shape" aria-hidden="true"></i>
+          <div class="leaf-content">
+            <span class="leaf-number">06</span>
+            <i class="fas fa-sync-alt"></i>
+            <h3>Maintain</h3>
+          </div>
+        </div>
+        <p class="leaf-text">Keep it updated, secure, and improving after launch.</p>
       </li>
     </ol>
   </section>
@@ -406,7 +439,7 @@
   </footer>
 
   <!-- JavaScript Files -->
-  <script src="js/spider-web.js?v=2026-11-17p"></script>
-  <script src="js/project.js?v=2026-11-17p"></script>
+  <script src="js/spider-web.js?v=2026-11-17q"></script>
+  <script src="js/project.js?v=2026-11-17q"></script>
 </body>
 </html>
