@@ -315,6 +315,11 @@ section {
     margin-bottom: 22px;
 }
 
+/* "Web" in the title takes an autumn-leaf orange */
+.main h1 .title-accent {
+    color: #ff7043;
+}
+
 .main h3 {
     color: #e8e8e8;
     font-size: 1.15rem;
