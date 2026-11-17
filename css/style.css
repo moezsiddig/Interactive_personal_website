@@ -545,7 +545,34 @@ section {
     padding: 10px 0 80px;
 }
 
-/* Trunk */
+/* The drawn tree (js/tree.js) sits behind the leaves. Once it is drawn, the
+   simple CSS trunk, ground and branches below are hidden. */
+.tree-wrap {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.tree-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: visible;
+}
+
+.process-tree.tree-drawn::before,
+.process-tree.tree-drawn::after,
+.process-tree.tree-drawn .branch::before {
+    display: none;
+}
+
+.process-tree.tree-drawn .branch {
+    z-index: 1;
+}
+
+/* Trunk (simple fallback if the script does not run) */
 .process-tree::before {
     content: "";
     position: absolute;
