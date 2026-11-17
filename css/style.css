@@ -264,30 +264,36 @@ section {
     filter: drop-shadow(0 0 24px rgba(255, 215, 0, 0.35));
 }
 
-/* Social icons "printed" on the blue shirt: on the left of the chest,
-   away from the zipper, sized as a share of the photo */
+/* Social links over the icons printed on the shirt.
+   The printed icons are part of the photo; these links are invisible
+   until hover/focus, when the icon lights up in yellow on top of the print.
+   Each link gets its position, tilt (--rot) and squeeze inline in the HTML. */
 .photo-social-icons {
     position: absolute;
-    top: 89%;
-    left: 34%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    gap: calc(var(--photo-size) * 0.045);
+    inset: 0;
+    pointer-events: none;
 }
 
 .photo-social-icons a {
+    position: absolute;
+    width: calc(var(--photo-size) * 0.1);   /* bigger than the icon: easy to tap */
+    height: calc(var(--photo-size) * 0.1);
     display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scaleX(var(--squeeze, 1));
+    pointer-events: auto;
     text-decoration: none;
-    color: rgba(255, 255, 255, 0.92);
-    font-size: calc(var(--photo-size) * 0.068);
-    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.55));
-    transition: color 0.3s ease, transform 0.3s ease;
+    color: transparent;
+    font-size: calc(var(--photo-size) * 0.062);
+    border-radius: 8px;
+    transition: color 0.25s ease, filter 0.25s ease;
 }
 
 .photo-social-icons a:hover,
 .photo-social-icons a:focus-visible {
     color: var(--yellow);
-    transform: scale(1.18);
+    filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.8));
 }
 
 .main-content {
