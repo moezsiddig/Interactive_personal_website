@@ -1,20 +1,98 @@
-// Spider web for the hero section.
-// A spider drops in on a silk thread, the spokes shoot out, then the spider
-// walks a spiral and builds the web ring by ring. When it is finished, the
-// spider rests in the centre; if the mouse plucks a thread, the spider runs
-// to the vibration (like catching prey) and then walks back home.
-// Two canvases: one for the web (behind the dark overlay) and one for the
-// spider (above the overlay, below the text).
-function initSpiderWeb(webCanvas, bugCanvas) {
-    if (!webCanvas || !bugCanvas || !webCanvas.getContext) return;
+// Spider webs and spiders for the whole site.
+//
+// initSpiderWeb()      draws a web that builds itself. Used in the hero (with a
+//                      spider that spins it and hunts), the footer, and the
+//                      dark-mode page background (webs without a spider).
+// initRoamingSpider()  a spider on a silk thread that wanders along the page
+//                      margins once the hero is scrolled out of view.
+// drawSpider()         draws one spider; shared by both.
+
+// ===== Drawing one spider (head pointing up before rotating) =====
+// onLight = true when it walks over a light background: a soft dark outline
+// and slightly darker legs keep it easy to see.
+function drawSpider(ctx, x, y, angle, legPhase, moving, scale, onLight) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(angle);
+    ctx.scale(scale, scale);
+    if (onLight) {
+        ctx.shadowColor = "rgba(0, 0, 0, 0.55)";
+        ctx.shadowBlur = 3;
+    }
+
+    // 8 legs (4 each side), each with a knee; they swing while walking
+    ctx.strokeStyle = onLight ? "#d9a900" : "#FFD700";
+    ctx.lineWidth = 1.7;
+    ctx.lineCap = "round";
+    const baseAngles = [-0.9, -0.35, 0.25, 0.8];
+    for (let side = -1; side <= 1; side += 2) {
+        for (let k = 0; k < 4; k++) {
+            const swing = moving ? Math.sin(legPhase + k * 1.6 + (side > 0 ? Math.PI : 0)) * 0.3 : 0;
+            const a = baseAngles[k] + swing;
+            const kneeX = side * Math.cos(a) * 12;
+            const kneeY = Math.sin(a) * 12 - 6;
+            const footX = kneeX + side * Math.cos(a + 0.9) * 11;
+            const footY = kneeY + Math.sin(a + 0.9) * 11 + 4;
+            ctx.beginPath();
+            ctx.moveTo(side * 3, -2);
+            ctx.lineTo(kneeX, kneeY);
+            ctx.lineTo(footX, footY);
+            ctx.stroke();
+        }
+    }
+
+    // Abdomen (back part) with black stripes
+    ctx.fillStyle = "#FFD700";
+    ctx.beginPath();
+    ctx.ellipse(0, 9, 8, 10, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#0b0b0b";
+    ctx.lineWidth = 1.6;
+    for (let s = 0; s < 3; s++) {
+        ctx.beginPath();
+        ctx.moveTo(-5, 6 + s * 4);
+        ctx.lineTo(0, 8 + s * 4);
+        ctx.lineTo(5, 6 + s * 4);
+        ctx.stroke();
+    }
+
+    // Head (front part) and two small eyes
+    ctx.fillStyle = "#e6c200";
+    ctx.beginPath();
+    ctx.arc(0, -4, 5.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#0b0b0b";
+    ctx.beginPath();
+    ctx.arc(-2, -6, 1.2, 0, Math.PI * 2);
+    ctx.arc(2, -6, 1.2, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.restore();
+}
+
+// ===== A web that builds itself =====
+// options:
+//   place(width, height) -> { x, y, r }  centre and size of the round part
+//   spokes          number of straight threads (default 16)
+//   speed           build speed multiplier (default 1)
+//   fixed           true = covers the whole screen (dark-mode background)
+//   onlyInDarkMode  true = only runs while dark mode is on
+// If bugCanvas is given, a spider drops in, spins the web and hunts.
+function initSpiderWeb(webCanvas, bugCanvas, options) {
+    options = options || {};
+    if (!webCanvas || !webCanvas.getContext) return;
 
     const web = webCanvas.getContext("2d");
-    const bug = bugCanvas.getContext("2d");
-    const area = webCanvas.parentElement;
+    const bug = bugCanvas ? bugCanvas.getContext("2d") : null;
+    const hasSpider = bug !== null;
+    const fixed = options.fixed === true;
+    const area = fixed ? document.documentElement : webCanvas.parentElement;
+    const canvases = hasSpider ? [webCanvas, bugCanvas] : [webCanvas];
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     // ----- Settings -----
-    const SPOKES = 16;          // straight threads from the centre
+    const SPOKES = options.spokes || 16;
+    const SPEED = options.speed || 1;
     const DROP_FRAMES = 70;     // spider lowering itself (60 frames = 1 second)
     const SPOKE_FRAMES = 22;    // time for one spoke to shoot out
     const SPOKE_GAP = 8;        // delay between two spokes
@@ -23,21 +101,22 @@ function initSpiderWeb(webCanvas, bugCanvas) {
     const COUPLING = 0.12;      // how much a point pulls its neighbours (ripples)
     const SPIDER_SPEED = 5;     // pixels per frame when walking
     const WEB_COLOR = "255, 215, 0";
+    const FIRST_PHASE = hasSpider ? "drop" : "spokes";
 
     // ----- State -----
     let width = 0;
     let height = 0;
     let center = { x: 0, y: 0 };
-    let radius = 0;             // size of the round part of the web
-    let angles = [];            // direction of each spoke
-    let edgePoints = [];        // where each spoke is tied to the edge of the hero
-    let rings = [];             // rings[i][j] = point on ring i, spoke j
+    let radius = 0;
+    let angles = [];
+    let edgePoints = [];
+    let rings = [];
     let ringRadius = [];
     let dew = [];
 
-    let phase = "drop";         // drop -> spokes -> spiral -> done
-    let frame = 0;              // frames since the current phase started
-    let spiralPos = 0;          // how many ring segments are built (can be fractional)
+    let phase = FIRST_PHASE;    // drop -> spokes -> spiral -> done
+    let frame = 0;
+    let spiralPos = 0;
     let dewAlpha = 0;
 
     let mouse = { x: null, y: null, vx: 0, vy: 0 };
@@ -46,13 +125,17 @@ function initSpiderWeb(webCanvas, bugCanvas) {
 
     const spider = { x: 0, y: 0, angle: 0, legPhase: 0, moving: false, state: "build", tx: 0, ty: 0, wait: 0 };
 
+    // Default place for the hero: upper right, away from the photo
+    function defaultPlace(w, h) {
+        if (w < 860) return { x: w * 0.72, y: h * 0.2, r: Math.max(260, Math.min(Math.max(w, h) * 0.5, 720)) };
+        return { x: w * 0.78, y: h * 0.32, r: Math.max(260, Math.min(Math.max(w, h) * 0.5, 720)) };
+    }
+
     // ===== Building the shape of the web =====
     function buildGeometry() {
-        const narrow = width < 860;
-        center = narrow
-            ? { x: width * 0.72, y: height * 0.2 }
-            : { x: width * 0.78, y: height * 0.32 };
-        radius = Math.max(260, Math.min(Math.max(width, height) * 0.5, 720));
+        const place = (options.place || defaultPlace)(width, height);
+        center = { x: place.x, y: place.y };
+        radius = place.r;
 
         angles = [];
         for (let j = 0; j < SPOKES; j++) {
@@ -65,7 +148,7 @@ function initSpiderWeb(webCanvas, bugCanvas) {
             const dy = Math.sin(a);
             const tx = dx > 0 ? (width - center.x) / dx : dx < 0 ? -center.x / dx : Infinity;
             const ty = dy > 0 ? (height - center.y) / dy : dy < 0 ? -center.y / dy : Infinity;
-            const t = Math.min(tx, ty);
+            const t = Math.max(0, Math.min(tx, ty));
             return { x: center.x + dx * t, y: center.y + dy * t };
         });
 
@@ -93,7 +176,6 @@ function initSpiderWeb(webCanvas, bugCanvas) {
         }
     }
 
-    // Show the finished web straight away (after a resize, or for reduced motion)
     function finishInstantly() {
         phase = "done";
         spiralPos = rings.length * SPOKES;
@@ -103,34 +185,37 @@ function initSpiderWeb(webCanvas, bugCanvas) {
         spider.state = "idle";
     }
 
+    function restartBuild() {
+        phase = FIRST_PHASE;
+        frame = 0;
+        spiralPos = 0;
+        dewAlpha = 0;
+        spider.x = center.x;
+        spider.y = -20;
+        spider.state = "build";
+    }
+
     function resize() {
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        if (area.clientWidth === width && area.clientHeight === height) return; // nothing changed
-        width = area.clientWidth;
-        height = area.clientHeight;
-        [webCanvas, bugCanvas].forEach(function (c) {
+        const w = fixed ? window.innerWidth : area.clientWidth;
+        const h = fixed ? window.innerHeight : area.clientHeight;
+        if (w === width && h === height) return; // nothing changed
+        width = w;
+        height = h;
+        canvases.forEach(function (c) {
             c.width = width * dpr;
             c.height = height * dpr;
             c.style.width = width + "px";
             c.style.height = height + "px";
+            c.getContext("2d").setTransform(dpr, 0, 0, dpr, 0, 0);
         });
-        web.setTransform(dpr, 0, 0, dpr, 0, 0);
-        bug.setTransform(dpr, 0, 0, dpr, 0, 0);
 
         const wasDone = phase === "done";
         buildGeometry();
         if (reduceMotion || wasDone) {
-            // Already built: show the finished web in the new size
-            finishInstantly();
+            finishInstantly();      // already built: show it finished in the new size
         } else {
-            // Still building: start the building show again in the new size
-            phase = "drop";
-            frame = 0;
-            spiralPos = 0;
-            dewAlpha = 0;
-            spider.x = center.x;
-            spider.y = -20;
-            spider.state = "build";
+            restartBuild();         // still building: start again in the new size
         }
         draw();
     }
@@ -149,7 +234,6 @@ function initSpiderWeb(webCanvas, bugCanvas) {
         return Math.max(0, Math.min(1, v));
     }
 
-    // How far each spoke has grown (0 = not started, 1 = reaches the edge)
     function spokeProgress(j) {
         if (phase === "drop") return 0;
         if (phase !== "spokes") return 1;
@@ -187,12 +271,14 @@ function initSpiderWeb(webCanvas, bugCanvas) {
         web.lineCap = "round";
         web.lineWidth = 1;
 
-        // The first thread: from the top down to the centre
-        web.strokeStyle = "rgba(255, 255, 255, 0.35)";
-        web.beginPath();
-        web.moveTo(center.x, 0);
-        web.lineTo(center.x, phase === "drop" ? spider.y : center.y);
-        web.stroke();
+        // The spider's first thread: from the top down to the centre
+        if (hasSpider) {
+            web.strokeStyle = "rgba(255, 255, 255, 0.35)";
+            web.beginPath();
+            web.moveTo(center.x, 0);
+            web.lineTo(center.x, phase === "drop" ? spider.y : center.y);
+            web.stroke();
+        }
 
         // Spokes: centre -> through every ring -> tied to the edge
         web.strokeStyle = "rgba(" + WEB_COLOR + ", 0.32)";
@@ -207,7 +293,7 @@ function initSpiderWeb(webCanvas, bugCanvas) {
 
         // Rings: each segment sags a little towards the centre, like real silk
         const built = Math.floor(spiralPos);
-        if (built > 0 || spiralPos > 0) {
+        if (spiralPos > 0) {
             web.strokeStyle = "rgba(" + WEB_COLOR + ", 0.24)";
             web.beginPath();
             for (let k = 0; k < built; k++) {
@@ -222,7 +308,7 @@ function initSpiderWeb(webCanvas, bugCanvas) {
             }
             web.stroke();
 
-            // The segment the spider is spinning right now
+            // The segment being spun right now
             if (phase === "spiral" && built < rings.length * SPOKES) {
                 const i = Math.floor(built / SPOKES);
                 const j = built % SPOKES;
@@ -247,72 +333,15 @@ function initSpiderWeb(webCanvas, bugCanvas) {
         }
     }
 
-    function drawSpider() {
-        bug.clearRect(0, 0, width, height);
-        bug.save();
-        bug.translate(spider.x, spider.y);
-        bug.rotate(spider.angle);
-        const scale = width < 860 ? 0.85 : 1;
-        bug.scale(scale, scale);
-
-        // 8 legs (4 each side), each with a knee; they swing while walking
-        bug.strokeStyle = "#FFD700";
-        bug.lineWidth = 1.7;
-        bug.lineCap = "round";
-        const baseAngles = [-0.9, -0.35, 0.25, 0.8];
-        for (let side = -1; side <= 1; side += 2) {
-            for (let k = 0; k < 4; k++) {
-                const swing = spider.moving ? Math.sin(spider.legPhase + k * 1.6 + (side > 0 ? Math.PI : 0)) * 0.3 : 0;
-                const a = baseAngles[k] + swing;
-                const kneeX = side * Math.cos(a) * 12;
-                const kneeY = Math.sin(a) * 12 - 6;
-                const footX = kneeX + side * Math.cos(a + 0.9) * 11;
-                const footY = kneeY + Math.sin(a + 0.9) * 11 + 4;
-                bug.beginPath();
-                bug.moveTo(side * 3, -2);
-                bug.lineTo(kneeX, kneeY);
-                bug.lineTo(footX, footY);
-                bug.stroke();
-            }
-        }
-
-        // Abdomen (back part) with black stripes
-        bug.fillStyle = "#FFD700";
-        bug.beginPath();
-        bug.ellipse(0, 9, 8, 10, 0, 0, Math.PI * 2);
-        bug.fill();
-        bug.strokeStyle = "#0b0b0b";
-        bug.lineWidth = 1.6;
-        for (let s = 0; s < 3; s++) {
-            bug.beginPath();
-            bug.moveTo(-5, 6 + s * 4);
-            bug.lineTo(0, 8 + s * 4);
-            bug.lineTo(5, 6 + s * 4);
-            bug.stroke();
-        }
-
-        // Head (front part) and two small eyes
-        bug.fillStyle = "#e6c200";
-        bug.beginPath();
-        bug.arc(0, -4, 5.5, 0, Math.PI * 2);
-        bug.fill();
-        bug.fillStyle = "#0b0b0b";
-        bug.beginPath();
-        bug.arc(-2, -6, 1.2, 0, Math.PI * 2);
-        bug.arc(2, -6, 1.2, 0, Math.PI * 2);
-        bug.fill();
-
-        bug.restore();
-    }
-
     function draw() {
         drawWeb();
-        drawSpider();
+        if (hasSpider) {
+            bug.clearRect(0, 0, width, height);
+            drawSpider(bug, spider.x, spider.y, spider.angle, spider.legPhase, spider.moving, width < 860 ? 0.85 : 1);
+        }
     }
 
     // ===== Movement =====
-
-    // Turn the spider smoothly to face an angle (its head is drawn pointing up)
     function face(dx, dy) {
         const target = Math.atan2(dy, dx) + Math.PI / 2;
         let diff = target - spider.angle;
@@ -320,7 +349,6 @@ function initSpiderWeb(webCanvas, bugCanvas) {
         spider.angle += diff * 0.2;
     }
 
-    // Walk towards (tx, ty); returns true when arrived
     function walkTo(tx, ty) {
         const dx = tx - spider.x;
         const dy = ty - spider.y;
@@ -343,7 +371,6 @@ function initSpiderWeb(webCanvas, bugCanvas) {
         frame++;
 
         if (phase === "drop") {
-            // Lower down the first thread to the centre
             const t = clamp01(frame / DROP_FRAMES);
             const eased = 1 - Math.pow(1 - t, 3);
             spider.x = center.x;
@@ -354,17 +381,18 @@ function initSpiderWeb(webCanvas, bugCanvas) {
             if (t >= 1) { phase = "spokes"; frame = 0; }
 
         } else if (phase === "spokes") {
-            // Stay in the centre and turn to face each new spoke
-            const current = Math.min(SPOKES - 1, Math.floor(frame / SPOKE_GAP));
-            face(Math.cos(angles[current]), Math.sin(angles[current]));
-            spider.moving = true;
-            spider.legPhase += 0.25;
+            if (hasSpider) {
+                const current = Math.min(SPOKES - 1, Math.floor(frame / SPOKE_GAP));
+                face(Math.cos(angles[current]), Math.sin(angles[current]));
+                spider.moving = true;
+                spider.legPhase += 0.25;
+            }
             if (frame >= (SPOKES - 1) * SPOKE_GAP + SPOKE_FRAMES) { phase = "spiral"; frame = 0; }
 
         } else if (phase === "spiral") {
             // Inner rings are quick, outer rings take longer
             const ring = Math.min(rings.length - 1, Math.floor(spiralPos / SPOKES));
-            const framesForRing = 10 + 26 * (ringRadius[ring] / radius);
+            const framesForRing = (10 + 26 * (ringRadius[ring] / radius)) / SPEED;
             spiralPos += SPOKES / framesForRing;
 
             const total = rings.length * SPOKES;
@@ -372,14 +400,12 @@ function initSpiderWeb(webCanvas, bugCanvas) {
                 spiralPos = total;
                 phase = "done";
                 spider.state = "return";
-            } else {
+            } else if (hasSpider) {
                 // The spider sits on the end of the thread it is spinning
                 const built = Math.floor(spiralPos);
                 const i = Math.floor(built / SPOKES);
                 const j = built % SPOKES;
-                const a = node(i, j);
-                const b = node(i, (j + 1) % SPOKES);
-                const head = lerp(a, b, spiralPos - built);
+                const head = lerp(node(i, j), node(i, (j + 1) % SPOKES), spiralPos - built);
                 face(head.x - spider.x, head.y - spider.y);
                 spider.x = head.x;
                 spider.y = head.y;
@@ -389,8 +415,9 @@ function initSpiderWeb(webCanvas, bugCanvas) {
         }
     }
 
-    function stepSpiderAfterBuild() {
+    function stepAfterBuild() {
         if (dewAlpha < 1) dewAlpha = Math.min(1, dewAlpha + 0.02);
+        if (!hasSpider) return;
 
         if (spider.state === "return") {
             if (walkTo(center.x, center.y)) spider.state = "idle";
@@ -400,7 +427,6 @@ function initSpiderWeb(webCanvas, bugCanvas) {
             spider.wait--;
             if (spider.wait <= 0) spider.state = "return";
         } else {
-            // Idle in the centre: slowly look towards the mouse
             spider.moving = false;
             if (mouse.x !== null) face(mouse.x - spider.x, mouse.y - spider.y);
         }
@@ -443,7 +469,7 @@ function initSpiderWeb(webCanvas, bugCanvas) {
 
     function step() {
         if (phase === "done") {
-            stepSpiderAfterBuild();
+            stepAfterBuild();
         } else {
             stepBuild();
         }
@@ -452,8 +478,15 @@ function initSpiderWeb(webCanvas, bugCanvas) {
         frameId = requestAnimationFrame(step);
     }
 
+    // Should this web be moving right now?
+    function isAllowed() {
+        if (reduceMotion) return false;
+        if (options.onlyInDarkMode) return document.body.classList.contains("dark-mode");
+        return true;
+    }
+
     function start() {
-        if (running || reduceMotion) return;
+        if (running || !isAllowed()) return;
         running = true;
         frameId = requestAnimationFrame(step);
     }
@@ -464,7 +497,7 @@ function initSpiderWeb(webCanvas, bugCanvas) {
     }
 
     // ===== Events =====
-    if ("IntersectionObserver" in window) {
+    if (!fixed && "IntersectionObserver" in window) {
         new IntersectionObserver(function (entries) {
             entries[0].isIntersecting ? start() : stop();
         }).observe(area);
@@ -475,6 +508,12 @@ function initSpiderWeb(webCanvas, bugCanvas) {
     document.addEventListener("visibilitychange", function () {
         document.hidden ? stop() : start();
     });
+
+    if (options.onlyInDarkMode) {
+        new MutationObserver(function () {
+            isAllowed() ? start() : stop();
+        }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    }
 
     // pointer events work for both mouse and touch
     area.addEventListener("pointermove", function (e) {
@@ -491,7 +530,7 @@ function initSpiderWeb(webCanvas, bugCanvas) {
         // A strong pluck inside the finished web: the spider goes to catch it
         const speed = Math.hypot(mouse.vx, mouse.vy);
         const fromCenter = Math.hypot(x - center.x, y - center.y);
-        if (phase === "done" && speed > 3 && fromCenter < radius * 0.95 &&
+        if (hasSpider && phase === "done" && speed > 3 && fromCenter < radius * 0.95 &&
             (spider.state === "idle" || spider.state === "hunt")) {
             spider.state = "hunt";
             spider.tx = x;
@@ -504,14 +543,13 @@ function initSpiderWeb(webCanvas, bugCanvas) {
         mouse.y = null;
     });
 
-    // Re-measure whenever the hero changes size (window resize, fonts or images
-    // finishing loading, phone rotation...). Waits 150 ms so it runs only once.
+    // Re-measure when the area changes size; waits 150 ms so it runs once
     let resizeTimer;
     function scheduleResize() {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(resize, 150);
     }
-    if ("ResizeObserver" in window) {
+    if (!fixed && "ResizeObserver" in window) {
         new ResizeObserver(scheduleResize).observe(area);
     } else {
         window.addEventListener("resize", scheduleResize);
@@ -520,4 +558,189 @@ function initSpiderWeb(webCanvas, bugCanvas) {
     resize();
 }
 
+// ===== A spider that roams the page margins =====
+// It appears when the hero is scrolled out of view: it lowers itself on a
+// silk thread from the top of the screen, wanders slowly along the left and
+// right margins, swings when the page scrolls, and runs away from the mouse.
+function initRoamingSpider(canvas, hero) {
+    if (!canvas || !canvas.getContext || !hero) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ctx = canvas.getContext("2d");
+    const CRAWL = 1.6;          // normal speed (pixels per frame)
+    const FLEE = 5;             // speed when running away from the mouse
+
+    let width = 0;
+    let height = 0;
+    let heroVisible = true;
+    let running = false;
+    let frameId = null;
+    let lastScroll = window.scrollY;
+    let mouse = { x: null, y: null };
+
+    const s = { x: 0, y: -40, anchorX: 0, angle: 0, legPhase: 0, moving: false,
+                tx: 0, ty: 0, pause: 0, alpha: 0, swing: 0, swingV: 0 };
+
+    function narrow() { return width < 900; }
+
+    // A random spot in the left or right margin, away from the content
+    function pickTarget() {
+        let x;
+        if (narrow()) {
+            x = width - 18;                                      // phones: right edge only
+        } else if (Math.random() < 0.5) {
+            x = width * (0.025 + Math.random() * 0.035);         // left margin
+        } else {
+            x = width * (0.94 + Math.random() * 0.035);          // right margin
+        }
+        s.tx = x;
+        s.ty = height * (0.2 + Math.random() * 0.65);
+    }
+
+    function resize() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        canvas.style.width = width + "px";
+        canvas.style.height = height + "px";
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        pickTarget();
+    }
+
+    // Each time it re-appears it lowers itself from the top again
+    function enter() {
+        pickTarget();
+        s.x = s.anchorX = s.tx;
+        s.y = -40;
+    }
+
+    function step() {
+        // Fade in when the hero is gone, fade out when it comes back
+        s.alpha += ((heroVisible ? 0 : 1) - s.alpha) * 0.08;
+
+        // Run away if the mouse comes close
+        let speed = CRAWL;
+        if (mouse.x !== null) {
+            const d = Math.hypot(s.x - mouse.x, s.y - mouse.y);
+            if (d < 120) {
+                speed = FLEE;
+                s.ty = Math.min(height * 0.9, Math.max(height * 0.15, s.y + (s.y - mouse.y) / d * 160));
+                s.pause = 0;
+            }
+        }
+
+        // Walk (climb/lower on the thread) towards the target
+        const dx = s.tx - s.x;
+        const dy = s.ty - s.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist > speed) {
+            s.x += (dx / dist) * speed;
+            s.y += (dy / dist) * speed;
+            s.moving = true;
+            s.legPhase += speed * 0.25;
+        } else if (s.pause > 0) {
+            s.pause--;
+            s.moving = false;
+        } else {
+            s.pause = 60 + Math.random() * 180;     // rest 1-4 seconds, then move on
+            pickTarget();
+        }
+
+        // Scrolling makes it swing; a spring brings it back
+        const scrolled = window.scrollY - lastScroll;
+        lastScroll = window.scrollY;
+        s.swingV += Math.max(-6, Math.min(6, scrolled * 0.08));
+        s.swingV += -s.swing * 0.05;
+        s.swingV *= 0.9;
+        s.swing += s.swingV;
+
+        // The top of the thread follows slowly, so the thread leans and swings
+        s.anchorX += (s.x - s.anchorX) * 0.02;
+        const drawY = s.y + s.swing;
+        const tilt = Math.atan2(s.anchorX - s.x, Math.max(20, drawY));
+
+        ctx.clearRect(0, 0, width, height);
+        if (s.alpha > 0.02) {
+            // Grey silk on the light page, white silk in dark mode
+            const onLight = !document.body.classList.contains("dark-mode");
+            ctx.globalAlpha = s.alpha;
+            ctx.strokeStyle = onLight ? "rgba(90, 90, 90, 0.45)" : "rgba(255, 255, 255, 0.45)";
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(s.anchorX, 0);
+            ctx.lineTo(s.x, drawY - 14);
+            ctx.stroke();
+            drawSpider(ctx, s.x, drawY, tilt, s.legPhase, s.moving, narrow() ? 0.7 : 0.9, onLight);
+            ctx.globalAlpha = 1;
+        }
+
+        // Keep animating while it is visible or still fading out
+        if (!heroVisible || s.alpha > 0.02) {
+            frameId = requestAnimationFrame(step);
+        } else {
+            running = false;
+        }
+    }
+
+    function start() {
+        if (running || document.hidden) return;
+        running = true;
+        frameId = requestAnimationFrame(step);
+    }
+
+    new IntersectionObserver(function (entries) {
+        const wasVisible = heroVisible;
+        heroVisible = entries[0].isIntersecting;
+        if (wasVisible && !heroVisible && s.alpha < 0.05) enter();
+        start();
+    }, { threshold: 0.15 }).observe(hero);
+
+    document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+            running = false;
+            cancelAnimationFrame(frameId);
+        } else if (!heroVisible) {
+            start();
+        }
+    });
+
+    document.addEventListener("pointermove", function (e) {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+    });
+    document.documentElement.addEventListener("pointerleave", function () {
+        mouse.x = null;
+        mouse.y = null;
+    });
+
+    window.addEventListener("resize", resize);
+    resize();
+}
+
+// ===== Start everything =====
+const heroSection = document.getElementById("home");
+
+// 1) Hero: the spider drops in, spins the web and hunts
 initSpiderWeb(document.getElementById("spiderWeb"), document.getElementById("spiderBug"));
+
+// 2) Footer: a fan-shaped web that builds itself when the footer comes into view
+initSpiderWeb(document.getElementById("footerWeb"), null, {
+    spokes: 20,
+    speed: 2,
+    place: function (w, h) { return { x: w * 0.5, y: h * 1.15, r: Math.min(w * 0.5, 700) }; }
+});
+
+// 3) Dark mode: webs in the top-right and bottom-left corners of the screen
+initSpiderWeb(document.getElementById("pageWebTop"), null, {
+    fixed: true, onlyInDarkMode: true, spokes: 14, speed: 1.5,
+    place: function (w, h) { return { x: w, y: 60, r: Math.max(w, h) * 0.42 }; }
+});
+initSpiderWeb(document.getElementById("pageWebBottom"), null, {
+    fixed: true, onlyInDarkMode: true, spokes: 14, speed: 1.5,
+    place: function (w, h) { return { x: 0, y: h, r: Math.max(w, h) * 0.38 }; }
+});
+
+// 4) A spider that roams the page once you scroll past the hero
+initRoamingSpider(document.getElementById("roamingSpider"), heroSection);

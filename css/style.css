@@ -217,7 +217,7 @@ section {
     z-index: 1;
 }
 
-/* Dark shade behind the text so the network never makes it hard to read */
+/* Dark shade behind the text so the web never makes it hard to read */
 .overlay {
     position: absolute;
     inset: 0;
@@ -238,7 +238,7 @@ section {
     grid-template-columns: auto 1fr;
     align-items: center;
     gap: 70px;
-    pointer-events: none; /* lets the mouse reach the network behind */
+    pointer-events: none; /* lets the mouse reach the web behind */
 }
 
 .hero-inner a {
@@ -628,8 +628,8 @@ footer {
     padding: 30px 6% 18px;
 }
 
-/* Network behind the footer, softer than the hero so the text stays clear */
-#footerNetwork {
+/* Spider web behind the footer, softer than the hero so the text stays clear */
+#footerWeb {
     position: absolute;
     inset: 0;
     z-index: 0;
@@ -747,8 +747,8 @@ body.dark-mode .title {
     color: var(--yellow);
 }
 
-/* Network behind the whole page: hidden in light mode, shown in dark mode */
-#pageNetwork {
+/* Corner spider webs behind the whole page: hidden in light mode, shown in dark mode */
+.page-web {
     display: none;
     position: fixed;
     top: 0;
@@ -758,11 +758,22 @@ body.dark-mode .title {
     opacity: 0.55;
 }
 
-body.dark-mode #pageNetwork {
+body.dark-mode .page-web {
     display: block;
 }
 
-/* Let the network show through the dark-mode sections.
+/* The roaming spider: on top of the page (below the header), never blocks clicks */
+#roamingSpider {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 998;
+    pointer-events: none;
+}
+
+/* Let the webs show through the dark-mode sections.
    Cards, form fields, the hero and the footer keep solid backgrounds. */
 body.dark-mode .about-me,
 body.dark-mode .services,
