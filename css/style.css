@@ -728,7 +728,6 @@ footer {
     position: relative;
     overflow: hidden;
     background-color: var(--black);
-    border-top: 3px solid var(--yellow);
     padding: 30px 6% 18px;
 }
 
@@ -748,7 +747,8 @@ footer {
 
 .footer-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    text-align: center;
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
@@ -781,28 +781,11 @@ footer {
     color: var(--yellow);
 }
 
-.footer-social {
-    display: flex;
-    gap: 18px;
-}
-
-.footer-social a {
-    color: var(--yellow);
-    font-size: 1.4rem;
-    transition: 0.3s ease;
-}
-
-.footer-social a:hover {
-    color: white;
-}
-
 .copyright {
     text-align: center;
     color: #bdbdbd;
     font-size: 0.8rem;
-    margin-top: 24px;
-    padding-top: 14px;
-    border-top: 1px solid rgba(255, 215, 0, 0.25);
+    margin-top: 18px;
 }
 
 /* ---------- Dark mode ---------- */

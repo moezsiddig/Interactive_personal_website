@@ -271,12 +271,13 @@ function initSpiderWeb(webCanvas, bugCanvas, options) {
         web.lineCap = "round";
         web.lineWidth = 1;
 
-        // The spider's first thread: from the top down to the centre
-        if (hasSpider) {
+        // The silk thread the spider lowers itself on (only while dropping,
+        // so the finished web stays clean)
+        if (hasSpider && phase === "drop") {
             web.strokeStyle = "rgba(255, 255, 255, 0.35)";
             web.beginPath();
             web.moveTo(center.x, 0);
-            web.lineTo(center.x, phase === "drop" ? spider.y : center.y);
+            web.lineTo(center.x, spider.y);
             web.stroke();
         }
 
