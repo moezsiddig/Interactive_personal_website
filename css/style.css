@@ -524,160 +524,72 @@ section {
     line-height: 1.7;
 }
 
-/* The process as a tree: a trunk down the middle, branches growing out of it,
-   and a maple leaf growing from the tip of each branch.
-
-   How the leaf is attached: the leaf photo (420 x 412) ends its stem at
-   53.7% across and 99% down. We place that exact point on the branch tip
-   and rotate the leaf around it, so the stem always touches the branch. */
-.process-tree {
-    --trunk: #6d4423;
-    --leaf-size: 170px;              /* width of a leaf drawing */
-    --branch-length: 92px;
-    --row: 236px;                    /* height of one branch row */
-    --tip-x: calc(var(--branch-length) * 0.951);   /* cos(18deg) */
-    --tip-y: calc(var(--branch-length) * 0.309);   /* sin(18deg) */
-    --text-gap: calc(var(--tip-x) + var(--leaf-size) * 0.95 + 14px);
+/* ===== My Process: six maple leaves, one per stage =====
+   The same real leaf photo, recoloured for each stage of its life.
+   Computer: the leaves hang in a row and each stem points down to its text.
+   Phone: the leaves are stacked and each stem points right to its text. */
+.process-leaves {
+    --leaf-size: 150px;              /* width of each leaf */
     position: relative;
     list-style: none;
-    max-width: 1000px;
+    max-width: 1150px;
     margin: 0 auto;
-    padding: 10px 0 80px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 18px;
+    padding-top: 10px;
 }
 
-/* The drawn tree (js/tree.js) sits behind the leaves. Once it is drawn, the
-   simple CSS trunk, ground and branches below are hidden. */
-.tree-wrap {
-    position: relative;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-.tree-svg {
+/* A dotted, wavy line behind the leaves: the wind carrying the leaf through
+   its seasons. It is a small SVG drawing used as a background image. */
+.process-leaves::before {
+    content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
+    top: 40px;
+    left: 4%;
+    right: 4%;
+    height: 90px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 60' preserveAspectRatio='none'%3E%3Cpath d='M0 30 C 60 0, 90 60, 150 30 S 240 0, 300 30 S 390 60, 450 30 S 540 0, 600 45' fill='none' stroke='%23c9a227' stroke-width='2' stroke-dasharray='2 8' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+    opacity: 0.55;
     pointer-events: none;
-    overflow: visible;
 }
 
-.process-tree.tree-drawn::before,
-.process-tree.tree-drawn::after,
-.process-tree.tree-drawn .branch::before {
-    display: none;
-}
-
-.process-tree.tree-drawn .branch {
-    z-index: 1;
-}
-
-/* Trunk (simple fallback if the script does not run) */
-.process-tree::before {
-    content: "";
-    position: absolute;
-    top: 60px;
-    bottom: 40px;
-    left: 50%;
-    width: 18px;
-    transform: translateX(-50%);
-    border-radius: 9px;
-    background: linear-gradient(90deg, #4a2c14, var(--trunk) 45%, #8a5a33 60%, #4a2c14);
-}
-
-/* Ground at the foot of the trunk */
-.process-tree::after {
-    content: "";
-    position: absolute;
-    bottom: 28px;
-    left: 50%;
-    width: 260px;
-    height: 26px;
-    transform: translateX(-50%);
-    border-radius: 50%;
-    background: radial-gradient(ellipse at center, rgba(109, 68, 35, 0.55), rgba(109, 68, 35, 0) 70%);
-}
-
-/* One row = one step. Left rows end at the trunk, right rows start at it. */
-.branch {
-    --side: -1;                      /* -1 = left of the trunk, 1 = right */
-    --tilt: -38deg;                  /* the leaf leans away from the trunk */
+/* One stage: the leaf on top, its explanation underneath */
+.stage {
+    --tilt: 0deg;                    /* how much the leaf is turned */
     position: relative;
-    width: 50%;
-    height: var(--row);
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: flex-end;
-    padding-right: var(--text-gap);
-    padding-bottom: 50px;
+    text-align: center;
 }
 
-.branch:nth-child(even) {
-    --side: 1;
-    --tilt: 38deg;
-    margin-left: 50%;
-    justify-content: flex-start;
-    padding-right: 0;
-    padding-left: var(--text-gap);
-}
+/* Leaves lean a little left and right, like leaves hanging on a branch */
+.stage:nth-child(odd)  { --tilt: -6deg; }
+.stage:nth-child(even) { --tilt: 6deg; }
 
-/* Rows overlap so the tree looks full */
-.branch + .branch {
-    margin-top: -86px;
-}
-
-/* The branch: grows out of the trunk at 60% of the row height, angled up */
-.branch::before {
-    content: "";
-    position: absolute;
-    top: 60%;
-    right: 0;
-    width: calc(var(--branch-length) + 9px);
-    height: 7px;
-    margin-top: -3.5px;
-    border-radius: 4px 2px 2px 4px;
-    background: linear-gradient(180deg, #8a5a33, var(--trunk));
-    transform-origin: right center;
-    transform: rotate(18deg);
-}
-
-.branch:nth-child(even)::before {
-    right: auto;
-    left: 0;
-    border-radius: 2px 4px 4px 2px;
-    transform-origin: left center;
-    transform: rotate(-18deg);
-}
-
-/* The leaf: its stem end sits exactly on the branch tip */
+/* The leaf box. Its turning point is the end of the stem (53.7% across,
+   99% down in the photo), so it sways like a leaf hanging from its stem. */
 .leaf {
-    position: absolute;
+    position: relative;
     width: var(--leaf-size);
-    height: calc(var(--leaf-size) * 0.981);
-    top: calc(60% - var(--tip-y) - var(--leaf-size) * 0.971);
-    right: calc(var(--tip-x) - var(--leaf-size) * 0.463);
-    transform-origin: 53.7% 99%;     /* the end of the stem */
+    height: calc(var(--leaf-size) * 0.981);   /* the photo is 420 x 412 */
+    transform-origin: 53.7% 99%;
     transform: rotate(var(--tilt));
     animation: leaf-sway 6s ease-in-out infinite;
 }
 
-.branch:nth-child(even) .leaf {
-    right: auto;
-    left: calc(var(--tip-x) - var(--leaf-size) * 0.537);
-}
+.stage:nth-child(2) .leaf { animation-delay: -1s; }
+.stage:nth-child(3) .leaf { animation-delay: -2.2s; }
+.stage:nth-child(4) .leaf { animation-delay: -3.1s; }
+.stage:nth-child(5) .leaf { animation-delay: -4.3s; }
 
-.branch:nth-child(2) .leaf { animation-delay: -1s; }
-.branch:nth-child(3) .leaf { animation-delay: -2.2s; }
-.branch:nth-child(4) .leaf { animation-delay: -3.1s; }
-.branch:nth-child(5) .leaf { animation-delay: -4.3s; }
-
-/* A gentle sway around the stem, like a breeze */
 @keyframes leaf-sway {
-    0%, 100% { transform: rotate(calc(var(--tilt) - 2.5deg)); }
-    50% { transform: rotate(calc(var(--tilt) + 2.5deg)); }
+    0%, 100% { transform: rotate(calc(var(--tilt) - 3deg)); }
+    50% { transform: rotate(calc(var(--tilt) + 3deg)); }
 }
 
-/* The photo; --scale makes the bud and young leaf smaller, growing from the same stem point */
+/* The photo inside the box. --scale makes the bud and young leaf smaller. */
 .leaf-img {
     position: absolute;
     inset: 0;
@@ -689,44 +601,36 @@ section {
     transition: filter 0.3s ease, transform 0.3s ease;
 }
 
-.branch:hover .leaf {
+.stage:hover .leaf {
     animation-play-state: paused;
 }
 
-.branch:hover .leaf-img {
-    transform: scale(calc(var(--scale, 1) * 1.06));
+.stage:hover .leaf-img {
+    transform: scale(calc(var(--scale, 1) * 1.07));
     filter: brightness(1.08) drop-shadow(0 8px 14px rgba(0, 0, 0, 0.35));
 }
 
-/* The falling leaf (Maintain): no branch, it has come off and drifts down near the ground */
-.branch.fallen {
-    --tilt: 22deg;
-    --text-gap: calc(var(--tip-x) + 26px + var(--leaf-size) + 22px);
+/* The last leaf has come off and is falling */
+.stage.fallen {
+    --tilt: 28deg;
 }
 
-.branch.fallen::before {
-    display: none;
-}
-
-.branch.fallen .leaf {
-    top: calc(60% - var(--leaf-size) * 0.6);
-    left: calc(var(--tip-x) + 26px);        /* clear of the trunk */
-    transform-origin: 50% 45%;
+.stage.fallen .leaf {
+    transform-origin: 50% 50%;
     animation: leaf-fall 7s ease-in-out infinite;
 }
 
 @keyframes leaf-fall {
-    0%, 100% { transform: translate(0, -6px) rotate(calc(var(--tilt) - 6deg)); }
-    50% { transform: translate(16px, 12px) rotate(calc(var(--tilt) + 8deg)); }
+    0%, 100% { transform: translate(0, 4px) rotate(calc(var(--tilt) - 8deg)); }
+    50% { transform: translate(10px, 22px) rotate(calc(var(--tilt) + 8deg)); }
 }
 
 /* Step written on the leaf. It turns back by the leaf's tilt so it stays
-   upright, and --ink gives the colour that contrasts with that leaf. */
+   upright, and --ink is the colour that contrasts with that leaf. */
 .leaf-content {
     position: absolute;
-    /* centre of the leaf blade (41% down), moved toward the stem when the leaf is smaller */
-    top: calc(99% - 58.2% * var(--scale, 1));
-    left: 50%;
+    top: calc(99% - 58.2% * var(--scale, 1));   /* middle of the leaf blade */
+    left: 53.7%;
     transform: translate(-50%, -50%) rotate(calc(var(--tilt) * -1));
     text-align: center;
     color: var(--ink);
@@ -735,14 +639,13 @@ section {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
 }
 
-/* Smaller leaves (bud, young leaf) get smaller text so it fits inside them */
-.branch[style*="--scale: 0.8"] .leaf-content {
+.stage[style*="--scale: 0.8"] .leaf-content {
     font-size: 0.85em;
 }
 
 /* Dark text gets a soft light glow instead of a dark shadow */
-.branch[style*="--ink: #1"] .leaf-content,
-.branch[style*="--ink: #2"] .leaf-content {
+.stage[style*="--ink: #1"] .leaf-content,
+.stage[style*="--ink: #2"] .leaf-content {
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.45);
 }
 
@@ -756,30 +659,30 @@ section {
 
 .leaf-content i {
     display: block;
-    font-size: 1.25rem;
-    margin: 4px 0 3px;
+    font-size: 1.15rem;
+    margin: 3px 0 2px;
 }
 
 .leaf-content h3 {
-    font-size: 1.05em;
+    font-size: 1em;
     font-weight: 800;
     color: var(--ink);
 }
 
-/* Explanation beside the leaf, on the outer side */
+/* Explanation under the leaf, where the stem points */
 .leaf-text {
-    max-width: 250px;
+    margin-top: 10px;
+    max-width: 190px;
     color: var(--muted);
-    line-height: 1.65;
-    font-size: 0.95em;
-    text-align: right;
+    line-height: 1.6;
+    font-size: 0.9em;
 }
 
-.branch:nth-child(even) .leaf-text {
-    text-align: left;
+.stage.fallen .leaf-text {
+    margin-top: 26px;                /* room for the falling leaf */
 }
 
-/* The stage of the leaf's life above each explanation (Bud, Young leaf...) */
+/* Leaf stage name above each explanation (Bud, Young leaf...) */
 .leaf-stage {
     display: block;
     margin-bottom: 4px;
@@ -1273,77 +1176,55 @@ body.dark-mode .request {
     }
 }
 
-/* Process tree on small screens: trunk on the left, every branch grows to the right */
-@media (max-width: 760px) {
-    .process-tree {
+/* My Process on tablets: three leaves per row */
+@media (max-width: 1000px) {
+    .process-leaves {
+        grid-template-columns: repeat(3, 1fr);
+        row-gap: 34px;
+    }
+
+    .process-leaves::before {
+        display: none;
+    }
+}
+
+/* My Process on phones: one stage per row, the leaf turned so its stem
+   points right, toward the explanation */
+@media (max-width: 620px) {
+    .process-leaves {
         --leaf-size: 112px;
-        --branch-length: 46px;
-        --row: 170px;
+        grid-template-columns: 1fr;
+        row-gap: 18px;
     }
 
-    .process-tree::before {
-        left: 22px;
-        transform: none;
+    .stage,
+    .stage:nth-child(odd),
+    .stage:nth-child(even) {
+        --tilt: -90deg;              /* stem (at the bottom of the photo) now points right */
+        flex-direction: row;
+        align-items: center;
+        gap: 14px;
+        text-align: left;
     }
 
-    .process-tree::after {
-        left: 31px;
-        width: 130px;
+    .stage.fallen {
+        --tilt: -60deg;
     }
 
-    /* Every row uses the "right of the trunk" layout */
-    .branch,
-    .branch:nth-child(even) {
-        --side: 1;
-        --tilt: 34deg;
-        width: calc(100% - 31px);
-        margin-left: 31px;
-        justify-content: flex-start;
-        padding-right: 0;
-        padding-left: var(--text-gap);
-        padding-bottom: 30px;
+    .leaf,
+    .stage.fallen .leaf {
+        flex: 0 0 var(--leaf-size);
+        transform-origin: 50% 50%;
     }
 
-    .branch.fallen {
-        --tilt: 22deg;
-        --text-gap: calc(var(--tip-x) + var(--leaf-size) * 0.95 + 14px);
-    }
-
-    .branch + .branch {
-        margin-top: -34px;
-    }
-
-    .branch::before,
-    .branch:nth-child(even)::before {
-        right: auto;
-        left: 0;
-        transform-origin: left center;
-        transform: rotate(-18deg);
-    }
-
-    .branch .leaf,
-    .branch:nth-child(even) .leaf {
-        right: auto;
-        left: calc(var(--tip-x) - var(--leaf-size) * 0.537);
-    }
-
-    .branch.fallen .leaf {
-        left: calc(var(--tip-x) - var(--leaf-size) * 0.2);
+    .leaf-text,
+    .stage.fallen .leaf-text {
+        margin-top: 0;
+        max-width: none;
     }
 
     .leaf-content {
         font-size: 0.78em;
-    }
-
-    .leaf-content i {
-        font-size: 1rem;
-    }
-
-    .leaf-text,
-    .branch:nth-child(even) .leaf-text {
-        text-align: left;
-        max-width: none;
-        font-size: 0.9em;
     }
 }
 
