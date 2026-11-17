@@ -367,6 +367,32 @@ section {
     font-weight: 700;
 }
 
+/* Live Demo / View Code buttons inside project cards */
+.project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.project-links a i {
+    margin-right: 6px;
+}
+
+/* The outlined button has white text, which is invisible on the white card */
+.project-card .second-btn {
+    color: #111;
+}
+
+body.dark-mode .project-card .second-btn {
+    color: white;
+}
+
+.project-card .second-btn:hover,
+body.dark-mode .project-card .second-btn:hover {
+    color: black;
+}
+
 footer {
     background: url("../images/Background.jpg") center/cover no-repeat;
     border-top: 3px solid #FFD700;
