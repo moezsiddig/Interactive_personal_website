@@ -77,6 +77,7 @@ function drawSpider(ctx, x, y, angle, legPhase, moving, scale, onLight) {
 //   speed           build speed multiplier (default 1)
 //   fixed           true = covers the whole screen (dark-mode background)
 //   onlyInDarkMode  true = only runs while dark mode is on
+//   bright          true = brighter threads with a soft glow
 // If bugCanvas is given, a spider drops in, spins the web and hunts.
 function initSpiderWeb(webCanvas, bugCanvas, options) {
     options = options || {};
@@ -101,6 +102,7 @@ function initSpiderWeb(webCanvas, bugCanvas, options) {
     const COUPLING = 0.12;      // how much a point pulls its neighbours (ripples)
     const SPIDER_SPEED = 5;     // pixels per frame when walking
     const WEB_COLOR = "255, 215, 0";
+    const BRIGHT = options.bright === true;   // stronger threads with a glow (hero)
     const FIRST_PHASE = hasSpider ? "drop" : "spokes";
 
     // ----- State -----
@@ -268,23 +270,12 @@ function initSpiderWeb(webCanvas, bugCanvas, options) {
     }
 
     // ===== Drawing =====
-    function drawWeb() {
-        web.clearRect(0, 0, width, height);
-        web.lineCap = "round";
-        web.lineWidth = 1;
-
-        // The silk thread the spider lowers itself on (only while dropping,
-        // so the finished web stays clean)
-        if (hasSpider && phase === "drop") {
-            web.strokeStyle = "rgba(255, 255, 255, 0.35)";
-            web.beginPath();
-            web.moveTo(center.x, 0);
-            web.lineTo(center.x, spider.y);
-            web.stroke();
-        }
+    // Spokes and rings, in one colour strength and line width
+    function drawThreads(spokeAlpha, ringAlpha, lineWidth) {
+        web.lineWidth = lineWidth;
 
         // Spokes: centre -> through every ring -> tied to the edge
-        web.strokeStyle = "rgba(" + WEB_COLOR + ", 0.32)";
+        web.strokeStyle = "rgba(" + WEB_COLOR + ", " + spokeAlpha + ")";
         for (let j = 0; j < SPOKES; j++) {
             const p = spokeProgress(j);
             if (p <= 0) continue;
@@ -297,7 +288,7 @@ function initSpiderWeb(webCanvas, bugCanvas, options) {
         // Rings: each segment sags a little towards the centre, like real silk
         const built = Math.floor(spiralPos);
         if (spiralPos > 0) {
-            web.strokeStyle = "rgba(" + WEB_COLOR + ", 0.24)";
+            web.strokeStyle = "rgba(" + WEB_COLOR + ", " + ringAlpha + ")";
             web.beginPath();
             for (let k = 0; k < built; k++) {
                 const i = Math.floor(k / SPOKES);
@@ -323,14 +314,38 @@ function initSpiderWeb(webCanvas, bugCanvas, options) {
                 web.stroke();
             }
         }
+    }
+
+    function drawWeb() {
+        web.clearRect(0, 0, width, height);
+        web.lineCap = "round";
+        web.lineWidth = 1;
+
+        // The silk thread the spider lowers itself on (only while dropping,
+        // so the finished web stays clean)
+        if (hasSpider && phase === "drop") {
+            web.strokeStyle = "rgba(255, 255, 255, 0.35)";
+            web.beginPath();
+            web.moveTo(center.x, 0);
+            web.lineTo(center.x, spider.y);
+            web.stroke();
+        }
+
+        if (BRIGHT) {
+            // A wide, faint stroke first: a soft glow around every thread
+            drawThreads(0.12, 0.09, 4);
+            drawThreads(0.62, 0.5, 1.3);
+        } else {
+            drawThreads(0.32, 0.24, 1);
+        }
 
         // Dew drops fade in when the web is finished
         if (dewAlpha > 0) {
-            web.fillStyle = "rgba(255, 245, 200, " + 0.75 * dewAlpha + ")";
+            web.fillStyle = "rgba(255, 245, 200, " + (BRIGHT ? 0.95 : 0.75) * dewAlpha + ")";
             for (const d of dew) {
                 const p = node(d.i, d.j);
                 web.beginPath();
-                web.arc(p.x, p.y, d.size, 0, Math.PI * 2);
+                web.arc(p.x, p.y, BRIGHT ? d.size * 1.25 : d.size, 0, Math.PI * 2);
                 web.fill();
             }
         }
@@ -913,6 +928,7 @@ const heroSection = document.getElementById("home");
 const shirtIcons = document.querySelector(".photo-social-icons");
 initSpiderWeb(document.getElementById("spiderWeb"), document.getElementById("spiderBug"), {
     speed: 1.7,   // quicker build, so the tour starts before visitors scroll on
+    bright: true, // brighter threads with a soft glow
     tour: shirtIcons ? {
         container: shirtIcons,
         links: shirtIcons.querySelectorAll("a"),
