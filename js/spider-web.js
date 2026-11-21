@@ -127,7 +127,8 @@ function initSpiderWeb(webCanvas, bugCanvas, options) {
 
     // Default place for the hero: upper right, away from the photo
     function defaultPlace(w, h) {
-        if (w < 860) return { x: w * 0.72, y: h * 0.2, r: Math.max(260, Math.min(Math.max(w, h) * 0.5, 720)) };
+        // Phones: a smaller web that stays on the screen (and builds faster)
+        if (w < 860) return { x: w * 0.72, y: h * 0.2, r: Math.max(230, Math.min(Math.max(w, h * 0.7) * 0.55, 520)) };
         return { x: w * 0.78, y: h * 0.32, r: Math.max(260, Math.min(Math.max(w, h) * 0.5, 720)) };
     }
 
@@ -180,6 +181,7 @@ function initSpiderWeb(webCanvas, bugCanvas, options) {
         phase = "done";
         spiralPos = rings.length * SPOKES;
         dewAlpha = 1;
+        if (isTouring()) return;    // the icon tour keeps going in the new size
         spider.x = center.x;
         spider.y = center.y;
         spider.state = "idle";
@@ -350,18 +352,19 @@ function initSpiderWeb(webCanvas, bugCanvas, options) {
         spider.angle += diff * 0.2;
     }
 
-    function walkTo(tx, ty) {
+    function walkTo(tx, ty, speed) {
+        const step = speed || SPIDER_SPEED;
         const dx = tx - spider.x;
         const dy = ty - spider.y;
         const dist = Math.hypot(dx, dy);
-        if (dist < SPIDER_SPEED) {
+        if (dist < step) {
             spider.x = tx;
             spider.y = ty;
             spider.moving = false;
             return true;
         }
-        spider.x += (dx / dist) * SPIDER_SPEED;
-        spider.y += (dy / dist) * SPIDER_SPEED;
+        spider.x += (dx / dist) * step;
+        spider.y += (dy / dist) * step;
         spider.moving = true;
         spider.legPhase += 0.45;
         face(dx, dy);
@@ -416,11 +419,106 @@ function initSpiderWeb(webCanvas, bugCanvas, options) {
         }
     }
 
+    // ===== Icon tour: the spider shows the visitor the links printed on the shirt =====
+    // Runs once per visit, after the web is finished. The spider walks under each
+    // icon, the icon lights up, and a speech bubble says what it opens.
+    const tour = options.tour || null;
+    let tourStop = 0;
+    let tourDelay = 50;          // frames to rest in the web before starting
+    let tourPending = false;
+    let bubble = null;
+
+    if (hasSpider && tour && tour.links.length) {
+        let done = false;
+        try { done = sessionStorage.getItem("iconTourDone") === "1"; } catch (e) { /* ignore */ }
+        if (done || reduceMotion) {
+            tour.container.classList.add("hinted");
+        } else {
+            tourPending = true;
+            bubble = document.createElement("div");
+            bubble.className = "spider-bubble";
+            bubble.setAttribute("aria-hidden", "true");
+            area.appendChild(bubble);
+        }
+    }
+
+    function isTouring() {
+        return spider.state === "tour" || spider.state === "show" || spider.state === "tourEnd";
+    }
+
+    // Where the spider stands for one icon: just below it, in canvas coordinates
+    function tourPoint(i) {
+        const icon = tour.links[i].getBoundingClientRect();
+        const box = webCanvas.getBoundingClientRect();
+        return { x: icon.left + icon.width / 2 - box.left, y: icon.bottom - box.top + 6 };
+    }
+
+    function say(text) {
+        bubble.textContent = text;
+        bubble.classList.add("show");
+    }
+
+    function placeBubble() {
+        if (bubble && bubble.classList.contains("show")) {
+            bubble.style.transform = "translate(" + spider.x + "px, " + (spider.y + 24) + "px) translateX(-50%)";
+        }
+    }
+
+    function spotlight(i, on) {
+        tour.links[i].classList.toggle("spotlight", on);
+    }
+
+    function stepTour() {
+        if (spider.state === "tour") {
+            const p = tourPoint(tourStop);
+            if (walkTo(p.x, p.y, 9)) {       // hurries a little to the shirt
+                spider.state = "show";
+                spider.wait = 85;
+                spotlight(tourStop, true);
+                say(tour.links[tourStop].dataset.tour || tour.links[tourStop].title);
+            }
+        } else if (spider.state === "show") {
+            spider.moving = false;
+            face(0, -1);                     // look up at the icon
+            spider.wait--;
+            if (spider.wait <= 0) {
+                spotlight(tourStop, false);
+                tourStop++;
+                if (tourStop < tour.links.length) {
+                    spider.state = "tour";
+                } else {
+                    spider.state = "tourEnd";
+                    spider.wait = 130;
+                    say(tour.finalText);
+                }
+            }
+        } else if (spider.state === "tourEnd") {
+            spider.wait--;
+            if (spider.wait <= 0) {
+                bubble.classList.remove("show");
+                bugCanvas.classList.remove("touring");
+                tour.container.classList.add("hinted");
+                tourPending = false;
+                try { sessionStorage.setItem("iconTourDone", "1"); } catch (e) { /* ignore */ }
+                spider.state = "return";     // back home to the middle of the web
+            }
+        }
+        placeBubble();
+    }
+
     function stepAfterBuild() {
         if (dewAlpha < 1) dewAlpha = Math.min(1, dewAlpha + 0.02);
         if (!hasSpider) return;
 
-        if (spider.state === "return") {
+        if (isTouring()) {
+            stepTour();
+        } else if (tourPending && (spider.state === "return" || (spider.state === "idle" && --tourDelay <= 0))) {
+            // Just finished the web (or rested a moment): go straight to the shirt
+            tourStop = 0;
+            spider.state = "tour";
+            bugCanvas.classList.add("touring");   // walk on top of the photo
+            say(tour.introText);
+        } else if (spider.state === "return") {
             if (walkTo(center.x, center.y)) spider.state = "idle";
         } else if (spider.state === "hunt") {
             if (walkTo(spider.tx, spider.ty)) { spider.state = "wait"; spider.wait = 50; }
@@ -543,6 +641,66 @@ function initSpiderWeb(webCanvas, bugCanvas, options) {
         mouse.x = null;
         mouse.y = null;
     });
+
+    // Phones: the page starts scrolling as soon as a finger moves, and from then
+    // on the browser stops sending pointer events. Touch events keep coming, so
+    // a touch pokes the web, and a swipe plucks the threads under the finger.
+    function poke(x, y) {
+        for (const ring of rings) {
+            for (const p of ring) {
+                const dx = p.hx - x;
+                const dy = p.hy - y;
+                const d = Math.hypot(dx, dy);
+                if (d > 0.5 && d < 90) {
+                    const f = (1 - d / 90) * 3.5;
+                    p.vx += (dx / d) * f;
+                    p.vy += (dy / d) * f;
+                }
+            }
+        }
+    }
+
+    let lastTouch = null;
+    area.addEventListener("touchstart", function (e) {
+        const t = e.touches[0];
+        const rect = webCanvas.getBoundingClientRect();
+        const x = t.clientX - rect.left;
+        const y = t.clientY - rect.top;
+        poke(x, y);
+        lastTouch = { x: t.clientX, y: t.clientY };
+        mouse.x = x;
+        mouse.y = y;
+        mouse.vx = 0;
+        mouse.vy = 0;
+
+        // A tap inside the finished web: the spider goes to see what landed
+        if (hasSpider && phase === "done" && Math.hypot(x - center.x, y - center.y) < radius * 0.95 &&
+            (spider.state === "idle" || spider.state === "hunt")) {
+            spider.state = "hunt";
+            spider.tx = x;
+            spider.ty = y;
+        }
+    }, { passive: true });
+
+    area.addEventListener("touchmove", function (e) {
+        const t = e.touches[0];
+        const rect = webCanvas.getBoundingClientRect();
+        if (lastTouch) {
+            // Use the finger's movement on the screen: while the page scrolls,
+            // the finger hardly moves over the web itself
+            mouse.vx = (t.clientX - lastTouch.x) * 1.5;
+            mouse.vy = (t.clientY - lastTouch.y) * 1.5;
+        }
+        lastTouch = { x: t.clientX, y: t.clientY };
+        mouse.x = t.clientX - rect.left;
+        mouse.y = t.clientY - rect.top;
+    }, { passive: true });
+
+    area.addEventListener("touchend", function () {
+        lastTouch = null;
+        mouse.x = null;
+        mouse.y = null;
+    }, { passive: true });
 
     // Re-measure when the area changes size; waits 150 ms so it runs once
     let resizeTimer;
@@ -751,7 +909,17 @@ function initRoamingSpider(canvas, hero) {
 const heroSection = document.getElementById("home");
 
 // 1) Hero: the spider drops in, spins the web and hunts
-initSpiderWeb(document.getElementById("spiderWeb"), document.getElementById("spiderBug"));
+//    and, once per visit, walks the visitor through the links printed on the shirt
+const shirtIcons = document.querySelector(".photo-social-icons");
+initSpiderWeb(document.getElementById("spiderWeb"), document.getElementById("spiderBug"), {
+    speed: 1.7,   // quicker build, so the tour starts before visitors scroll on
+    tour: shirtIcons ? {
+        container: shirtIcons,
+        links: shirtIcons.querySelectorAll("a"),
+        introText: "Psst! The icons on my shirt are real links",
+        finalText: window.matchMedia("(hover: none)").matches ? "Tap one to visit!" : "Click one to visit!"
+    } : null
+});
 
 // 2) Footer: a fan-shaped web that builds itself when the footer comes into view
 initSpiderWeb(document.getElementById("footerWeb"), null, {

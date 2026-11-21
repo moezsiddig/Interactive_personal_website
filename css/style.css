@@ -291,9 +291,86 @@ section {
 }
 
 .photo-social-icons a:hover,
-.photo-social-icons a:focus-visible {
+.photo-social-icons a:focus-visible,
+.photo-social-icons a.spotlight {
     color: var(--yellow);
     filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.8));
+}
+
+/* During the spider's tour the icon it stands under grows a little */
+.photo-social-icons a.spotlight {
+    transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scaleX(var(--squeeze, 1)) scale(1.3);
+    transition: color 0.25s ease, filter 0.25s ease, transform 0.25s ease;
+}
+
+/* After the tour: a soft yellow ring pings around each icon now and then,
+   one after another, so visitors can tell they are links */
+.photo-social-icons a::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border: 2px solid var(--yellow);
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.photo-social-icons.hinted a::before {
+    animation: icon-ping 6s ease-out infinite;
+}
+
+.photo-social-icons.hinted a:nth-child(2)::before { animation-delay: 0.35s; }
+.photo-social-icons.hinted a:nth-child(3)::before { animation-delay: 0.7s; }
+.photo-social-icons.hinted a:nth-child(4)::before { animation-delay: 1.05s; }
+
+@keyframes icon-ping {
+    0%   { transform: scale(0.7); opacity: 0; }
+    6%   { opacity: 0.9; }
+    22%  { transform: scale(1.5); opacity: 0; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* The spider walks on top of the photo while it shows the icons */
+#spiderBug.touring {
+    z-index: 3;
+}
+
+/* What the spider says during the tour */
+.spider-bubble {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 4;
+    max-width: 210px;
+    padding: 7px 12px;
+    border-radius: 12px;
+    background: var(--yellow);
+    color: #111;
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1.3;
+    text-align: center;
+    white-space: nowrap;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.spider-bubble.show {
+    opacity: 1;
+}
+
+/* Little point on top of the bubble, towards the spider */
+.spider-bubble::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    margin-left: -6px;
+    border: 6px solid transparent;
+    border-top: 0;
+    border-bottom-color: var(--yellow);
 }
 
 .main-content {
@@ -1402,5 +1479,10 @@ body.dark-mode .request {
     *::after {
         transition: none !important;
         animation: none !important;
+    }
+
+    /* No spider tour without motion: show the shirt icons softly instead */
+    .photo-social-icons.hinted a {
+        color: rgba(255, 215, 0, 0.6);
     }
 }
