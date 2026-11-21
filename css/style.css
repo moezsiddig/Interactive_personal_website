@@ -374,7 +374,30 @@ section {
 }
 
 .main-content {
+    position: relative;
     text-align: left;
+}
+
+/* A soft dark patch right behind the text, so the bright web stays strong
+   everywhere else but never competes with the words. It fades out at the
+   edges, so there is no visible box. (Computer screens only: on phones the
+   text sits below the web's busy centre.) */
+.main-content::before {
+    content: "";
+    position: absolute;
+    inset: -60px -90px -50px -70px;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(ellipse 50% 50% at 50% 50%,
+        rgba(11, 11, 11, 0.82) 0%,
+        rgba(11, 11, 11, 0.7) 45%,
+        rgba(11, 11, 11, 0) 100%);
+}
+
+@media (max-width: 860px) {
+    .main-content::before {
+        display: none;
+    }
 }
 
 .main h2 {
