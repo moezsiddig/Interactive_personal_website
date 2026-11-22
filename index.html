@@ -26,7 +26,7 @@
   <!-- Font Awesome icons and main CSS file -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
   <!-- ?v= changes with each release so browsers never mix old cached files with the new page -->
-  <link rel="stylesheet" href="css/style.css?v=2026-11-21c"/>
+  <link rel="stylesheet" href="css/style.css?v=2026-11-22a"/>
 </head>
 <body>
 
@@ -424,28 +424,50 @@
       <!-- Hidden trap for spam bots: people never see or fill it -->
       <input type="text" id="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-      <input type="text" id="name" placeholder="Your name" required aria-label="Your name">
+      <!-- Each field has its own error message underneath (filled in by js/project.js) -->
+      <div class="field">
+        <input type="text" id="name" placeholder="Your name" required aria-label="Your name"
+               autocomplete="name" maxlength="60" aria-describedby="nameError">
+        <p class="field-error" id="nameError"></p>
+      </div>
 
-      <input type="email" id="email" placeholder="Your email" required aria-label="Your email">
+      <div class="field">
+        <input type="email" id="email" placeholder="Your email" required aria-label="Your email"
+               autocomplete="email" maxlength="100" aria-describedby="emailError">
+        <p class="field-error" id="emailError"></p>
+      </div>
 
-      <select id="projectType" required aria-label="Project type">
-        <option value="">Choose project type</option>
-        <option value="Portfolio Website">Portfolio Website</option>
-        <option value="Business Website">Business Website</option>
-        <option value="Landing Page">Landing Page</option>
-        <option value="Web Application">Web Application</option>
-        <option value="Job Opportunity">Job Opportunity</option>
-      </select>
+      <div class="field">
+        <select id="projectType" required aria-label="Project type" aria-describedby="projectTypeError">
+          <option value="">Choose project type</option>
+          <option value="Portfolio Website">Portfolio Website</option>
+          <option value="Business Website">Business Website</option>
+          <option value="Landing Page">Landing Page</option>
+          <option value="Web Application">Web Application</option>
+          <option value="Job Opportunity">Job Opportunity</option>
+        </select>
+        <p class="field-error" id="projectTypeError"></p>
+      </div>
 
-      <select id="budget" required aria-label="Budget">
-        <option value="">Choose budget</option>
-        <option value="Low">Low</option>
-        <option value="Medium">Medium</option>
-        <option value="High">High</option>
-        <option value="Not applicable">Not applicable (job offer)</option>
-      </select>
+      <div class="field">
+        <select id="budget" required aria-label="Budget" aria-describedby="budgetError">
+          <option value="">Choose budget</option>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+          <option value="Not applicable">Not applicable (job offer)</option>
+        </select>
+        <p class="field-error" id="budgetError"></p>
+      </div>
 
-      <textarea id="message" placeholder="Tell me about your project" required aria-label="Project message"></textarea>
+      <div class="field">
+        <textarea id="message" placeholder="Tell me about your project" required aria-label="Project message"
+                  maxlength="1000" aria-describedby="messageError messageCount"></textarea>
+        <div class="field-footer">
+          <p class="field-error" id="messageError"></p>
+          <span class="char-count" id="messageCount">0 / 1000</span>
+        </div>
+      </div>
 
       <button type="submit"><i class="fas fa-paper-plane"></i> Send Request</button>
     </form>
@@ -486,7 +508,7 @@
   </footer>
 
   <!-- JavaScript Files -->
-  <script src="js/spider-web.js?v=2026-11-21c"></script>
-  <script src="js/project.js?v=2026-11-21c"></script>
+  <script src="js/spider-web.js?v=2026-11-22a"></script>
+  <script src="js/project.js?v=2026-11-22a"></script>
 </body>
 </html>

@@ -67,25 +67,95 @@ function showResult(text, isError) {
     formResult.className = isError ? "form-error" : "form-success";
 }
 
+// ---------- Validation: one rule per field, each with its own message ----------
+// Every rule returns "" when the value is fine, or the message to show.
+const MESSAGE_MIN = 20;
+const MESSAGE_MAX = 1000;
+
+const rules = {
+    name: function (value) {
+        if (value === "") return "Please enter your name.";
+        if (value.length < 2) return "Your name should be at least 2 letters.";
+        // Letters from any language, plus spaces, hyphens, apostrophes and dots
+        if (!/^[\p{L}\s'.-]+$/u.test(value)) return "Please use letters only in your name.";
+        return "";
+    },
+    email: function (value) {
+        if (value === "") return "Please enter your email address.";
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)) return "Please enter a valid email, like name@example.com.";
+        return "";
+    },
+    projectType: function (value) {
+        return value === "" ? "Please choose a project type." : "";
+    },
+    budget: function (value) {
+        return value === "" ? "Please choose a budget." : "";
+    },
+    message: function (value) {
+        if (value === "") return "Please tell me about your project.";
+        if (value.length < MESSAGE_MIN) {
+            return "Please add a little more detail (at least " + MESSAGE_MIN + " characters, " +
+                (MESSAGE_MIN - value.length) + " to go).";
+        }
+        return "";
+    }
+};
+
+const fields = [userName, userEmail, projectType, budget, message];
+let triedToSend = false;   // after the first try, errors update while the visitor types
+
+// Check one field, show (or clear) its message, and return true when it is valid
+function validateField(field) {
+    const error = rules[field.id](field.value.trim());
+    const errorBox = document.getElementById(field.id + "Error");
+    errorBox.textContent = error;                    // textContent: never treated as HTML
+    field.classList.toggle("invalid", error !== "");
+    field.setAttribute("aria-invalid", error !== "" ? "true" : "false");
+    return error === "";
+}
+
+fields.forEach(function (field) {
+    // Leaving a field that was filled in: check it straight away
+    field.addEventListener("blur", function () {
+        if (field.value.trim() !== "" || triedToSend) validateField(field);
+    });
+    // While typing: clear the message as soon as the problem is fixed
+    field.addEventListener("input", function () {
+        if (triedToSend || field.classList.contains("invalid")) validateField(field);
+        // Everything fixed: remove the "please fix" note under the button
+        if (formResult.classList.contains("form-error") &&
+            fields.every(function (f) { return !f.classList.contains("invalid"); })) {
+            showResult("", false);
+        }
+    });
+    field.addEventListener("change", function () {
+        if (triedToSend || field.classList.contains("invalid")) validateField(field);
+    });
+});
+
+// Characters typed so far in the message box
+const messageCount = document.getElementById("messageCount");
+function updateCount() {
+    const length = message.value.trim().length;
+    messageCount.textContent = message.value.length + " / " + MESSAGE_MAX;
+    messageCount.classList.toggle("short", length > 0 && length < MESSAGE_MIN);
+}
+message.addEventListener("input", updateCount);
+
 // Run this code when the user submits the form
 requestForm.addEventListener("submit", function (event) {
     event.preventDefault();
+    triedToSend = true;
 
-    if (
-        userName.value.trim() === "" ||
-        userEmail.value.trim() === "" ||
-        projectType.value === "" ||
-        budget.value === "" ||
-        message.value.trim() === ""
-    ) {
-        showResult("Please complete all fields.", true);
-        return;
-    }
-
-    // Check if the email address is valid
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(userEmail.value.trim())) {
-        showResult("Please enter a valid email address.", true);
+    // Check every field (not just the first wrong one), then go to the first problem
+    const invalid = fields.filter(function (field) {
+        return !validateField(field);
+    });
+    if (invalid.length > 0) {
+        showResult(invalid.length === 1
+            ? "Please fix the highlighted field."
+            : "Please fix the " + invalid.length + " highlighted fields.", true);
+        invalid[0].focus();
         return;
     }
 
@@ -98,6 +168,8 @@ requestForm.addEventListener("submit", function (event) {
         if (sent) {
             showResult("Thank you! Your request was sent. I will reply to you by email soon.", false);
             requestForm.reset();
+            triedToSend = false;
+            updateCount();
         } else {
             // The service did not answer: open the visitor's email app instead
             window.location.href = buildRequestEmail();
@@ -110,11 +182,16 @@ requestForm.addEventListener("submit", function (event) {
 // Dark Mode Button (the choice is remembered for the next visit)
 const darkModeBtn = document.getElementById("darkModeBtn");
 
+// Builds the button content with DOM methods instead of innerHTML:
+// an icon element plus a text node
 function setDarkMode(isDark) {
     document.body.classList.toggle("dark-mode", isDark);
-    darkModeBtn.innerHTML = isDark
-        ? '<i class="fas fa-sun"></i> Light'
-        : '<i class="fas fa-moon"></i> Dark';
+
+    const icon = document.createElement("i");
+    icon.className = isDark ? "fas fa-sun" : "fas fa-moon";
+    icon.setAttribute("aria-hidden", "true");
+    darkModeBtn.replaceChildren(icon, document.createTextNode(isDark ? " Light" : " Dark"));
+
     darkModeBtn.setAttribute("aria-pressed", isDark ? "true" : "false");
 }
 

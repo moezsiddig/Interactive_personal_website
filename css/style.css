@@ -543,9 +543,7 @@ section {
 
 /* ---------- Buttons ---------- */
 .main-btn,
-.second-btn,
-.third-btn,
-.contact-btn {
+.second-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -570,20 +568,7 @@ section {
     border-color: var(--yellow);
 }
 
-.third-btn {
-    background-color: white;
-    color: #111;
-}
-
-.contact-btn {
-    background: transparent;
-    color: var(--yellow);
-    border-color: var(--yellow);
-}
-
-.main-btn:hover,
-.third-btn:hover,
-.contact-btn:hover {
+.main-btn:hover {
     background-color: var(--accent);
     color: white;
     border-color: var(--accent);
@@ -678,6 +663,7 @@ section {
     border-radius: 12px;
     background: #ffffff;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease;
 }
 
 .skill-logo img,
@@ -706,10 +692,6 @@ section {
 
 .skill:hover .skill-logo {
     transform: scale(1.06);
-}
-
-.skill-logo {
-    transition: transform 0.2s ease;
 }
 
 /* Tablets: the three cards stack; phones: smaller tiles */
@@ -1108,6 +1090,62 @@ body.dark-mode .leaf-stage {
 
 #formResult.form-error {
     color: #dc3545;
+}
+
+/* One field and its error message */
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    text-align: left;
+}
+
+.field-error {
+    color: #dc3545;
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.field-error:empty {
+    display: none;
+}
+
+/* A field with a problem gets a red border (also while focused) */
+#requestForm .invalid,
+#requestForm .invalid:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15);
+}
+
+/* Error on the left, character count on the right, under the message box */
+.field-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.char-count {
+    margin-left: auto;
+    color: var(--muted);
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.char-count.short {
+    color: #dc3545;
+}
+
+/* Brighter red in dark mode so the messages stay easy to read */
+body.dark-mode .field-error,
+body.dark-mode .char-count.short,
+body.dark-mode #formResult.form-error {
+    color: #ff6b6b;
+}
+
+body.dark-mode #requestForm .invalid {
+    border-color: #ff6b6b;
 }
 
 /* ---------- Footer ---------- */
