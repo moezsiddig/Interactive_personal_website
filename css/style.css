@@ -1489,8 +1489,8 @@ body.dark-mode .request {
     }
 }
 
-/* My Process on phones: one stage per row, the leaf turned so its stem
-   points right, toward the explanation */
+/* My Process on phones: one stage per row, the leaf beside its explanation.
+   The leaves stay upright with the same gentle lean as on a computer. */
 @media (max-width: 620px) {
     .process-leaves {
         --leaf-size: 112px;
@@ -1498,18 +1498,11 @@ body.dark-mode .request {
         row-gap: 18px;
     }
 
-    .stage,
-    .stage:nth-child(odd),
-    .stage:nth-child(even) {
-        --tilt: -90deg;              /* stem (at the bottom of the photo) now points right */
+    .stage {
         flex-direction: row;
         align-items: center;
         gap: 14px;
         text-align: left;
-    }
-
-    .stage.fallen {
-        --tilt: -60deg;
     }
 
     .leaf,
